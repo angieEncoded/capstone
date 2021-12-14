@@ -17,12 +17,12 @@ from . import forms
 
 console = angie.Console()
 
-
+@login_required
 def index(request):
     # this will be a login page
     return render(request, "tabbycrm/index.html")
 
-def login(request):
+def login_view(request):
     if request.method == "POST":
 
         # Attempt to sign user in
@@ -41,7 +41,6 @@ def login(request):
     else:
         return render(request, "tabbycrm/login.html", {"navlogin":True})
 
-
-def logout(request):
+def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))

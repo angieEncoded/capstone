@@ -6,6 +6,15 @@ from django.db.models.fields import related
 class User(AbstractUser):
     id = models.AutoField(primary_key=True)
     role = models.CharField(max_length=64)
+    title = models.CharField(max_length=64, null=True, blank=True)
+    department = models.CharField(max_length=64, null=True, blank=True)
+    extension = models.CharField(max_length=64, null=True, blank=True)
+    cellphone = models.CharField(max_length=64, null=True, blank=True)
+    street = models.CharField(max_length=64, null=True, blank=True)
+    city = models.CharField(max_length=64, null=True, blank=True)
+    state = models.CharField(max_length=64, null=True, blank=True)
+    zip = models.CharField(max_length=64, null=True, blank=True)
+    country = models.CharField(max_length=64, null=True, blank=True)
     pass
 
 # class Auction(models.Model):
