@@ -25,26 +25,25 @@ class User(AbstractUser):
 
 class Customer(models.Model):
     id = models.AutoField(primary_key=True)
-    uuid = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
-    website = models.TextField()
-    primary_phone = models.CharField(max_length=255,  null=True, blank=True)
+    primary_phone = models.CharField(max_length=255)
     fax =  models.CharField(max_length=255, null=True, blank=True)
     secondary_phone =  models.CharField(max_length=64, null=True, blank=True)
+    website = models.CharField(max_length=255, null=True, blank=True)
     # PRIMARY Address details
-    billing_address_one = models.CharField(max_length=255)
-    billing_address_two = models.CharField(max_length=255)
-    billing_address_city = models.CharField(max_length=255)
-    billing_address_state = models.CharField(max_length=255)
-    billing_address_zip = models.CharField(max_length=255)
-    billing_address_country = models.CharField(max_length=255)
+    billing_address_one = models.CharField(max_length=255, null=True, blank=True)
+    billing_address_two = models.CharField(max_length=255, null=True, blank=True)
+    billing_address_city = models.CharField(max_length=255, null=True, blank=True)
+    billing_address_state = models.CharField(max_length=255, null=True, blank=True)
+    billing_address_zip = models.CharField(max_length=255, null=True, blank=True)
+    billing_address_country = models.CharField(max_length=255, null=True, blank=True)
     # SECONDARY Address Details
-    shipping_address_one = models.CharField(max_length=255)
-    shipping_address_two = models.CharField(max_length=255)
-    shipping_address_city = models.CharField(max_length=255)
-    shipping_address_state = models.CharField(max_length=255)
-    shipping_address_zip = models.CharField(max_length=255)
-    shipping_address_country = models.CharField(max_length=255)
+    shipping_address_one = models.CharField(max_length=255, null=True, blank=True)
+    shipping_address_two = models.CharField(max_length=255, null=True, blank=True)
+    shipping_address_city = models.CharField(max_length=255, null=True, blank=True)
+    shipping_address_state = models.CharField(max_length=255, null=True, blank=True)
+    shipping_address_zip = models.CharField(max_length=255, null=True, blank=True)
+    shipping_address_country = models.CharField(max_length=255, null=True, blank=True)
 
 
 

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User
+from .models import User, Customer
 from django.contrib.auth.admin import UserAdmin # Import this to allow us to adjust the user passwords in the admin module
 
 # Helpful post to configure custom fields in the django admin interface
@@ -26,29 +26,11 @@ class CustomUserAdmin(UserAdmin):
         ),
     )
 
-
-
-# class AuctionAdmin(admin.ModelAdmin):
-#     list_display = ("id", "title", "description", "starting_bid", "url", "high_bid", "category", "listed_by", "winner", "ended")
-
-# class BidAdmin(admin.ModelAdmin):
-#     list_display = ("id", "bid_amount", "bidder", "item_id")
-
-# class CommentAdmin(admin.ModelAdmin):
-#     list_display = ("id", "item_id", "content", "user")
-
-# class CategoryAdmin(admin.ModelAdmin):
-#     list_display = ("id", "name", "image")
-
-# class WatchlistAdmin(admin.ModelAdmin):
-#     list_display = ("id", "item", "user")
-
+class CustomerAdmin(admin.ModelAdmin):
+    list_display = ("name", "website", "primary_phone", "fax", "secondary_phone")
 
 
 # Register your models here.
 admin.site.register(User, CustomUserAdmin)
-# admin.site.register(Auction, AuctionAdmin)
-# admin.site.register(Bid, BidAdmin)
-# admin.site.register(Comment, CommentAdmin)
-# admin.site.register(Category, CategoryAdmin)
-# admin.site.register(Watchlist, WatchlistAdmin)
+admin.site.register(Customer, CustomerAdmin)
+
