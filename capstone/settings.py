@@ -47,7 +47,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'tabbycrm',
+    'tabicrm',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -99,7 +99,7 @@ DATABASES = {
     }
 }
 
-AUTH_USER_MODEL = 'tabbycrm.User'
+AUTH_USER_MODEL = 'tabicrm.User'
 
 
 # Password validation

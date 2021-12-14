@@ -17,10 +17,10 @@ from . import forms
 
 console = angie.Console()
 
-@login_required
+@login_required # Can't enter the system without being logged in
 def index(request):
-    # this will be a login page
-    return render(request, "tabbycrm/index.html")
+    
+    return render(request, "tabicrm/index.html")
 
 def login_view(request):
     if request.method == "POST":
@@ -35,12 +35,26 @@ def login_view(request):
             login(request, user)
             return HttpResponseRedirect(reverse("index"))
         else:
-            return render(request, "tabbycrm/login.html", {
+            return render(request, "tabicrm/login.html", {
                 "message": "Invalid username and/or password."
             })
     else:
-        return render(request, "tabbycrm/login.html", {"navlogin":True})
+        return render(request, "tabicrm/login.html", {"navlogin":True})
 
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
+
+
+
+
+def add_customer(request):
+    if request.method == "GET":
+        form = forms.newCustomerForm()
+        return render(request, "tabicrm/add_customer.html", {
+            "form": form,
+            "navadd_customer": True
+        })
+
+    return render(request, "tabicrm/add_customer.html", {"navadd_customer": True})
+    pass

@@ -5,6 +5,14 @@
 
 
 /* bootstrap override */
+.calendarBlock {
+  min-width: 18rem;
+  max-width: 18rem;
+  min-height: 10rem;
+}
+
+
+
 
 .baskerville-font{
     font-family: 'Libre Baskerville', serif;

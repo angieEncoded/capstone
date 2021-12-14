@@ -2,6 +2,11 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models.fields import related
 
+# REMEMBER - IF YOU DECIDE TO RENAME THE APP AGAIN AND MESS WITH THE MIGRATIONS YOU HAVE TO DO THIS
+# https://stackoverflow.com/questions/36153748/django-makemigrations-no-changes-detected
+# https://simpleisbetterthancomplex.com/tutorial/2016/07/26/how-to-reset-migrations.html
+
+
 # Create your models here.
 class User(AbstractUser):
     id = models.AutoField(primary_key=True)
@@ -16,6 +21,32 @@ class User(AbstractUser):
     zip = models.CharField(max_length=64, null=True, blank=True)
     country = models.CharField(max_length=64, null=True, blank=True)
     pass
+
+
+class Customer(models.Model):
+    id = models.AutoField(primary_key=True)
+    uuid = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    website = models.TextField()
+    primary_phone = models.CharField(max_length=255,  null=True, blank=True)
+    fax =  models.CharField(max_length=255, null=True, blank=True)
+    secondary_phone =  models.CharField(max_length=64, null=True, blank=True)
+    # PRIMARY Address details
+    billing_address_one = models.CharField(max_length=255)
+    billing_address_two = models.CharField(max_length=255)
+    billing_address_city = models.CharField(max_length=255)
+    billing_address_state = models.CharField(max_length=255)
+    billing_address_zip = models.CharField(max_length=255)
+    billing_address_country = models.CharField(max_length=255)
+    # SECONDARY Address Details
+    shipping_address_one = models.CharField(max_length=255)
+    shipping_address_two = models.CharField(max_length=255)
+    shipping_address_city = models.CharField(max_length=255)
+    shipping_address_state = models.CharField(max_length=255)
+    shipping_address_zip = models.CharField(max_length=255)
+    shipping_address_country = models.CharField(max_length=255)
+
+
 
 # class Auction(models.Model):
 #     id = models.AutoField(primary_key=True)
