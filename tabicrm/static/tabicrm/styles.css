@@ -5,13 +5,11 @@
 
 
 /* bootstrap override */
-.calendarBlock {
-  min-width: 18rem;
-  max-width: 18rem;
-  min-height: 10rem;
+
+.select-customer:hover {
+  cursor: pointer;
+  background-color: aliceblue;
 }
-
-
 
 
 .baskerville-font{

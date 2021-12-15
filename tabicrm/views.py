@@ -48,7 +48,7 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
 
-
+@login_required
 def add_customer(request):
     if request.method == "GET":
         form = forms.newCustomerForm()
@@ -93,14 +93,58 @@ def add_customer(request):
             customer.save()
             messages.add_message(request, messages.SUCCESS,
                          "Successfully saved the customer.")
-            return redirect("index")
+            return redirect("all_customers")
         except:
             messages.add_message(request, messages.ERROR,
                          "Something unexpected happened while trying to save that record. Please try again. If the problem persists, contact the developer.")
-            return redirect("new_customer")
+            return redirect("all_customers")
 
 
 
     messages.add_message(request, messages.ERROR,
                          "I don't recognize that request. Returning to the home page.")
     return redirect("index")
+
+@login_required
+def all_customers(request):
+    customers = Customer.objects.all()
+    return render(request,"tabicrm/all_customers.html", {"customers": customers})
+
+
+def view_customer(request, id):
+    
+    pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
