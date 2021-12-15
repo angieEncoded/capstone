@@ -10,7 +10,10 @@
   cursor: pointer;
   background-color: aliceblue;
 }
+.icon-hover:hover{
+  cursor: pointer;
 
+}
 
 .baskerville-font{
     font-family: 'Libre Baskerville', serif;

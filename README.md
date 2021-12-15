@@ -1,1 +1,4 @@
 remember installed humanize package
+
+django serializers package to serialize the json
+json package to respond with json

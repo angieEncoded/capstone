@@ -1,5 +1,7 @@
+from django.http.response import JsonResponse
 from .models import User
 from django.contrib.auth import authenticate, login, logout
+from django.core import serializers
 from django.db import IntegrityError
 from django.forms.widgets import Select
 from django.http import HttpResponse, HttpResponseRedirect
@@ -9,7 +11,7 @@ from .models import Customer
 # looks like this is the express equivelent to flash
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-
+import json
 # some refactoring, and some utility things to make my life more comfortable
 from . import angie
 from . import forms
@@ -112,10 +114,11 @@ def all_customers(request):
 
 
 def view_customer(request, id):
-    
-    pass
 
+    customer = Customer.objects.get(id = id)
+    jsonCustomer = serializers.serialize("json", [customer])
 
+    return JsonResponse({"success": "Successfully retrieved data", "data": jsonCustomer})
 
 
 
