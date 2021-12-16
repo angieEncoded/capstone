@@ -25,7 +25,7 @@ const textCheck = (value) => {
 const editField = async (fieldName, id, currentData) => {
     // create the edit form
     const editTemplate = `
-    <form onsubmit="submitForm(event, ${id})">
+    <form onsubmit="submitForm(event, ${id}, ${fieldName})">
         <input type="text" class="form-control mb-2 form-control-sm" value='${currentData}' id="input-${fieldName}" maxlength=255 />
         <div class="float-end">
         <button class="btn btn-sm btn-logo" type="submit">Save</button>
@@ -33,19 +33,31 @@ const editField = async (fieldName, id, currentData) => {
         </div>
     </form>
     `
-
     // insert the form into the div
     const currentEditField = document.querySelector(`#edit-${fieldName}`)
     currentEditField.innerHTML = editTemplate
 }
 
+const submitForm = async (event, id, fieldName) => {
+    event.preventDefault() // stop any propegation
+
+    // Get the data from the form
+    const data = document.querySelector(`#input-${fieldName}`)
+
+
+    console.log(data)
+    console.log(id)
+    console.log(fieldName)
+
+}
+
+
+
+
 // Close the small editing form
 const cancelEdit = (fieldName, currentData) => {
     document.querySelector(`#edit-${fieldName}`).innerHTML = currentData
 }
-
-// Set up the modal html
-// 
 
 const viewClient = async (id) => {
     let customerModal = new bootstrap.Modal(document.getElementById('clientDetails'), {
