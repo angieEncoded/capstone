@@ -146,18 +146,18 @@ const viewClient = async (id) => {
                 <div class="col-12 col-lg-6">
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Shipping Address One: </div>
-                        <div class="col-10 col-lg-4">${finalData.shipping_address_one} </div>
-                        <div class="col-2 col-lg-4"><i class="las la-edit icon-hover"></i></div>
+                        <div class="col-10 col-lg-4"><div id="edit-shipping_address_one">${finalData.shipping_address_one} </div></div>
+                        <div class="col-2 col-lg-4"><i class="las la-edit icon-hover" onclick="editField('shipping_address_one', '${customerId}', '${finalData.shipping_address_one}')"></i></div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Shipping Address Two: </div>
-                        <div class="col-10 col-lg-4">${finalData.shipping_address_two} </div>
-                        <div class="col-2 col-lg-4"><i class="las la-edit icon-hover"></i></div>
+                        <div class="col-10 col-lg-4"><div id="edit-shipping_address_two">${finalData.shipping_address_two} </div></div>
+                        <div class="col-2 col-lg-4"><i class="las la-edit icon-hover" onclick="editField('shipping_address_two', '${customerId}', '${finalData.shipping_address_two}')"></i></div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Shipping Address City: </div>
-                        <div class="col-10 col-lg-4">${finalData.shipping_address_city} </div>
-                        <div class="col-2 col-lg-4"><i class="las la-edit icon-hover"></i></div>
+                        <div class="col-10 col-lg-4"><div id="edit-shipping_address_city">${finalData.shipping_address_city} </div></div>
+                        <div class="col-2 col-lg-4"><i class="las la-edit icon-hover" onclick="editField('shipping_address_city', '${customerId}', '${finalData.shipping_address_city}')"></i></div>
                     </div>
         
         
@@ -165,18 +165,18 @@ const viewClient = async (id) => {
                 <div class="col-12 col-lg-6">
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Shipping Address State: </div>
-                        <div class="col-10 col-lg-4">${finalData.shipping_address_state} </div>
-                        <div class="col-2 col-lg-4"><i class="las la-edit icon-hover"></i></div>
+                        <div class="col-10 col-lg-4"><div id="edit-shipping_address_state">${finalData.shipping_address_state} </div> </div>
+                        <div class="col-2 col-lg-4"><i class="las la-edit icon-hover" onclick="editField('shipping_address_state', '${customerId}', '${finalData.shipping_address_state}')"></i></div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Shipping Address Zip: </div>
-                        <div class="col-10 col-lg-4">${finalData.shipping_address_zip}</div>
-                        <div class="col-2 col-lg-4"><i class="las la-edit icon-hover"></i></div>
+                        <div class="col-10 col-lg-4"><div id="edit-shipping_address_zip">${finalData.shipping_address_zip}</div> </div>
+                        <div class="col-2 col-lg-4"><i class="las la-edit icon-hover" onclick="editField('shipping_address_zip', '${customerId}', '${finalData.shipping_address_zip}')"></i></div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Shipping Address Country: </div>
-                        <div class="col-10 col-lg-4">${finalData.shipping_address_country} </div>
-                        <div class="col-2 col-lg-4"><i class="las la-edit icon-hover"></i></div>
+                        <div class="col-10 col-lg-4"><div id="edit-shipping_address_country">${finalData.shipping_address_country} </div> </div>
+                        <div class="col-2 col-lg-4"><i class="las la-edit icon-hover" onclick="editField('shipping_address_country', '${customerId}', '${finalData.shipping_address_country}')"></i></div>
                     </div>
         
                 </div>
