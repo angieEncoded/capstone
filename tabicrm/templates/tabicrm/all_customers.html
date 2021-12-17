@@ -5,12 +5,13 @@
 {% block body %}
 
 <!-- Modal to toggle for viewing and editing client content -->
-<div id="clientDetails" class="modal fade" tabindex="-1">
+<div id="clientDetails" class="modal fade static" tabindex="-1">
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="clientDetailsTitle"></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div id="customer-feedback-data" class="ms-3"></div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="reloadContent()"></button>
             </div>
             <div class="modal-body" id="clientDetailsContent"></div>
         </div>
@@ -39,7 +40,7 @@
                 <td>{{customer.secondary_phone}}</td>
                 <td>{{customer.fax}}</td>
                 <td>{{customer.website}}</td>
-                <td>{{customer.billing_city}}</td>
+                <td>{{customer.billing_address_city}}</td>
             </tr>
             {% endfor%}
         </tbody>

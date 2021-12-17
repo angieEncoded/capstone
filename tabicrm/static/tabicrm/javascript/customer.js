@@ -21,11 +21,14 @@ const textCheck = (value) => {
     return re.test(value.trim())
 }
 
+const reloadContent = () => {
+    location.reload()
+}
 
 const editField = async (fieldName, id, currentData) => {
     // create the edit form
     const editTemplate = `
-    <form onsubmit="submitForm(event, ${id}, ${fieldName})">
+    <form onsubmit="submitForm(event,'${id}', '${fieldName}')">
         <input type="text" class="form-control mb-2 form-control-sm" value='${currentData}' id="input-${fieldName}" maxlength=255 />
         <div class="float-end">
         <button class="btn btn-sm btn-logo" type="submit">Save</button>
@@ -43,16 +46,45 @@ const submitForm = async (event, id, fieldName) => {
 
     // Get the data from the form
     const data = document.querySelector(`#input-${fieldName}`)
+    const submission = {
+        [fieldName]: data.value // use [] for a json key variable
+    }
+
+    try {
+        // Send the request to the back end to update the data
+        const results = await fetch(`/edit_customer/${id}/${fieldName}`, {
+            method: "POST",
+            body: JSON.stringify(submission),
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken'),
+                'Content-Type': 'application/json'
+            }
+        })
+        if (!results.ok) { throw { status: results.status, statusText: results.statusText } }
+        const data = await results.json()
+
+        // If the server sent back an error because we did something wrong
+        if (data.error) { throw data.error }
+
+        if (data.success) {
+            const successDiv = document.querySelector(`#customer-feedback-data`)
+            successDiv.innerHTML = `<span class="text-success">${data.success}</span>`
+            document.querySelector(`#edit-${fieldName}`).innerHTML = data.content
+        }
+    } catch (error) {
+        console.log(error)
+        const errorDiv = document.querySelector(`#customer-feedback-data`)
+        if (error.status) {
+            errorDiv.innerHTML = `<span class="text-danger">${error.status} ${error.statusText}</span>`
+        } else {
+            errorDiv.innerHTML = `<span class="text-danger">${error}</span>`
+        }
+
+    }
 
 
-    console.log(data)
-    console.log(id)
-    console.log(fieldName)
 
 }
-
-
-
 
 // Close the small editing form
 const cancelEdit = (fieldName, currentData) => {
@@ -81,7 +113,7 @@ const viewClient = async (id) => {
             <!-- BASIC INFORMATION -->
             <h5 class="text-center baskerville-font mb-3">Basic Information</h5>
             <div class="row">
-                <div class="col-12 col-lg-6">
+                <div class="col-12 col-xl-6">
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Customer Name: </div>
                         <div class="col-10 col-lg-4"><div id="edit-name">${finalData.name}</div></div>
@@ -98,7 +130,7 @@ const viewClient = async (id) => {
                         <div class="col-2 col-lg-4"><i class="las la-edit icon-hover" onclick="editField('secondary_phone', '${customerId}', '${finalData.secondary_phone}')"></i></div>
                     </div>
                 </div>
-                <div class="col-12 col-lg-6">
+                <div class="col-12 col-xl-6">
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Fax: </div>
                         <div class="col-10 col-lg-4"><div id="edit-fax">${finalData.fax} </div></div>
@@ -115,7 +147,7 @@ const viewClient = async (id) => {
             <!-- BILLING ADDRESS -->
             <h5 class="text-center baskerville-font mb-3">Billing Address</h5>
             <div class="row">
-                <div class="col-12 col-lg-6">
+                <div class="col-12 col-xl-6">
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Billing Address One:</div>
                         <div class="col-10 col-lg-4"><div id="edit-billing_address_one">${finalData.billing_address_one} </div></div>
@@ -132,7 +164,7 @@ const viewClient = async (id) => {
                         <div class="col-2 col-lg-4"><i class="las la-edit icon-hover" onclick="editField('billing_address_city', '${customerId}', '${finalData.billing_address_city}')"></i></div>
                     </div>
                 </div>
-                <div class="col-12 col-lg-6">
+                <div class="col-12 col-xl-6">
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Billing Address State: </div>
                         <div class="col-10 col-lg-4"><div id="edit-billing_address_state">${finalData.billing_address_state}</div></div>
@@ -155,7 +187,7 @@ const viewClient = async (id) => {
             <!-- SHIPPING ADDRESS -->
             <h5 class="text-center baskerville-font mb-3">Shipping Address</h5>
             <div class="row">
-                <div class="col-12 col-lg-6">
+                <div class="col-12 col-xl-6">
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Shipping Address One: </div>
                         <div class="col-10 col-lg-4"><div id="edit-shipping_address_one">${finalData.shipping_address_one} </div></div>
@@ -174,7 +206,7 @@ const viewClient = async (id) => {
         
         
                 </div>
-                <div class="col-12 col-lg-6">
+                <div class="col-12 col-xl-6">
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Shipping Address State: </div>
                         <div class="col-10 col-lg-4"><div id="edit-shipping_address_state">${finalData.shipping_address_state} </div> </div>

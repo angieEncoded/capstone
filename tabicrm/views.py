@@ -12,6 +12,7 @@ from .models import Customer
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 import json
+import re
 # some refactoring, and some utility things to make my life more comfortable
 from . import angie
 from . import forms
@@ -19,6 +20,8 @@ from . import forms
 
 console = angie.Console()
 
+# Set up some basic validation for the input
+contentValidator = re.compile('^[a-zA-Z0-9.,!\"\'?:;\s@#$%^&*()[\]_+={}\-]{2,255}$')
 
 @login_required  # Can't enter the system without being logged in
 def index(request):
@@ -112,13 +115,35 @@ def all_customers(request):
     customers = Customer.objects.all()
     return render(request,"tabicrm/all_customers.html", {"customers": customers})
 
-
+@login_required
 def view_customer(request, id):
-
     customer = Customer.objects.get(id = id)
     jsonCustomer = serializers.serialize("json", [customer])
-
     return JsonResponse({"success": "Successfully retrieved data", "data": jsonCustomer})
+
+@login_required
+def edit_customer(request, id, fieldName):
+    
+    # Get the content from the json object
+    data = json.loads(request.body)
+    replacement = data[fieldName]
+
+    # # validate it and send back if it fails
+    if not contentValidator.match(replacement):
+        return JsonResponse({"error": "There is something wrong with that input. Please check that you are using 2-255 alphanumeric characters. (server response)"})
+
+    # save the item to the database if we got here and send data back to the front end
+    try:
+        customerToEdit = Customer.objects.get(id = id)
+        console.log(customerToEdit)
+        setattr(customerToEdit, fieldName, replacement)
+        customerToEdit.save()
+        return JsonResponse({"success" :"Successfully saved your changes!", "content": replacement})
+    except:
+        return JsonResponse({"error" :"Something went wrong."})
+ 
+
+
 
 
 
