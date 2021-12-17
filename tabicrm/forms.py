@@ -8,6 +8,7 @@ class newCustomerForm(forms.Form):
     primary_phone = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': "form-control mb-2",'placeholder': ""}))
     fax = forms.CharField(required=False, max_length=255, widget=forms.TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}))
     website = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': "form-control mb-2",'placeholder': ""}))
+    notes = forms.CharField(required=False, widget=forms.Textarea(attrs={'rows': 3,'class': "form-control mb-2",'placeholder': ""}))
     secondary_phone = forms.CharField(required=False, max_length=255, widget=forms.TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}))
     billing_address_one = forms.CharField(required=False, max_length=255, widget=forms.TextInput(attrs={'class': "form-control mb-2",'placeholder': ""}))
     billing_address_two = forms.CharField(required=False, max_length=255, widget=forms.TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}))
@@ -21,17 +22,6 @@ class newCustomerForm(forms.Form):
     shipping_address_state = forms.CharField(required=False, max_length=255, widget=forms.TextInput(attrs={'class': "form-control mb-2",  'placeholder': ""}))
     shipping_address_zip = forms.CharField(required=False, max_length=255, widget=forms.TextInput(attrs={'class': "form-control mb-2",'placeholder': ""}))
     shipping_address_country = forms.CharField(required=False, max_length=255, widget=forms.TextInput(attrs={'class': "form-control mb-2",  'placeholder': ""}))
-
-
-
-
-
-
-
-
-
-
-
 
 
 

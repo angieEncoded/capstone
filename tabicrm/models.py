@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.db.models.deletion import CASCADE, SET_NULL
 from django.db.models.fields import related
+from django.db.utils import NotSupportedError
 
 # REMEMBER - IF YOU DECIDE TO RENAME THE APP AGAIN AND MESS WITH THE MIGRATIONS YOU HAVE TO DO THIS
 # https://stackoverflow.com/questions/36153748/django-makemigrations-no-changes-detected
@@ -20,8 +22,6 @@ class User(AbstractUser):
     state = models.CharField(max_length=64, null=True, blank=True)
     zip = models.CharField(max_length=64, null=True, blank=True)
     country = models.CharField(max_length=64, null=True, blank=True)
-    pass
-
 
 class Customer(models.Model):
     id = models.AutoField(primary_key=True)
@@ -30,6 +30,7 @@ class Customer(models.Model):
     fax =  models.CharField(max_length=255, null=True, blank=True)
     secondary_phone =  models.CharField(max_length=64, null=True, blank=True)
     website = models.CharField(max_length=255, null=True, blank=True)
+    notes = models.TextField(null=True, blank=True)
     # PRIMARY Address details
     billing_address_one = models.CharField(max_length=255, null=True, blank=True)
     billing_address_two = models.CharField(max_length=255, null=True, blank=True)
@@ -45,63 +46,33 @@ class Customer(models.Model):
     shipping_address_zip = models.CharField(max_length=255, null=True, blank=True)
     shipping_address_country = models.CharField(max_length=255, null=True, blank=True)
 
-
-
-# class Auction(models.Model):
+# class Contact(models.Model):
 #     id = models.AutoField(primary_key=True)
-#     title = models.CharField(max_length=64)
-#     description = models.TextField()
-#     starting_bid = models.FloatField(null=True)
-#     url = models.CharField(blank=True, null=True, max_length=254)
-#     high_bid = models.ForeignKey(
-#         "Bid", on_delete=models.SET_NULL, related_name="current_high_bid", null=True, blank=True)
-#     category = models.CharField(max_length=100)
-#     listed_by = models.ForeignKey(
-#         User, on_delete=models.CASCADE, related_name="user_auctions")
-#     winner = models.ForeignKey(
-#         User, on_delete=models.SET_NULL, related_name="auction_winner", null=True, blank=True)
-#     ended = models.BooleanField(default=False)
+#     first_name = models.CharField(max_length=255)
+#     last_name =  models.CharField(max_length=255)
+#     job_title =   models.CharField(max_length=255)
+#     extension = models.CharField(max_length=255)
+#     notes = models.TextField(blank=True, null=True)
+#     assigned_to = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="contact_customer")
 
-
-#     def __str__(this):
-#         return f"id: {this.id} title: {this.title} description: {this.description} starting_bid:{this.starting_bid} url:{this.url} high_bid: {this.high_bid} category{this.category} listed_by: {this.listed_by} winner: {this.winner} ended:{this.ended}"
-
-
-# class Bid(models.Model):
+# class License(models.Model):
 #     id = models.AutoField(primary_key=True)
-#     bid_amount = models.FloatField()
-#     bidder = models.ForeignKey(
-#         User, on_delete=models.CASCADE, related_name="bidder_name")
-#     # related name lets us access things in the opposite
-#     item_id = models.IntegerField()
+#     type = models.CharField(max_length=255) #antivirus, office, etc
+#     vendor = models.CharField(max_length=255) # microsoft, avast, etc
+#     purchase_date = models.DateField()
+#     expiriration_date = models.DateField(blank=True, null=True)
+#     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="license_customer")
+#     notes = models.TextField(blank=True, null=True)
+#     end_of_life = models.DateField(blank=True, null=True)
+#     added_by = models.ForeignKey(User, on_delete=SET_NULL, related_name="license_addedby", blank=True, null=True)
 
-#     def __str__(this):
-#         return f"High Bid: {this.bid_amount} bidder: {this.bidder} item_id: {this.item_id}"
-
-
-# class Comment(models.Model):
+# class Equipment(models.Model):
 #     id = models.AutoField(primary_key=True)
-#     item_id = models.ForeignKey(
-#         Auction, on_delete=models.CASCADE, related_name="item_comments")
-#     content = models.TextField()
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-#     def __str__(this):
-#         return f"id: {this.id} |  item_id: {this.item_id}  | content: {this.content} | user: {this.user}"
-
-
-# class Category(models.Model):
-#     id = models.AutoField(primary_key=True)
-#     name = models.CharField(max_length=64)
-#     image = models.CharField(max_length=255, null=True, blank=True)
-
-#     def __str__(this):
-#         return f"{this.name}"
-
-
-# class Watchlist(models.Model):
-#     id = models.AutoField(primary_key=True)
-#     item = models.ForeignKey(
-#         Auction, on_delete=models.CASCADE, related_name="item_watching")
-#     user = models.ForeignKey(
-#         User, on_delete=models.CASCADE, related_name="user_watching")
+#     type = models.CharField(max_length=255) #antivirus, office, etc
+#     vendor = models.CharField(max_length=255) # microsoft, avast, etc
+#     model = models.CharField(max_length=255) # Vostro 1200, etc
+#     purchase_date = models.DateField()
+#     warranty_length = models.IntegerField()
+#     warranty_end_date = models.DateField()
+#     customer = models.ForeignKey(Customer, on_delete=CASCADE, related_name="customer_equipment")
+#     user = models.ForeignKey(Contact, on_delete=SET_NULL, related_name="user_equipment", null=True)
