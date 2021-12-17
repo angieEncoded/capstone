@@ -1,0 +1,57 @@
+{% extends "tabicrm/layout.html" %}
+<!-- Weird that I had to do this here, it doesn't seem to inherit from the layout? -->
+{% load static %}
+{% load humanize %}
+{% block body %}
+
+<div class="container">
+    <div class="form-background mb-5">
+        <h2 class=" baskerville-font text-center">Add a contact</h2>
+        <hr>
+        <form action="{% url 'add_customer' %}" method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">First Name</label>
+                        {{form.first_name}}
+                    </div>
+                    <div class="mb-3">
+                        <label for="primary_phone" class="form-label">Last Name</label>
+                        {{form.last_name}}
+                    </div>
+                    <div class="mb-3">
+                        <label for="secondary_phone" class="form-label">Job Title</label>
+                        {{form.job_title}}
+                    </div>
+                    <div class="mb-3">
+                        <label for="website" class="form-label">Notes</label>
+                        {{form.notes}}
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div class="mb-3">
+                        <label for="fax" class="form-label">Extension</label>
+                        {{form.extension}}
+                    </div>
+                    <div class="mb-3">
+                        <label for="website" class="form-label">Assigned To</label>
+                        {{form.assigned_to}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-end">
+                <button type="submit" class="btn btn-logo">Add Contact</button>
+            </div>
+
+
+
+        </form>
+    </div>
+
+</div>
+
+
+
+{% endblock %}

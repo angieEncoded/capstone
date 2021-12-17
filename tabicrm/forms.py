@@ -1,6 +1,6 @@
 from django import forms
-from django.forms.forms import Form
-from .models import Customer
+from django.forms import Form, ModelForm, TextInput, Textarea, Select
+from .models import Customer, Contact
 
 
 class newCustomerForm(forms.Form):
@@ -23,6 +23,28 @@ class newCustomerForm(forms.Form):
     shipping_address_zip = forms.CharField(required=False, max_length=255, widget=forms.TextInput(attrs={'class': "form-control mb-2",'placeholder': ""}))
     shipping_address_country = forms.CharField(required=False, max_length=255, widget=forms.TextInput(attrs={'class': "form-control mb-2",  'placeholder': ""}))
 
+
+# class NewContactForm(forms.Form):
+#     first_name = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}))
+#     last_name = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}))
+#     job_title = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': "form-control mb-2",'placeholder': ""}))
+#     extension = forms.CharField(required=False, max_length=255, widget=forms.TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}))
+#     notes = forms.CharField(required=False, widget=forms.Textarea(attrs={'rows': 3,'class': "form-control mb-2",'placeholder': ""}))
+#     assigned_to = 
+
+class NewContactForm(ModelForm):
+    class Meta:
+        model = Contact
+        fields = ('first_name', 'last_name', 'job_title', 'extension', 'notes', 'assigned_to')
+        widgets = {
+            'first_name': TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
+            'last_name': TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
+            'job_title': TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
+            'extension': TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
+            'extension': TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
+            'notes': Textarea(attrs={'rows': 3,'class': "form-control mb-2", 'placeholder': ""}),
+            'assigned_to': Select(attrs={'class': "form-select mb-2", 'placeholder': ""})
+        }
 
 
 # class NewListingForm(forms.Form):

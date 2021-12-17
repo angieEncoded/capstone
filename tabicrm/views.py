@@ -7,7 +7,7 @@ from django.forms.widgets import Select
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from .models import Customer
+from .models import Customer, Contact
 # looks like this is the express equivelent to flash
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -143,8 +143,14 @@ def edit_customer(request, id, fieldName):
     except:
         return JsonResponse({"error" :"Something went wrong."})
  
+def add_contact(request):
 
-
+    if request.method == "GET":
+        form = forms.NewContactForm()
+        return render(request, "tabicrm/add_contact.html", {
+            "form": form,
+            "navadd_contact": True
+        })
 
 
 

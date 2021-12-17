@@ -46,14 +46,25 @@ class Customer(models.Model):
     shipping_address_zip = models.CharField(max_length=255, null=True, blank=True)
     shipping_address_country = models.CharField(max_length=255, null=True, blank=True)
 
-# class Contact(models.Model):
-#     id = models.AutoField(primary_key=True)
-#     first_name = models.CharField(max_length=255)
-#     last_name =  models.CharField(max_length=255)
-#     job_title =   models.CharField(max_length=255)
-#     extension = models.CharField(max_length=255)
-#     notes = models.TextField(blank=True, null=True)
-#     assigned_to = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="contact_customer")
+    # Set this up to represent the object in the select field - this is how django represents objects
+    def __str__(this):
+        return f"{this.name}"
+
+
+
+class Contact(models.Model):
+    id = models.AutoField(primary_key=True)
+    first_name = models.CharField(max_length=255)
+    last_name =  models.CharField(max_length=255)
+    job_title =   models.CharField(max_length=255)
+    extension = models.CharField(max_length=255)
+    notes = models.TextField(blank=True, null=True)
+    assigned_to = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="contact_customer")
+
+    def __str__(this):
+        return f"{this.first_name} {this.last_name}"
+
+
 
 # class License(models.Model):
 #     id = models.AutoField(primary_key=True)

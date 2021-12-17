@@ -107,7 +107,8 @@ const cancelEdit = (fieldName, currentData) => {
 
 const viewClient = async (id) => {
     let customerModal = new bootstrap.Modal(document.getElementById('clientDetails'), {
-        keyboard: false
+        keyboard: false,
+        backdrop: 'static'
     })
 
     // Grab data from the back end
@@ -119,7 +120,6 @@ const viewClient = async (id) => {
         const jsonData = JSON.parse(customerData.data) // Coming back from python just sucks
         const finalData = jsonData[0].fields
         const customerId = jsonData[0].pk
-
 
         // Create an element for the data
         const customerDetailsForm =
@@ -204,8 +204,7 @@ const viewClient = async (id) => {
                     </div>
                 </div>
             </div>
-        
-        
+
             <!-- SHIPPING ADDRESS -->
             <h5 class="text-center baskerville-font mb-3">Shipping Address</h5>
             <div class="row">
@@ -248,13 +247,45 @@ const viewClient = async (id) => {
                 </div>
             </div>
         </div>
+        <hr>
+        `
+        const customerContactsTable =
+            `
+                <!-- CONTACT INFORMATION -->
+
+                <table class="table  table-striped table-responsive">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Job Title</th>
+                        <th scope="col">Extension</th>
+                        <th scope="col">Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr class="select-customer" id="{{customer.id}}" onclick="viewClient('{{customer.id}}')">
+                        <th scope=" row">{{customer.id}}</th>
+                        <td>{{customer.name}}</td>
+                        <td>{{customer.primary_phone}}</td>
+                        <td>{{customer.secondary_phone}}</td>
+                        <td>{{customer.fax}}</td>
+                    </tr>
+                
+                </tbody>
+            </table>
+        `
+        const customerFullDetails = `
+            ${customerDetailsForm}
+            ${customerContactsTable}
         `
 
         // Populate the modal's data
         const modalTitle = document.querySelector(`#clientDetailsTitle`)
         modalTitle.innerHTML = `Viewing details for: ${finalData.name}`
         const clientDetails = document.querySelector(`#clientDetailsContent`)
-        clientDetails.innerHTML = customerDetailsForm
+        clientDetails.innerHTML = customerFullDetails
 
         // Open the modal
         customerModal.show()
@@ -268,3 +299,37 @@ const viewClient = async (id) => {
         `
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
