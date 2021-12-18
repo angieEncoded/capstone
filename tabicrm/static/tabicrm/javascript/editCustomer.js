@@ -1,30 +1,3 @@
-// From Django documentation how to get the csrf token
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-
-// Set up a simple regex to check the contents of the post
-const textCheck = (value) => {
-    const re = /^[a-zA-Z0-9.,!"'?:;\s@#$%^&*()[\]_+={}\-]{5,75}$/
-    return re.test(value.trim())
-}
-
-const reloadContent = () => {
-    location.reload()
-}
-
 const editField = async (fieldName, id, currentData, fieldType) => {
     let editTemplate;
     // create the edit form
@@ -106,6 +79,9 @@ const cancelEdit = (fieldName, currentData) => {
 }
 
 const viewClient = async (id) => {
+
+    // Hide the editing root for the contacts if needed
+    document.querySelector(`#contactsEditContent`).style.display = "none"
     let customerModal = new bootstrap.Modal(document.getElementById('clientDetails'), {
         keyboard: false,
         backdrop: 'static'
@@ -113,14 +89,11 @@ const viewClient = async (id) => {
 
     // Grab data from the back end
     try {
-
-
-
         // Get the customer data
         const customerResults = await fetch(`/view_customer/${id}`)
         if (!customerResults.ok) { throw { status: customerResults.status, statusText: customerResults.statusText } }
         const customerData = await customerResults.json();
-        const customerJsonData = await JSON.parse(customerData.data) // Coming back from python just sucks
+        const customerJsonData = await JSON.parse(customerData.data)
         const finalData = customerJsonData[0].fields
         const customerId = customerJsonData[0].pk
 
@@ -140,7 +113,7 @@ const viewClient = async (id) => {
             // With a for loop, add the data fields to a table
             for (i = 0; i < contactsJsonData.length; i++) {
                 tableEntries += `
-                <tr class="select-customer" id="${contactsJsonData[i].pk}" onclick="editContact('${contactsJsonData[i].pk}')">
+                <tr class="select-customer" id="${contactsJsonData[i].pk}" onclick="viewContact(event, '${contactsJsonData[i].pk}')">
                     <td>${contactsJsonData[i].fields.first_name === null ? "" : contactsJsonData[i].fields.first_name}</td>
                     <td>${contactsJsonData[i].fields.last_name === null ? "" : contactsJsonData[i].fields.last_name}</td>
                     <td>${contactsJsonData[i].fields.job_title === null ? "" : contactsJsonData[i].fields.job_title}</td>
@@ -329,37 +302,3 @@ const viewClient = async (id) => {
         `
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

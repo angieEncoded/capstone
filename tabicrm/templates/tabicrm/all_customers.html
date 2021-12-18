@@ -11,9 +11,13 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="clientDetailsTitle"></h5>
                 <div id="customer-feedback-data" class="ms-3"></div>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="reloadContent()"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    onclick="reloadContent()"></button>
             </div>
+
             <div class="modal-body" id="clientDetailsContent"></div>
+            <div class="modal-body" id="contactsEditContent"></div>
+
         </div>
     </div>
 </div>
@@ -47,6 +51,11 @@
     </table>
 </div>
 
-<script src="{% static 'tabicrm/javascript/customer.js' %} "></script>
+<script src="{% static 'tabicrm/javascript/getCookie.js' %} "></script>
+<script src="{% static 'tabicrm/javascript/textCheck.js' %} "></script>
+<script src="{% static 'tabicrm/javascript/reloadContent.js' %} "></script>
+<script src="{% static 'tabicrm/javascript/viewContact.js' %} "></script>
+<script src="{% static 'tabicrm/javascript/editCustomer.js' %} "></script>
+<script src="{% static 'tabicrm/javascript/editContact.js' %} "></script>
 
 {% endblock %}

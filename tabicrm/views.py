@@ -199,9 +199,37 @@ def get_customer_contacts(request, id):
     except Exception as error:
         return JsonResponse({"error": error})
 
+def get_contact(request, id):
+    try:
+        #get the contacts assigned to that customer
+        contact = Contact.objects.get(id = id)
 
+        # send them back in a json
+        jsonContact = serializers.serialize("json", [contact])
 
+        return JsonResponse({"success": "Successfully retrieved data", "data": jsonContact})
+    except Exception as error:
+        console.log(error)
+        return JsonResponse({"error": error})
 
+def edit_contact(request, id, fieldName):
+        
+    # Get the content from the json object
+    data = json.loads(request.body)
+    replacement = data[fieldName]
+
+    # # validate it and send back if it fails
+    if not contentValidator.match(replacement):
+        return JsonResponse({"error": "There is something wrong with that input. Please check that you are using 2-255 alphanumeric characters. (server response)"})
+
+    # save the item to the database if we got here and send data back to the front end
+    try:
+        contactToEdit = Contact.objects.get(id = id)
+        setattr(contactToEdit, fieldName, replacement)
+        contactToEdit.save()
+        return JsonResponse({"success" :"Successfully saved your changes!", "content": replacement})
+    except:
+        return JsonResponse({"error" :"Something went wrong."})
 
 
 
