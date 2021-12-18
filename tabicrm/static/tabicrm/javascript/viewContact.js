@@ -1,6 +1,6 @@
 const viewContact = async (event, id) => {
     // hide the div that has the customer's data
-    document.querySelector(`#clientDetailsContent`).style.display = "none"
+    document.querySelector(`#clientDetailsRoot`).style.display = "none"
 
     // get the div that we want to display our data in
     const contactsRoot = document.querySelector(`#contactsEditContent`)

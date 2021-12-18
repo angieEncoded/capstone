@@ -3,13 +3,20 @@
 // close button WORK ON HOW TO RELOAD FROM CHANGES IN THE OTHER PAGE
 const closeContact = async (event, id) => {
 
+
     // hide the div that has the customer's data
-    document.querySelector(`#clientDetailsContent`).style.display = "block"
+    document.querySelector(`#clientDetailsRoot`).style.display = "block"
 
     // get the div that we want to display our data in
     const contactsRoot = document.querySelector(`#contactsEditContent`)
     contactsRoot.innerHTML = ""
     contactsRoot.style.display = "none"
+
+
+
+
+
+
 }
 
 
@@ -105,10 +112,6 @@ const submitEditContactForm = async (event, id, fieldName) => {
         }
 
     }
-
-
-
-
 }
 
 

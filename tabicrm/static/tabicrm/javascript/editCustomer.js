@@ -173,11 +173,6 @@ const viewClient = async (id) => {
                 <div class="col-10 col-lg-4"><div id="edit-notes">${finalData.notes === null ? "" : finalData.notes}</div></div>
                 <div class="col-2 col-lg-4"><i id="edit-notes-icon" class="las la-edit icon-hover" onclick="editField('notes', '${customerId}', 'textarea')"></i></div>
             </div>
-
-
-
-
-            
             <hr>
             <!-- BASIC INFORMATION -->
             <h5 class="text-center baskerville-font mb-3">Basic Information</h5>
@@ -297,19 +292,21 @@ const viewClient = async (id) => {
         <hr>
         `
 
-        const customerFullDetails = `
-            ${customerDetailsForm}
-            ${customerContactsTable}
-        `
-
         // Populate the modal's data
         const modalTitle = document.querySelector(`#clientDetailsTitle`)
         modalTitle.innerHTML = `Viewing details for: ${finalData.name}`
-        const clientDetails = document.querySelector(`#clientDetailsContent`)
-        clientDetails.innerHTML = customerFullDetails
+        const clientDetails = document.querySelector(`#clientDetailsRoot`)
+        clientDetails.innerHTML = customerDetailsForm
+
+        // Find the root for the contacts content
+        const contactsRoot = document.querySelector(`#contactsDetailsRoot`)
+        contactsRoot.innerHTML = customerContactsTable
 
         // Open the modal
         customerModal.show()
+
+
+
     } catch (error) {
         const errorDiv = document.querySelector(`#feedbackContainer`)
         errorDiv.innerHTML = `
