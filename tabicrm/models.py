@@ -55,9 +55,9 @@ class Customer(models.Model):
 class Contact(models.Model):
     id = models.AutoField(primary_key=True)
     first_name = models.CharField(max_length=255)
-    last_name =  models.CharField(max_length=255)
-    job_title =   models.CharField(max_length=255)
-    extension = models.CharField(max_length=255)
+    last_name =  models.CharField(max_length=255,blank=True, null=True)
+    job_title =   models.CharField(max_length=255,blank=True, null=True)
+    extension = models.CharField(max_length=255,blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
     assigned_to = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="contact_customer")
 

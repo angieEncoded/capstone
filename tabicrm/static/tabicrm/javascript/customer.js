@@ -113,13 +113,69 @@ const viewClient = async (id) => {
 
     // Grab data from the back end
     try {
-        const results = await fetch(`/view_customer/${id}`)
-        if (!results.ok) { throw { status: results.status, statusText: results.statusText } }
 
-        const customerData = await results.json();
-        const jsonData = JSON.parse(customerData.data) // Coming back from python just sucks
-        const finalData = jsonData[0].fields
-        const customerId = jsonData[0].pk
+
+
+        // Get the customer data
+        const customerResults = await fetch(`/view_customer/${id}`)
+        if (!customerResults.ok) { throw { status: customerResults.status, statusText: customerResults.statusText } }
+        const customerData = await customerResults.json();
+        const customerJsonData = await JSON.parse(customerData.data) // Coming back from python just sucks
+        const finalData = customerJsonData[0].fields
+        const customerId = customerJsonData[0].pk
+
+
+        // Get the contacts data
+        const contactsResults = await fetch(`/get_customer_contacts/${id}`)
+        if (!contactsResults.ok) { throw { status: contactsResults.status, statusText: contactsResults.statusText } }
+        const contactsData = await contactsResults.json();
+        const contactsJsonData = await JSON.parse(contactsData.data)
+
+
+        let customerContactsTable = ''
+        let tableEntries = ''
+
+        // If we do have data, we need to process it
+        if (contactsJsonData.length > 0) {
+            // With a for loop, add the data fields to a table
+            for (i = 0; i < contactsJsonData.length; i++) {
+                tableEntries += `
+                <tr class="select-customer" id="${contactsJsonData[i].pk}" onclick="editContact('${contactsJsonData[i].pk}')">
+                    <td>${contactsJsonData[i].fields.first_name}</td>
+                    <td>${contactsJsonData[i].fields.last_name}</td>
+                    <td>${contactsJsonData[i].fields.job_title}</td>
+                    <td>${contactsJsonData[i].fields.extension}</td>
+                    <td>${contactsJsonData[i].fields.notes}</td>
+                </tr>
+                \n
+                `
+            }
+            customerContactsTable =
+                `
+                <!-- CONTACT INFORMATION -->
+                <table class="table  table-striped table-responsive">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col">Job Title</th>
+                            <th scope="col">Extension</th>
+                            <th scope="col">Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${tableEntries}
+                    </tbody>
+                </table>
+                `
+        } else {
+            customerContactsTable = `No contacts recorded for this customer.`
+        }
+
+
+
+
+
 
         // Create an element for the data
         const customerDetailsForm =
@@ -249,33 +305,7 @@ const viewClient = async (id) => {
         </div>
         <hr>
         `
-        const customerContactsTable =
-            `
-                <!-- CONTACT INFORMATION -->
 
-                <table class="table  table-striped table-responsive">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">First Name</th>
-                        <th scope="col">Last Name</th>
-                        <th scope="col">Job Title</th>
-                        <th scope="col">Extension</th>
-                        <th scope="col">Notes</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                    <tr class="select-customer" id="{{customer.id}}" onclick="viewClient('{{customer.id}}')">
-                        <th scope=" row">{{customer.id}}</th>
-                        <td>{{customer.name}}</td>
-                        <td>{{customer.primary_phone}}</td>
-                        <td>{{customer.secondary_phone}}</td>
-                        <td>{{customer.fax}}</td>
-                    </tr>
-                
-                </tbody>
-            </table>
-        `
         const customerFullDetails = `
             ${customerDetailsForm}
             ${customerContactsTable}

@@ -11,6 +11,7 @@ urlpatterns = [
     path("view_customer/<int:id>", views.view_customer, name="view_customer"),
     path("edit_customer/<int:id>/<str:fieldName>", views.edit_customer, name="edit_customer"),
     path("add_contact", views.add_contact, name="add_contact"),
+    path("get_customer_contacts/<int:id>", views.get_customer_contacts, name="get_customer_contacts"),
     # path("all_customers", views.all_customers, name="all_customers"),
     # path("listing/<int:id>", views.listing, name="listing"),
     # path("watchlist/<int:id>", views.watchlist, name="watchlist"),
