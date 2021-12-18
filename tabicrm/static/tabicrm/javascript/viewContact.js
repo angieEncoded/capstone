@@ -23,29 +23,29 @@ const viewContact = async (event, id) => {
                         <div class="row mb-2">
                             <div class="col-4 d-none d-lg-block">First Name: </div>
                             <div class="col-10 col-lg-4"><div id="edit-contact-first_name">${finalContactData.first_name === null ? "" : finalContactData.first_name}</div></div>
-                            <div class="col-2 col-lg-4"><i class="las la-edit icon-hover" onclick="editContactField('first_name', '${contactId}', '${finalContactData.first_name}', 'textinput')"></i></div>
+                            <div class="col-2 col-lg-4"><i id="edit-contact-first_name-icon" class="las la-edit icon-hover" onclick="editContactField('first_name', '${contactId}', 'textinput')"></i></div>
                         </div>
                         <div class="row mb-2">
                             <div class="col-4 d-none d-lg-block">Last Name: </div>
                             <div class="col-10 col-lg-4"><div id="edit-contact-last_name">${finalContactData.last_name === null ? "" : finalContactData.last_name}</div></div>
-                            <div class="col-2 col-lg-4"><i class="las la-edit icon-hover" onclick="editContactField('last_name', '${contactId}', '${finalContactData.last_name}', 'textinput')"></i></div>
+                            <div class="col-2 col-lg-4"><i id="edit-contact-last_name-icon"  class="las la-edit icon-hover" onclick="editContactField('last_name', '${contactId}', 'textinput')"></i></div>
                         </div>
                         <div class="row mb-2">
                             <div class="col-4 d-none d-lg-block">Job Title: </div>
                             <div class="col-10 col-lg-4"><div id="edit-contact-job_title">${finalContactData.job_title === null ? "" : finalContactData.job_title} </div></div>
-                            <div class="col-2 col-lg-4"><i class="las la-edit icon-hover" onclick="editContactField('job_title', '${contactId}', '${finalContactData.job_title}', 'textinput')"></i></div>
+                            <div class="col-2 col-lg-4"><i id="edit-contact-job_title-icon"  class="las la-edit icon-hover" onclick="editContactField('job_title', '${contactId}',  'textinput')"></i></div>
                         </div>
                     </div>
                     <div class="col-12 col-xl-6">
                         <div class="row mb-2">
                             <div class="col-4 d-none d-lg-block">Extension: </div>
                             <div class="col-10 col-lg-4"><div id="edit-contact-extension">${finalContactData.extension === null ? "" : finalContactData.extension} </div></div>
-                            <div class="col-2 col-lg-4"><i class="las la-edit icon-hover" onclick="editContactField('extension', '${contactId}', '${finalContactData.extension}', 'textinput')"></i></div>
+                            <div class="col-2 col-lg-4"><i id="edit-contact-extension-icon"  class="las la-edit icon-hover" onclick="editContactField('extension', '${contactId}',  'textinput')"></i></div>
                         </div>
                         <div class="row mb-2">
                             <div class="col-4 d-none d-lg-block">Notes</div>
                             <div class="col-10 col-lg-4"><div id="edit-contact-notes">${finalContactData.notes === null ? "" : finalContactData.notes}</div></div>
-                            <div class="col-2 col-lg-4"><i class="las la-edit icon-hover" onclick="editContactField('notes', '${contactId}', '${finalContactData.notes}', 'textarea')"></i></div>
+                            <div class="col-2 col-lg-4"><i id="edit-contact-notes-icon"  class="las la-edit icon-hover" onclick="editContactField('notes', '${contactId}', 'textarea')"></i></div>
                         </div>
                     </div>
                 </div>

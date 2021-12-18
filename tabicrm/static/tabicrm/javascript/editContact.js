@@ -13,9 +13,20 @@ const closeContact = async (event, id) => {
 }
 
 
-const editContactField = async (fieldName, id, currentData, fieldType) => {
-    let editTemplate;
+const editContactField = async (fieldName, id, fieldType) => {
+    let editTemplate = "";
     // create the edit form
+
+    // Hide the editing button to fix a bug
+    const editButton = document.querySelector(`#edit-contact-${fieldName}-icon`)
+    editButton.style.display = "none"
+
+    // GEt the current data from what is in the inner html
+    const currentEditField = document.querySelector(`#edit-contact-${fieldName}`)
+    const currentData = currentEditField.innerHTML
+
+
+
     if (fieldType === "textarea") {
         editTemplate = `
         <form onsubmit="submitEditContactForm(event,'${id}', '${fieldName}')">
@@ -39,7 +50,6 @@ const editContactField = async (fieldName, id, currentData, fieldType) => {
     }
 
     // insert the form into the div
-    const currentEditField = document.querySelector(`#edit-contact-${fieldName}`)
     currentEditField.innerHTML = editTemplate
 }
 
@@ -47,6 +57,8 @@ const editContactField = async (fieldName, id, currentData, fieldType) => {
 
 // Close the small editing form
 const cancelContactEdit = (fieldName, currentData) => {
+    const editButton = document.querySelector(`#edit-contact-${fieldName}-icon`)
+    editButton.style.display = "block"
     document.querySelector(`#edit-contact-${fieldName}`).innerHTML = currentData
 }
 
@@ -80,6 +92,8 @@ const submitEditContactForm = async (event, id, fieldName) => {
             const successDiv = document.querySelector(`#customer-feedback-data`)
             successDiv.innerHTML = `<span class="text-success">${data.success}</span>`
             document.querySelector(`#edit-contact-${fieldName}`).innerHTML = data.content
+            const editButton = document.querySelector(`#edit-contact-${fieldName}-icon`)
+            editButton.style.display = "block"
         }
     } catch (error) {
         console.log(error)

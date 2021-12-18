@@ -6,7 +6,7 @@ const editField = async (fieldName, id, fieldType) => {
 
     // GEt the current data from what is in the inner html
     const currentEditField = document.querySelector(`#edit-${fieldName}`)
-    currentData = currentEditField.innerHTML
+    const currentData = currentEditField.innerHTML
 
     let editTemplate;
     // create the edit form
