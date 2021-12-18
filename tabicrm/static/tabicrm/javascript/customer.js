@@ -141,11 +141,11 @@ const viewClient = async (id) => {
             for (i = 0; i < contactsJsonData.length; i++) {
                 tableEntries += `
                 <tr class="select-customer" id="${contactsJsonData[i].pk}" onclick="editContact('${contactsJsonData[i].pk}')">
-                    <td>${contactsJsonData[i].fields.first_name}</td>
-                    <td>${contactsJsonData[i].fields.last_name}</td>
-                    <td>${contactsJsonData[i].fields.job_title}</td>
-                    <td>${contactsJsonData[i].fields.extension}</td>
-                    <td>${contactsJsonData[i].fields.notes}</td>
+                    <td>${contactsJsonData[i].fields.first_name === null ? "" : contactsJsonData[i].fields.first_name}</td>
+                    <td>${contactsJsonData[i].fields.last_name === null ? "" : contactsJsonData[i].fields.last_name}</td>
+                    <td>${contactsJsonData[i].fields.job_title === null ? "" : contactsJsonData[i].fields.job_title}</td>
+                    <td>${contactsJsonData[i].fields.extension === null ? "" : contactsJsonData[i].fields.extension}</td>
+                    <td>${contactsJsonData[i].fields.notes === null ? "" : contactsJsonData[i].fields.notes}</td>
                 </tr>
                 \n
                 `
