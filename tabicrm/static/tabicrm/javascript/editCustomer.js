@@ -1,4 +1,13 @@
-const editField = async (fieldName, id, currentData, fieldType) => {
+const editField = async (fieldName, id, fieldType) => {
+
+    // Hide the editing button to fix a bug
+    const editButton = document.querySelector(`#edit-${fieldName}-icon`)
+    editButton.style.display = "none"
+
+    // GEt the current data from what is in the inner html
+    const currentEditField = document.querySelector(`#edit-${fieldName}`)
+    currentData = currentEditField.innerHTML
+
     let editTemplate;
     // create the edit form
     if (fieldType === "textarea") {
@@ -23,8 +32,7 @@ const editField = async (fieldName, id, currentData, fieldType) => {
         `
     }
 
-    // insert the form into the div
-    const currentEditField = document.querySelector(`#edit-${fieldName}`)
+
     currentEditField.innerHTML = editTemplate
 }
 
@@ -57,6 +65,9 @@ const submitForm = async (event, id, fieldName) => {
             const successDiv = document.querySelector(`#customer-feedback-data`)
             successDiv.innerHTML = `<span class="text-success">${data.success}</span>`
             document.querySelector(`#edit-${fieldName}`).innerHTML = data.content
+            // Hide the editing button to fix a bug
+            const editButton = document.querySelector(`#edit-${fieldName}-icon`)
+            editButton.style.display = "block"
         }
     } catch (error) {
         console.log(error)
@@ -157,9 +168,14 @@ const viewClient = async (id) => {
             <!-- Notes -->
             <div class="row mb-2">
                 <div class="col-4 d-none d-lg-block">Notes</div>
-                <div class="col-10 col-lg-4"><div id="edit-notes">${finalData.notes}</div></div>
-                <div class="col-2 col-lg-4"><i class="las la-edit icon-hover" onclick="editField('notes', '${customerId}', '${finalData.notes}', 'textarea')"></i></div>
+                <div class="col-10 col-lg-4"><div id="edit-notes">${finalData.notes === null ? "" : finalData.notes}</div></div>
+                <div class="col-2 col-lg-4"><i id="edit-notes-icon" class="las la-edit icon-hover" onclick="editField('notes', '${customerId}', 'textarea')"></i></div>
             </div>
+
+
+
+
+            
             <hr>
             <!-- BASIC INFORMATION -->
             <h5 class="text-center baskerville-font mb-3">Basic Information</h5>
@@ -168,29 +184,29 @@ const viewClient = async (id) => {
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Customer Name: </div>
                         <div class="col-10 col-lg-4"><div id="edit-name">${finalData.name}</div></div>
-                        <div class="col-2 col-lg-4"><i class="las la-edit icon-hover" onclick="editField('name', '${customerId}', '${finalData.name}', 'textinput')"></i></div>
+                        <div class="col-2 col-lg-4"><i  id="edit-name-icon"class="las la-edit icon-hover" onclick="editField('name', '${customerId}', 'textinput')"></i></div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Primary Phone: </div>
                         <div class="col-10 col-lg-4"><div id="edit-primary_phone">${finalData.primary_phone}</div></div>
-                        <div class="col-2 col-lg-4"><i class="las la-edit icon-hover" onclick="editField('primary_phone', '${customerId}', '${finalData.primary_phone}', 'textinput')"></i></div>
+                        <div class="col-2 col-lg-4"><i  id="edit-primary_phone-icon" class="las la-edit icon-hover" onclick="editField('primary_phone', '${customerId}', 'textinput')"></i></div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Secondary Phone: </div>
                         <div class="col-10 col-lg-4"><div id="edit-secondary_phone">${finalData.secondary_phone} </div></div>
-                        <div class="col-2 col-lg-4"><i class="las la-edit icon-hover" onclick="editField('secondary_phone', '${customerId}', '${finalData.secondary_phone}', 'textinput')"></i></div>
+                        <div class="col-2 col-lg-4"><i  id="edit-secondary_phone-icon"class="las la-edit icon-hover" onclick="editField('secondary_phone', '${customerId}', 'textinput')"></i></div>
                     </div>
                 </div>
                 <div class="col-12 col-xl-6">
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Fax: </div>
                         <div class="col-10 col-lg-4"><div id="edit-fax">${finalData.fax} </div></div>
-                        <div class="col-2 col-lg-4"><i class="las la-edit icon-hover" onclick="editField('fax', '${customerId}', '${finalData.fax}', 'textinput')"></i></div>
+                        <div class="col-2 col-lg-4"><i  id="edit-fax-icon"class="las la-edit icon-hover" onclick="editField('fax', '${customerId}','textinput')"></i></div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Website: </div>
                         <div class="col-10 col-lg-4"><div id="edit-website">${finalData.website} </div></div>
-                        <div class="col-2 col-lg-4"><i class="las la-edit icon-hover" onclick="editField('website', '${customerId}', '${finalData.website}', 'textinput')"></i></div>
+                        <div class="col-2 col-lg-4"><i  id="edit-website-icon" class="las la-edit icon-hover" onclick="editField('website', '${customerId}', 'textinput')"></i></div>
                     </div>
                 </div>
             </div>
@@ -202,34 +218,34 @@ const viewClient = async (id) => {
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Billing Address One:</div>
                         <div class="col-10 col-lg-4"><div id="edit-billing_address_one">${finalData.billing_address_one} </div></div>
-                        <div class="col-2 col-lg-4"><i class="las la-edit icon-hover" onclick="editField('billing_address_one', '${customerId}', '${finalData.billing_address_one}', 'textinput')"></i></div>
+                        <div class="col-2 col-lg-4"><i  id="edit-billing_address_one-icon" class="las la-edit icon-hover" onclick="editField('billing_address_one', '${customerId}', 'textinput')"></i></div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Billing Address Two: </div>
                         <div class="col-10 col-lg-4"><div id="edit-billing_address_two">${finalData.billing_address_two} </div></div>
-                        <div class="col-2 col-lg-4"><i class="las la-edit icon-hover" onclick="editField('billing_address_two', '${customerId}', '${finalData.billing_address_two}', 'textinput')"></i></div>
+                        <div class="col-2 col-lg-4"><i   id="edit-billing_address_two-icon" class="las la-edit icon-hover" onclick="editField('billing_address_two', '${customerId}', 'textinput')"></i></div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Billing Address City: </div>
                         <div class="col-10 col-lg-4"><div id="edit-billing_address_city">${finalData.billing_address_city} </div></div>
-                        <div class="col-2 col-lg-4"><i class="las la-edit icon-hover" onclick="editField('billing_address_city', '${customerId}', '${finalData.billing_address_city}', 'textinput')"></i></div>
+                        <div class="col-2 col-lg-4"><i   id="edit-billing_address_city-icon" class="las la-edit icon-hover" onclick="editField('billing_address_city', '${customerId}', 'textinput')"></i></div>
                     </div>
                 </div>
                 <div class="col-12 col-xl-6">
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Billing Address State: </div>
                         <div class="col-10 col-lg-4"><div id="edit-billing_address_state">${finalData.billing_address_state}</div></div>
-                        <div class="col-2 col-lg-4"><i class="las la-edit icon-hover" onclick="editField('billing_address_state', '${customerId}', '${finalData.billing_address_state}', 'textinput')"></i></div>
+                        <div class="col-2 col-lg-4"><i  id="edit-billing_address_state-icon" class="las la-edit icon-hover" onclick="editField('billing_address_state', '${customerId}', 'textinput')"></i></div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Billing Address Zip: </div>
                         <div class="col-10 col-lg-4"><div id="edit-billing_address_zip">${finalData.billing_address_zip}</div></div>
-                        <div class="col-2 col-lg-4"><i class="las la-edit icon-hover" onclick="editField('billing_address_zip', '${customerId}', '${finalData.billing_address_zip}', 'textinput')"></i></div>
+                        <div class="col-2 col-lg-4"><i id="edit-billing_address_zip-icon" class="las la-edit icon-hover" onclick="editField('billing_address_zip', '${customerId}', 'textinput')"></i></div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Billing Address Country: </div>
                         <div class="col-10 col-lg-4"><div id="edit-billing_address_country">${finalData.billing_address_country}</div></div>
-                        <div class="col-2 col-lg-4"><i class="las la-edit icon-hover" onclick="editField('billing_address_country', '${customerId}', '${finalData.billing_address_country}', 'textinput')"></i></div>
+                        <div class="col-2 col-lg-4"><i  id="edit-billing_address_country-icon" class="las la-edit icon-hover" onclick="editField('billing_address_country', '${customerId}', 'textinput')"></i></div>
                     </div>
                 </div>
             </div>
@@ -241,17 +257,17 @@ const viewClient = async (id) => {
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Shipping Address One: </div>
                         <div class="col-10 col-lg-4"><div id="edit-shipping_address_one">${finalData.shipping_address_one} </div></div>
-                        <div class="col-2 col-lg-4"><i class="las la-edit icon-hover" onclick="editField('shipping_address_one', '${customerId}', '${finalData.shipping_address_one}', 'textinput')"></i></div>
+                        <div class="col-2 col-lg-4"><i id="edit-shipping_address_one-icon" class="las la-edit icon-hover" onclick="editField('shipping_address_one', '${customerId}', '${finalData.shipping_address_one}', 'textinput')"></i></div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Shipping Address Two: </div>
                         <div class="col-10 col-lg-4"><div id="edit-shipping_address_two">${finalData.shipping_address_two} </div></div>
-                        <div class="col-2 col-lg-4"><i class="las la-edit icon-hover" onclick="editField('shipping_address_two', '${customerId}', '${finalData.shipping_address_two}', 'textinput')"></i></div>
+                        <div class="col-2 col-lg-4"><i  id="edit-shipping_address_two-icon" class="las la-edit icon-hover" onclick="editField('shipping_address_two', '${customerId}', '${finalData.shipping_address_two}', 'textinput')"></i></div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Shipping Address City: </div>
                         <div class="col-10 col-lg-4"><div id="edit-shipping_address_city">${finalData.shipping_address_city} </div></div>
-                        <div class="col-2 col-lg-4"><i class="las la-edit icon-hover" onclick="editField('shipping_address_city', '${customerId}', '${finalData.shipping_address_city}', 'textinput')"></i></div>
+                        <div class="col-2 col-lg-4"><i id="edit-shipping_address_city-icon"  class="las la-edit icon-hover" onclick="editField('shipping_address_city', '${customerId}', '${finalData.shipping_address_city}', 'textinput')"></i></div>
                     </div>
         
         
@@ -260,17 +276,17 @@ const viewClient = async (id) => {
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Shipping Address State: </div>
                         <div class="col-10 col-lg-4"><div id="edit-shipping_address_state">${finalData.shipping_address_state} </div> </div>
-                        <div class="col-2 col-lg-4"><i class="las la-edit icon-hover" onclick="editField('shipping_address_state', '${customerId}', '${finalData.shipping_address_state}', 'textinput')"></i></div>
+                        <div class="col-2 col-lg-4"><i id="edit-shipping_address_state-icon"  class="las la-edit icon-hover" onclick="editField('shipping_address_state', '${customerId}', '${finalData.shipping_address_state}', 'textinput')"></i></div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Shipping Address Zip: </div>
                         <div class="col-10 col-lg-4"><div id="edit-shipping_address_zip">${finalData.shipping_address_zip}</div> </div>
-                        <div class="col-2 col-lg-4"><i class="las la-edit icon-hover" onclick="editField('shipping_address_zip', '${customerId}', '${finalData.shipping_address_zip}', 'textinput')"></i></div>
+                        <div class="col-2 col-lg-4"><i id="edit-shipping_address_zip-icon"  class="las la-edit icon-hover" onclick="editField('shipping_address_zip', '${customerId}', '${finalData.shipping_address_zip}', 'textinput')"></i></div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Shipping Address Country: </div>
                         <div class="col-10 col-lg-4"><div id="edit-shipping_address_country">${finalData.shipping_address_country} </div> </div>
-                        <div class="col-2 col-lg-4"><i class="las la-edit icon-hover" onclick="editField('shipping_address_country', '${customerId}', '${finalData.shipping_address_country}', 'textinput')"></i></div>
+                        <div class="col-2 col-lg-4"><i id="edit-shipping_address_country-icon" class="las la-edit icon-hover" onclick="editField('shipping_address_country', '${customerId}', '${finalData.shipping_address_country}', 'textinput')"></i></div>
                     </div>
         
                 </div>
