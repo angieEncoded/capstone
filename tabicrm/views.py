@@ -21,8 +21,11 @@ from . import forms
 
 console = angie.Console()
 
+
+# WORK ON SOME MORE ROBUST CONTENT VALIDATION LATER ON
+
 # Set up some basic validation for the input
-contentValidator = re.compile('^[a-zA-Z0-9.,!\"\'?:;\s@#$%^&*()[\]_+={}\-]{2,255}$')
+contentValidator = re.compile('^[a-zA-Z0-9.,!\"\'?:;\s@#$%^&*()[\]_+={}\-]{0,255}$')
 
 @login_required  # Can't enter the system without being logged in
 def index(request):

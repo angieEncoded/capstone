@@ -68,6 +68,9 @@ const submitForm = async (event, id, fieldName) => {
             // Hide the editing button to fix a bug
             const editButton = document.querySelector(`#edit-${fieldName}-icon`)
             editButton.style.display = "block"
+            setTimeout(() => {
+                successDiv.innerHTML = ""
+            }, 10000);
         }
     } catch (error) {
         console.log(error)
@@ -77,7 +80,9 @@ const submitForm = async (event, id, fieldName) => {
         } else {
             errorDiv.innerHTML = `<span class="text-danger">${error}</span>`
         }
-
+        setTimeout(() => {
+            errorDiv.innerHTML = ""
+        }, 20000);
     }
 
 

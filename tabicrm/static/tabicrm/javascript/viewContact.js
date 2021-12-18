@@ -1,6 +1,7 @@
 const viewContact = async (event, id) => {
     // hide the div that has the customer's data
     document.querySelector(`#clientDetailsRoot`).style.display = "none"
+    document.querySelector(`#contactsDetailsRoot`).style.display = "none"
 
     // get the div that we want to display our data in
     const contactsRoot = document.querySelector(`#contactsEditContent`)
@@ -52,7 +53,7 @@ const viewContact = async (event, id) => {
             </div>
             <hr>
             <div class="float-end">
-                <button class="btn btn-sm btn-silver" type="button" onclick="closeContact()">Back to client</button>
+                <button class="btn btn-sm btn-silver" type="button" onclick="closeContact('${finalContactData.assigned_to}')">Back to client</button>
             </div>
         
         `
