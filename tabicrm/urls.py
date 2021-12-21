@@ -14,15 +14,6 @@ urlpatterns = [
     path("get_customer_contacts/<int:id>", views.get_customer_contacts, name="get_customer_contacts"),
     path("get_contact/<int:id>", views.get_contact, name="get_contact"),
     path("edit_contact/<int:id>/<str:fieldName>", views.edit_contact, name="edit_contact"),
-    # path("all_customers", views.all_customers, name="all_customers"),
-    # path("listing/<int:id>", views.listing, name="listing"),
-    # path("watchlist/<int:id>", views.watchlist, name="watchlist"),
-    # path("listing/<int:id>/bid", views.bid, name="bid"),
-    # path("listing/<int:id>/end_auction", views.end_auction, name="end_auction"),
-    # path("listing/<int:id>/add_comment", views.add_comment, name="add_comment"),
-    # path("mywatcheditems/<int:id>", views.mywatcheditems, name="mywatcheditems"),
-    # path("categories", views.categories, name="categories"),
-    # path("category_listings/<int:id>", views.category_listings, name="category_listings"),
-    # path("won_auctions/<int:id>", views.won_auctions, name="won_auctions"),
-    # path("my_listings/<int:id>", views.my_listings, name="my_listings"),
+    path("add_license/", views.add_license, name="add_license"),
+
 ]

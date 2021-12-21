@@ -7,7 +7,7 @@ from django.forms.widgets import Select
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from .models import Customer, Contact
+from .models import Customer, Contact, License
 # looks like this is the express equivelent to flash
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -146,7 +146,10 @@ def edit_customer(request, id, fieldName):
         return JsonResponse({"success" :"Successfully saved your changes!", "content": replacement})
     except:
         return JsonResponse({"error" :"Something went wrong."})
- 
+
+
+
+@login_required
 def add_contact(request):
 
     if request.method == "GET":
@@ -161,7 +164,6 @@ def add_contact(request):
         form = forms.NewContactForm(request.POST)
         # Short circuit if the form is bad
         if not form.is_valid():
-            console.log(format)
             messages.add_message(request, messages.ERROR, 'Form is not valid')
             return redirect("add_contact")
 
@@ -186,6 +188,9 @@ def add_contact(request):
                          error)
             return redirect("add_contact")
 
+
+
+@login_required
 def get_customer_contacts(request, id):
 
     try:
@@ -202,6 +207,8 @@ def get_customer_contacts(request, id):
     except Exception as error:
         return JsonResponse({"error": error})
 
+
+@login_required
 def get_contact(request, id):
     try:
         #get the contacts assigned to that customer
@@ -215,6 +222,9 @@ def get_contact(request, id):
         console.log(error)
         return JsonResponse({"error": error})
 
+
+
+@login_required
 def edit_contact(request, id, fieldName):
         
     # Get the content from the json object
@@ -234,7 +244,45 @@ def edit_contact(request, id, fieldName):
     except:
         return JsonResponse({"error" :"Something went wrong."})
 
+@login_required
+def add_license(request):
 
+    if request.method == "GET":
+        form = forms.NewLicenseForm()
+        return render(request, "tabicrm/add_license.html", {
+            "form": form,
+            "navadd_license": True
+        })
+
+
+    if request.method == "POST":
+        form = forms.NewLicenseForm(request.POST)
+        # Short circuit if the form is bad
+        if not form.is_valid():
+            messages.add_message(request, messages.ERROR, 'Form is not valid')
+            return redirect("add_license")
+
+        # Assign all the fields
+        product = form.cleaned_data["product"]
+        purchase_date = form.cleaned_data["purchase_date"]
+        expiration_date = form.cleaned_data["expiration_date"]
+        customer = form.cleaned_data["customer"]
+        notes = form.cleaned_data["notes"]
+        end_of_life = form.cleaned_data["end_of_life"]
+
+
+        license = License(product=product, purchase_date=purchase_date, expiration_date=expiration_date, customer=customer, notes=notes, end_of_life=end_of_life, added_by = request.user)
+
+        try:
+            license.save()
+            messages.add_message(request, messages.SUCCESS,
+                         "Successfully saved the contact.")
+            return redirect("add_contact")
+        except Exception as error:
+            console.log(error)
+            messages.add_message(request, messages.ERROR,
+                         error)
+            return redirect("add_contact")
 
 
 

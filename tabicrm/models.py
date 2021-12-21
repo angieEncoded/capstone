@@ -64,18 +64,48 @@ class Contact(models.Model):
     def __str__(this):
         return f"{this.first_name} {this.last_name}"
 
+# https://docs.djangoproject.com/en/4.0/ref/models/fields/
+
+class License(models.Model):
+
+    # Fields for the choices in the drop down
+    AVAST_PRO = 'AVAST PRO'
+    AVAST_ENDPOINT = 'AVAST ENDPOINT'
+    MALWAREBYTES = 'MALWAREBYTES'
+    MICROSOFT_OFFICE_2010 = 'MICROSOFT OFFICE 2010'
+    MICROSOFT_OFFICE_2013 = 'MICROSOFT OFFICE 2013'
+    MICROSOFT_OFFICE_2016 = 'MICROSOFT OFFICE 2016'
+    MICROSOFT_OFFICE_2019 = 'MICROSOFT OFFICE 2019'
+    MICROSOFT_OFFICE_365 = 'MICROSOFT OFFICE 365'
+
+    PRODUCT_CHOICES = [
+        (AVAST_PRO, 'AVAST PRO'),
+        (AVAST_ENDPOINT , 'AVAST ENDPOINT'),
+        ( MALWAREBYTES, 'MALWAREBYTES'),
+        ( MICROSOFT_OFFICE_2010,'MICROSOFT OFFICE 2010' ),
+        ( MICROSOFT_OFFICE_2013,'MICROSOFT OFFICE 2013' ),
+        (MICROSOFT_OFFICE_2016 , 'MICROSOFT OFFICE 2016'),
+        ( MICROSOFT_OFFICE_2019, 'MICROSOFT OFFICE 2019'),
+        ( MICROSOFT_OFFICE_365, 'MICROSOFT OFFICE 365'),
+    ]
 
 
-# class License(models.Model):
-#     id = models.AutoField(primary_key=True)
-#     type = models.CharField(max_length=255) #antivirus, office, etc
-#     vendor = models.CharField(max_length=255) # microsoft, avast, etc
-#     purchase_date = models.DateField()
-#     expiriration_date = models.DateField(blank=True, null=True)
-#     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="license_customer")
-#     notes = models.TextField(blank=True, null=True)
-#     end_of_life = models.DateField(blank=True, null=True)
-#     added_by = models.ForeignKey(User, on_delete=SET_NULL, related_name="license_addedby", blank=True, null=True)
+    # LEFT OFF ON FIGURING OUT WHY MY TWO NEW FIELDS DON'T APPEAR IN MY FORM, DOESNT MAKE SENSE
+
+    id = models.AutoField(primary_key=True)
+    product = models.CharField(max_length=255, choices=PRODUCT_CHOICES, default=AVAST_PRO) # microsoft, avast, etc
+    purchase_date = models.DateField(blank=True, null=True)
+    expiration_date = models.DateField(blank=True, null=True)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="license_customer")
+    license_key = models.CharField(max_length=255,blank=True, null=True)
+    license_file = models.CharField(max_length=255,blank=True, null=True)
+    notes = models.TextField(blank=True, null=True)
+    end_of_life = models.DateField(blank=True, null=True)
+    added_by = models.ForeignKey(User, on_delete=SET_NULL, related_name="license_addedby", blank=True, null=True)
+
+    def __str__(this):
+        return f"{this.product} {this.customer}"
+
 
 # class Equipment(models.Model):
 #     id = models.AutoField(primary_key=True)

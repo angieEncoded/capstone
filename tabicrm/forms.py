@@ -1,6 +1,8 @@
 from django import forms
+from django.db.models.fields import DateField
 from django.forms import Form, ModelForm, TextInput, Textarea, Select
-from .models import Customer, Contact
+from django.forms.widgets import DateInput, Widget
+from .models import Customer, Contact, License
 
 
 class newCustomerForm(forms.Form):
@@ -23,15 +25,6 @@ class newCustomerForm(forms.Form):
     shipping_address_zip = forms.CharField(required=False, max_length=255, widget=forms.TextInput(attrs={'class': "form-control mb-2",'placeholder': ""}))
     shipping_address_country = forms.CharField(required=False, max_length=255, widget=forms.TextInput(attrs={'class': "form-control mb-2",  'placeholder': ""}))
 
-
-# class NewContactForm(forms.Form):
-#     first_name = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}))
-#     last_name = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}))
-#     job_title = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': "form-control mb-2",'placeholder': ""}))
-#     extension = forms.CharField(required=False, max_length=255, widget=forms.TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}))
-#     notes = forms.CharField(required=False, widget=forms.Textarea(attrs={'rows': 3,'class': "form-control mb-2",'placeholder': ""}))
-#     assigned_to = 
-
 class NewContactForm(ModelForm):
     class Meta:
         model = Contact
@@ -46,29 +39,32 @@ class NewContactForm(ModelForm):
             'assigned_to': Select(attrs={'class': "form-select mb-2", 'placeholder': ""})
         }
 
-
-# class NewListingForm(forms.Form):
-#     title = forms.CharField(label="Listing Title", max_length=100,
-#                             widget=forms.TextInput(attrs={'class': "form-control mb-2", 'required': True, 'placeholder': "Enter a title for your listing here"}))
-#     description = forms.CharField(label="Description", max_length=100,
-#                                   widget=forms.Textarea(attrs={'class': "form-control mb-2", 'required': True}))
-#     url = forms.CharField(label="Image URL", max_length=100, required=False,
-#                           widget=forms.TextInput(attrs={'class': "form-control mb-2", "placeholder": "Enter a url to an image"}))
-#     starting_bid = forms.CharField(label="Starting Bid in US Dollars",
-#                                    widget=forms.TextInput(attrs={'class': "form-control mb-2",  'placeholder': "Enter the starting bid here in US Dollars (i.e. 10.50)"}))
-#     categories = forms.ModelChoiceField(
-#         queryset=Category.objects.all(), empty_label="Select one...", widget=forms.Select(attrs={'class': 'form-select mb-2', 'required': True}))
+# Apparently need to create a custom input to show the datepicker - crazy that this isn't a default and 
+# has been this way for seven years... and isn't clarified in the docs. 
+# https://stackoverflow.com/questions/22846048/django-form-as-p-datefield-not-showing-input-type-as-date
+class DateInput(forms.DateInput):
+    input_type = 'date'
 
 
-# class bidForm(forms.Form):
-#     bid_amount = forms.CharField(label="", widget=forms.TextInput(attrs={'class': "form-control mb-2",  'placeholder': "Enter your bid here", "placeholder":'Enter an amount in US Dollars' }))
+class UploadFileForm(forms.Form):
+    file = forms.FileField()
+
+class NewLicenseForm(ModelForm):
+    class Meta:
+        model = License
+        fields = ('product', 'purchase_date', 'expiration_date','customer','notes','end_of_life')
+        widgets = {
+            'product': Select(attrs={'class': "form-select mb-2", 'placeholder': ""}),
+            'purchase_date' : DateInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
+            'expiration_date': DateInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
+            'customer':  Select(attrs={'class': "form-select mb-2", 'placeholder': ""}),
+            'license_key': TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
+            'license_file': UploadFileForm(),
+            'notes': Textarea(attrs={'rows': 3,'class': "form-control mb-2", 'placeholder': ""}),
+            'end_of_life': DateInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
+        }
 
 
-# class simpleListForm(forms.Form):
-#     listing = forms.CharField(label="listing", widget=forms.TextInput(
-#         attrs={'class': "form-control mb-2", 'required': True}))
 
 
-# class commentForm(forms.Form):
-#     comment = forms.CharField(label="Add a comment:", max_length=500,
-#                               widget=forms.Textarea(attrs={'class': "form-control mb-2 mt-1", 'required': True}))
+
