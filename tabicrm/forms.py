@@ -1,7 +1,8 @@
 from django import forms
 from django.db.models.fields import DateField
 from django.forms import Form, ModelForm, TextInput, Textarea, Select
-from django.forms.widgets import DateInput, Widget
+from django.forms.fields import FileField
+from django.forms.widgets import DateInput, FileInput, Widget
 from .models import Customer, Contact, License
 
 
@@ -46,25 +47,20 @@ class DateInput(forms.DateInput):
     input_type = 'date'
 
 
-class UploadFileForm(forms.Form):
-    file = forms.FileField()
+
 
 class NewLicenseForm(ModelForm):
     class Meta:
         model = License
-        fields = ('product', 'purchase_date', 'expiration_date','customer','notes','end_of_life')
+        fields = ('product', 'purchase_date', 'expiration_date','customer', 'license_key', 'license_file', 'notes','end_of_life')
         widgets = {
             'product': Select(attrs={'class': "form-select mb-2", 'placeholder': ""}),
             'purchase_date' : DateInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
             'expiration_date': DateInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
             'customer':  Select(attrs={'class': "form-select mb-2", 'placeholder': ""}),
             'license_key': TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
-            'license_file': UploadFileForm(),
+            'license_file': FileInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
             'notes': Textarea(attrs={'rows': 3,'class': "form-control mb-2", 'placeholder': ""}),
             'end_of_life': DateInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
         }
-
-
-
-
 

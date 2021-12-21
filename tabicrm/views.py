@@ -12,13 +12,14 @@ from .models import Customer, Contact, License
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 import json
-from django.core.serializers.json import DjangoJSONEncoder
 import re
-# some refactoring, and some utility things to make my life more comfortable
-from . import angie
-from . import forms
-# my alias to print()
 
+
+# some refactoring, and some utility things to make my life more comfortable
+from .util import angie
+from . import forms
+
+# my alias to print()
 console = angie.Console()
 
 
@@ -256,33 +257,51 @@ def add_license(request):
 
 
     if request.method == "POST":
-        form = forms.NewLicenseForm(request.POST)
+        form = forms.NewLicenseForm(request.POST, request.FILES)
         # Short circuit if the form is bad
         if not form.is_valid():
             messages.add_message(request, messages.ERROR, 'Form is not valid')
             return redirect("add_license")
+
 
         # Assign all the fields
         product = form.cleaned_data["product"]
         purchase_date = form.cleaned_data["purchase_date"]
         expiration_date = form.cleaned_data["expiration_date"]
         customer = form.cleaned_data["customer"]
+        license_key = form.cleaned_data["license_key"]
         notes = form.cleaned_data["notes"]
         end_of_life = form.cleaned_data["end_of_life"]
 
 
-        license = License(product=product, purchase_date=purchase_date, expiration_date=expiration_date, customer=customer, notes=notes, end_of_life=end_of_life, added_by = request.user)
+        # if we have a file, None if we dont
+        if request.FILES:
+            license_file=request.FILES['license_file']
+        else:
+            license_file=None
+
+        license = License(
+            product=product, 
+            purchase_date=purchase_date, 
+            expiration_date=expiration_date, 
+            customer=customer, 
+            license_key=license_key, 
+            notes=notes, 
+            end_of_life=end_of_life, 
+            license_file=license_file, 
+            added_by = request.user
+        )
 
         try:
             license.save()
             messages.add_message(request, messages.SUCCESS,
-                         "Successfully saved the contact.")
-            return redirect("add_contact")
+                         "Successfully saved the license.")
+            return redirect("add_license")
         except Exception as error:
             console.log(error)
             messages.add_message(request, messages.ERROR,
                          error)
-            return redirect("add_contact")
+            return redirect("add_license")
 
 
 
