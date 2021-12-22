@@ -1,4 +1,4 @@
-from django.http.response import JsonResponse
+from django.http.response import FileResponse, JsonResponse
 from .models import User
 from django.contrib.auth import authenticate, login, logout
 from django.core import serializers
@@ -326,6 +326,11 @@ def get_customer_licenses(request, id):
 
     pass
 
+def download_license(request, id):
+    
+    license = License.objects.get(id = id)
+    response = FileResponse(open(license.license_file.name, 'rb'))
+    return response
 
 
 

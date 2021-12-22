@@ -2,11 +2,14 @@ const viewContact = async (event, id) => {
     // hide the div that has the customer's data
     document.querySelector(`#clientDetailsRoot`).style.display = "none"
     document.querySelector(`#contactsDetailsRoot`).style.display = "none"
+    document.querySelector(`#licensesDetailsRoot`).style.display = "none"
 
     // get the div that we want to display our data in
     const contactsRoot = document.querySelector(`#contactsEditContent`)
 
     try {
+
+        // NOTE - word-wrap in bootstrap didn't work, but text-break did. 
 
         // Get the data for the contact
         const contactResults = await fetch(`/get_contact/${id}`)
@@ -45,7 +48,7 @@ const viewContact = async (event, id) => {
                         </div>
                         <div class="row mb-2">
                             <div class="col-4 d-none d-lg-block">Notes</div>
-                            <div class="col-10 col-lg-4"><div id="edit-contact-notes">${finalContactData.notes === null ? "" : finalContactData.notes}</div></div>
+                            <div class="col-10 col-lg-4"><div id="edit-contact-notes" class="text-wrap">${finalContactData.notes === null ? "" : finalContactData.notes}</div></div>
                             <div class="col-2 col-lg-4"><i id="edit-contact-notes-icon"  class="las la-edit icon-hover" onclick="editContactField('notes', '${contactId}', 'textarea')"></i></div>
                         </div>
                     </div>

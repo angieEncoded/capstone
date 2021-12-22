@@ -142,7 +142,22 @@
   
   .btn-silver:hover {
     border: 2px solid rgb(118, 116, 119);
-    color: rgb(218, 218, 218);
+    color: rgb(255, 255, 255);
     background-color:rgb(118, 116, 119);
     box-shadow:5px 8px 8px -8px #000000;
   }
+
+a {
+    color:gray;
+    text-decoration: none;
+    font-size:medium;
+  }
+
+a:hover {
+    color: indigo;
+    text-decoration: none;
+    cursor: pointer;
+    font-size:medium;
+    text-decoration:underline;
+  }
+

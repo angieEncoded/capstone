@@ -58,11 +58,17 @@ const closeContact = async (id) => {
     contactsRoot.innerHTML = customerContactsTable
     contactsRoot.style.display = "block"
 
+    // show the licenses again
+    const licensesRoot = document.querySelector(`#licensesDetailsRoot`)
+    licensesRoot.style.display = "block"
+
 
     // Hide our old stuff
     const contactsEditRoot = document.querySelector(`#contactsEditContent`)
     contactsEditRoot.innerHTML = ""
     contactsEditRoot.style.display = "none"
+
+
 
 
 }

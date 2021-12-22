@@ -45,7 +45,7 @@ const viewClient = async (id) => {
                     <td>${contactsJsonData[i].fields.last_name === null ? "" : contactsJsonData[i].fields.last_name}</td>
                     <td>${contactsJsonData[i].fields.job_title === null ? "" : contactsJsonData[i].fields.job_title}</td>
                     <td>${contactsJsonData[i].fields.extension === null ? "" : contactsJsonData[i].fields.extension}</td>
-                    <td>${contactsJsonData[i].fields.notes === null ? "" : contactsJsonData[i].fields.notes}</td>
+                    <td  class="text-truncate"  style="max-width: 150px;">${contactsJsonData[i].fields.notes === null ? "" : contactsJsonData[i].fields.notes}</td>
                 </tr>
                 \n
                 `
@@ -69,7 +69,10 @@ const viewClient = async (id) => {
                 </table>
                 `
         } else {
-            customerContactsTable = `No contacts recorded for this customer.`
+            customerContactsTable = `
+            <h5 class="text-center baskerville-font mb-3">License Information</h5>
+            No Contacts recorded for this customer.
+            `
         }
 
 
@@ -78,12 +81,12 @@ const viewClient = async (id) => {
             // With a for loop, add the data fields to a table
             for (i = 0; i < licenseJsonData.length; i++) {
                 licenseEntries += `
-                <tr class="select-customer" id="${licenseJsonData[i].pk}" onclick="viewContact(event, '${licenseJsonData[i].pk}')">
+                <tr id="${licenseJsonData[i].pk}">
                     <td>${licenseJsonData[i].fields.product === null ? "" : licenseJsonData[i].fields.product}</td>
                     <td>${licenseJsonData[i].fields.purchase_date === null ? "" : licenseJsonData[i].fields.purchase_date}</td>
                     <td>${licenseJsonData[i].fields.expiration_date === null ? "" : licenseJsonData[i].fields.expiration_date}</td>
                     <td>${licenseJsonData[i].fields.license_key === null ? "" : licenseJsonData[i].fields.license_key}</td>
-                    <td>${licenseJsonData[i].fields.license_file === null ? "" : licenseJsonData[i].fields.license_file}</td>
+                    <td class="text-truncate"  style="max-width: 150px;"><a href="/download_license/${licenseJsonData[i].pk}" download>${licenseJsonData[i].fields.license_file === null ? "" : licenseJsonData[i].fields.license_file}</a></td>
                 </tr>
                 \n
                 `
@@ -92,7 +95,7 @@ const viewClient = async (id) => {
                 `
                 <!-- CONTACT INFORMATION -->
                 <h5 class="text-center baskerville-font mb-3">License Information</h5>
-                <table class="table  table-striped table-responsive">
+                <table class="table table-striped table-responsive">
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">Product</th>
@@ -108,7 +111,10 @@ const viewClient = async (id) => {
                 </table>
                 `
         } else {
-            customerLicensesTable = `No contacts recorded for this customer.`
+            customerLicensesTable = `
+            <h5 class="text-center baskerville-font mb-3">License Information</h5>
+            No Licenses recorded for this customer.
+            `
         }
 
 
@@ -124,9 +130,12 @@ const viewClient = async (id) => {
             <!-- Notes -->
             <div class="row mb-2">
                 <div class="col-4 d-none d-lg-block">Notes</div>
-                <div class="col-10 col-lg-4"><div id="edit-notes">${finalData.notes === null ? "" : finalData.notes}</div></div>
+                <div class="col-10 col-lg-4"><div id="edit-notes" class="text-wrap">${finalData.notes === null ? "" : finalData.notes}</div></div>
                 <div class="col-2 col-lg-4"><i id="edit-notes-icon" class="las la-edit icon-hover" onclick="editField('notes', '${customerId}', 'textarea')"></i></div>
+
             </div>
+
+          
             <hr>
             <!-- BASIC INFORMATION -->
             <h5 class="text-center baskerville-font mb-3">Basic Information</h5>
@@ -248,7 +257,10 @@ const viewClient = async (id) => {
 
         // Populate the modal's data
         const modalTitle = document.querySelector(`#clientDetailsTitle`)
-        modalTitle.innerHTML = `Viewing details for: ${finalData.name}`
+        modalTitle.innerHTML = `
+            Viewing details for: ${finalData.name}
+            <a class="full-form-link ms-5" href="/customer_full_form/${customerId}">Go to the Full Form</a>
+        `
         const clientDetails = document.querySelector(`#clientDetailsRoot`)
         clientDetails.innerHTML = customerDetailsForm
 
