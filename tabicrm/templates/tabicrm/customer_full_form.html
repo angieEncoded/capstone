@@ -1,0 +1,229 @@
+{% extends "tabicrm/layout.html" %}
+<!-- Weird that I had to do this here, it doesn't seem to inherit from the layout? -->
+{% load static %}
+{% load humanize %}
+{% block body %}
+
+<div class="container-fluid">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="customer-tab" data-bs-toggle="tab" data-bs-target="#customer"
+                type="button" role="tab" aria-controls="customer" aria-selected="true">Customers</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="contacts-tab" data-bs-toggle="tab" data-bs-target="#contacts" type="button"
+                role="tab" aria-controls="contacts" aria-selected="false">Contacts</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="licenses-tab" data-bs-toggle="tab" data-bs-target="#licenses" type="button"
+                role="tab" aria-controls="licenses" aria-selected="false">Licenses</button>
+        </li>
+    </ul>
+
+
+    <div class="tab-content" id="myTabContent">
+
+        <div class="tab-pane fade show active mt-3 container-fluid" id="customer" role="tabpanel"
+            aria-labelledby="home-tab">
+            <!-- Notes -->
+            <div class="row mb-2">
+                <div class="col-4 d-none d-lg-block">Notes</div>
+                <div class="col-10 col-lg-4">
+                    <div id="edit-notes" class="text-wrap">{{customer.notes}}</div>
+                </div>
+                <div class="col-2 col-lg-4"><i id="edit-notes-icon" class="las la-edit icon-hover"
+                        onclick="editField('notes', '{{customerId}}', 'textarea')"></i></div>
+
+            </div>
+
+
+            <hr>
+            <!-- BASIC INFORMATION -->
+            <h5 class="text-center baskerville-font mb-3">Basic Information</h5>
+            <div class="row">
+                <div class="col-12 col-xl-6">
+                    <div class="row mb-2">
+                        <div class="col-4 d-none d-lg-block">Customer Name: </div>
+                        <div class="col-10 col-lg-4">
+                            <div id="edit-name">{{customer.name}}</div>
+                        </div>
+                        <div class="col-2 col-lg-4"><i id="edit-name-icon" class="las la-edit icon-hover"
+                                onclick="editField('name', '{{customerId}}', 'textinput')"></i></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4 d-none d-lg-block">Primary Phone: </div>
+                        <div class="col-10 col-lg-4">
+                            <div id="edit-primary_phone">{{customer.primary_phone}}</div>
+                        </div>
+                        <div class="col-2 col-lg-4"><i id="edit-primary_phone-icon" class="las la-edit icon-hover"
+                                onclick="editField('primary_phone', '{{customerId}}', 'textinput')"></i></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4 d-none d-lg-block">Secondary Phone: </div>
+                        <div class="col-10 col-lg-4">
+                            <div id="edit-secondary_phone">{{customer.secondary_phone}} </div>
+                        </div>
+                        <div class="col-2 col-lg-4"><i id="edit-secondary_phone-icon" class="las la-edit icon-hover"
+                                onclick="editField('secondary_phone', '{{customerId}}', 'textinput')"></i></div>
+                    </div>
+                </div>
+                <div class="col-12 col-xl-6">
+                    <div class="row mb-2">
+                        <div class="col-4 d-none d-lg-block">Fax: </div>
+                        <div class="col-10 col-lg-4">
+                            <div id="edit-fax">{{customer.fax}} </div>
+                        </div>
+                        <div class="col-2 col-lg-4"><i id="edit-fax-icon" class="las la-edit icon-hover"
+                                onclick="editField('fax', '{{customerId}}','textinput')"></i></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4 d-none d-lg-block">Website: </div>
+                        <div class="col-10 col-lg-4">
+                            <div id="edit-website">{{customer.website}} </div>
+                        </div>
+                        <div class="col-2 col-lg-4"><i id="edit-website-icon" class="las la-edit icon-hover"
+                                onclick="editField('website', '{{customerId}}', 'textinput')"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BILLING ADDRESS -->
+            <h5 class="text-center baskerville-font mb-3">Billing Address</h5>
+            <div class="row">
+                <div class="col-12 col-xl-6">
+                    <div class="row mb-2">
+                        <div class="col-4 d-none d-lg-block">Billing Address One:</div>
+                        <div class="col-10 col-lg-4">
+                            <div id="edit-billing_address_one">{{customer.billing_address_one}} </div>
+                        </div>
+                        <div class="col-2 col-lg-4"><i id="edit-billing_address_one-icon" class="las la-edit icon-hover"
+                                onclick="editField('billing_address_one', '{{customerId}}', 'textinput')"></i></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4 d-none d-lg-block">Billing Address Two: </div>
+                        <div class="col-10 col-lg-4">
+                            <div id="edit-billing_address_two">{{customer.billing_address_two}} </div>
+                        </div>
+                        <div class="col-2 col-lg-4"><i id="edit-billing_address_two-icon" class="las la-edit icon-hover"
+                                onclick="editField('billing_address_two', '{{customerId}}', 'textinput')"></i></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4 d-none d-lg-block">Billing Address City: </div>
+                        <div class="col-10 col-lg-4">
+                            <div id="edit-billing_address_city">{{customer.billing_address_city}} </div>
+                        </div>
+                        <div class="col-2 col-lg-4"><i id="edit-billing_address_city-icon"
+                                class="las la-edit icon-hover"
+                                onclick="editField('billing_address_city', '{{customerId}}', 'textinput')"></i></div>
+                    </div>
+                </div>
+                <div class="col-12 col-xl-6">
+                    <div class="row mb-2">
+                        <div class="col-4 d-none d-lg-block">Billing Address State: </div>
+                        <div class="col-10 col-lg-4">
+                            <div id="edit-billing_address_state">{{customer.billing_address_state}}</div>
+                        </div>
+                        <div class="col-2 col-lg-4"><i id="edit-billing_address_state-icon"
+                                class="las la-edit icon-hover"
+                                onclick="editField('billing_address_state', '{{customerId}}', 'textinput')"></i></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4 d-none d-lg-block">Billing Address Zip: </div>
+                        <div class="col-10 col-lg-4">
+                            <div id="edit-billing_address_zip">{{customer.billing_address_zip}}</div>
+                        </div>
+                        <div class="col-2 col-lg-4"><i id="edit-billing_address_zip-icon" class="las la-edit icon-hover"
+                                onclick="editField('billing_address_zip', '{{customerId}}', 'textinput')"></i></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4 d-none d-lg-block">Billing Address Country: </div>
+                        <div class="col-10 col-lg-4">
+                            <div id="edit-billing_address_country">{{customer.billing_address_country}}</div>
+                        </div>
+                        <div class="col-2 col-lg-4"><i id="edit-billing_address_country-icon"
+                                class="las la-edit icon-hover"
+                                onclick="editField('billing_address_country', '{{customerId}}', 'textinput')"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SHIPPING ADDRESS -->
+            <h5 class="text-center baskerville-font mb-3">Shipping Address</h5>
+            <div class="row">
+                <div class="col-12 col-xl-6">
+                    <div class="row mb-2">
+                        <div class="col-4 d-none d-lg-block">Shipping Address One: </div>
+                        <div class="col-10 col-lg-4">
+                            <div id="edit-shipping_address_one">{{customer.shipping_address_one}} </div>
+                        </div>
+                        <div class="col-2 col-lg-4"><i id="edit-shipping_address_one-icon"
+                                class="las la-edit icon-hover"
+                                onclick="editField('shipping_address_one', '{{customerId}}', '{{customer.shipping_address_one}}', 'textinput')"></i>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4 d-none d-lg-block">Shipping Address Two: </div>
+                        <div class="col-10 col-lg-4">
+                            <div id="edit-shipping_address_two">{{customer.shipping_address_two}} </div>
+                        </div>
+                        <div class="col-2 col-lg-4"><i id="edit-shipping_address_two-icon"
+                                class="las la-edit icon-hover"
+                                onclick="editField('shipping_address_two', '{{customerId}}', '{{customer.shipping_address_two}}', 'textinput')"></i>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4 d-none d-lg-block">Shipping Address City: </div>
+                        <div class="col-10 col-lg-4">
+                            <div id="edit-shipping_address_city">{{customer.shipping_address_city}} </div>
+                        </div>
+                        <div class="col-2 col-lg-4"><i id="edit-shipping_address_city-icon"
+                                class="las la-edit icon-hover"
+                                onclick="editField('shipping_address_city', '{{customerId}}', '{{customer.shipping_address_city}}', 'textinput')"></i>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="col-12 col-xl-6">
+                    <div class="row mb-2">
+                        <div class="col-4 d-none d-lg-block">Shipping Address State: </div>
+                        <div class="col-10 col-lg-4">
+                            <div id="edit-shipping_address_state">{{customer.shipping_address_state}} </div>
+                        </div>
+                        <div class="col-2 col-lg-4"><i id="edit-shipping_address_state-icon"
+                                class="las la-edit icon-hover"
+                                onclick="editField('shipping_address_state', '{{customerId}}', '{{customer.shipping_address_state}}', 'textinput')"></i>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4 d-none d-lg-block">Shipping Address Zip: </div>
+                        <div class="col-10 col-lg-4">
+                            <div id="edit-shipping_address_zip">{{customer.shipping_address_zip}}</div>
+                        </div>
+                        <div class="col-2 col-lg-4"><i id="edit-shipping_address_zip-icon"
+                                class="las la-edit icon-hover"
+                                onclick="editField('shipping_address_zip', '{{customerId}}', '{{customer.shipping_address_zip}}', 'textinput')"></i>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4 d-none d-lg-block">Shipping Address Country: </div>
+                        <div class="col-10 col-lg-4">
+                            <div id="edit-shipping_address_country">{{customer.shipping_address_country}} </div>
+                        </div>
+                        <div class="col-2 col-lg-4"><i id="edit-shipping_address_country-icon"
+                                class="las la-edit icon-hover"
+                                onclick="editField('shipping_address_country', '{{customerId}}', '{{customer.shipping_address_country}}', 'textinput')"></i>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="contacts" role="tabpanel" aria-labelledby="contacts-tab">..sfsdafsdafsda.</div>
+        <div class="tab-pane fade" id="licenses" role="tabpanel" aria-labelledby="licenses-tab">..asdfadsfsfdsa.</div>
+    </div>
+
+</div>
+
+
+{% endblock %}

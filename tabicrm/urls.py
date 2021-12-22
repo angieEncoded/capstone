@@ -17,4 +17,5 @@ urlpatterns = [
     path("add_license/", views.add_license, name="add_license"),
     path("get_customer_licenses/<int:id>", views.get_customer_licenses, name="get_customer_licenses"),
     path("download_license/<int:id>", views.download_license, name="download_license"),
+    path("customer_full_form/<int:id>", views.customer_full_form, name="customer_full_form"),
 ]

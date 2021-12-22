@@ -334,7 +334,14 @@ def download_license(request, id):
 
 
 
+def customer_full_form(request, id):
 
+    customer = Customer.objects.get(id = id)
+    customerForm = forms.Customer()
+    return render(request, "tabicrm/customer_full_form.html", {
+        "customer": customer,
+    })
+    pass
 
 
 
