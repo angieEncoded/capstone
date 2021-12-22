@@ -1,101 +1,3 @@
-const editField = async (fieldName, id, fieldType) => {
-
-    // Hide the editing button to fix a bug
-    const editButton = document.querySelector(`#edit-${fieldName}-icon`)
-    editButton.style.display = "none"
-
-    // GEt the current data from what is in the inner html
-    const currentEditField = document.querySelector(`#edit-${fieldName}`)
-    const currentData = currentEditField.innerHTML
-
-    let editTemplate;
-    // create the edit form
-    if (fieldType === "textarea") {
-        editTemplate = `
-        <form onsubmit="submitForm(event,'${id}', '${fieldName}')">
-            <textarea class="form-control mb-2 form-control-sm" id="input-${fieldName}">${currentData}</textarea>
-            <div class="float-end">
-            <button class="btn btn-sm btn-logo" type="submit">Save</button>
-            <button class="btn btn-sm btn-silver" type="button" onclick="cancelEdit('${fieldName}', '${currentData}' )">Cancel</button>
-            </div>
-        </form>
-        `
-    } else {
-        editTemplate = `
-        <form onsubmit="submitForm(event,'${id}', '${fieldName}')">
-            <input type="text" class="form-control mb-2 form-control-sm" value='${currentData}' id="input-${fieldName}" maxlength=255 />
-            <div class="float-end">
-            <button class="btn btn-sm btn-logo" type="submit">Save</button>
-            <button class="btn btn-sm btn-silver" type="button" onclick="cancelEdit('${fieldName}', '${currentData}' )">Cancel</button>
-            </div>
-        </form>
-        `
-    }
-
-
-    currentEditField.innerHTML = editTemplate
-}
-
-const submitForm = async (event, id, fieldName) => {
-    event.preventDefault() // stop any propegation
-
-    // Get the data from the form
-    const data = document.querySelector(`#input-${fieldName}`)
-    const submission = {
-        [fieldName]: data.value // use [] for a json key variable
-    }
-
-    try {
-        // Send the request to the back end to update the data
-        const results = await fetch(`/edit_customer/${id}/${fieldName}`, {
-            method: "POST",
-            body: JSON.stringify(submission),
-            headers: {
-                'X-CSRFToken': getCookie('csrftoken'),
-                'Content-Type': 'application/json'
-            }
-        })
-        if (!results.ok) { throw { status: results.status, statusText: results.statusText } }
-        const data = await results.json()
-
-        // If the server sent back an error because we did something wrong
-        if (data.error) { throw data.error }
-
-        if (data.success) {
-            const successDiv = document.querySelector(`#customer-feedback-data`)
-            successDiv.innerHTML = `<span class="text-success">${data.success}</span>`
-            document.querySelector(`#edit-${fieldName}`).innerHTML = data.content
-            // Hide the editing button to fix a bug
-            const editButton = document.querySelector(`#edit-${fieldName}-icon`)
-            editButton.style.display = "block"
-            setTimeout(() => {
-                successDiv.innerHTML = ""
-            }, 10000);
-        }
-    } catch (error) {
-        console.log(error)
-        const errorDiv = document.querySelector(`#customer-feedback-data`)
-        if (error.status) {
-            errorDiv.innerHTML = `<span class="text-danger">${error.status} ${error.statusText}</span>`
-        } else {
-            errorDiv.innerHTML = `<span class="text-danger">${error}</span>`
-        }
-        setTimeout(() => {
-            errorDiv.innerHTML = ""
-        }, 20000);
-    }
-
-
-
-}
-
-// Close the small editing form
-const cancelEdit = (fieldName, currentData) => {
-    const editButton = document.querySelector(`#edit-${fieldName}-icon`)
-    editButton.style.display = "block"
-    document.querySelector(`#edit-${fieldName}`).innerHTML = currentData
-}
-
 const viewClient = async (id) => {
 
     // Hide the editing root for the contacts if needed
@@ -122,11 +24,18 @@ const viewClient = async (id) => {
         const contactsData = await contactsResults.json();
         const contactsJsonData = await JSON.parse(contactsData.data)
 
+        // Get the licenses data
+        const licenseResults = await fetch(`/get_customer_licenses/${id}`)
+        if (!licenseResults.ok) { throw { status: licenseResults.status, statusText: licenseResults.statusText } }
+        const licenseData = await licenseResults.json();
+        const licenseJsonData = await JSON.parse(licenseData.data)
 
         let customerContactsTable = ''
         let tableEntries = ''
+        let customerLicensesTable = ''
+        let licenseEntries = ''
 
-        // If we do have data, we need to process it
+        // Proces Contacts Data
         if (contactsJsonData.length > 0) {
             // With a for loop, add the data fields to a table
             for (i = 0; i < contactsJsonData.length; i++) {
@@ -162,6 +71,46 @@ const viewClient = async (id) => {
         } else {
             customerContactsTable = `No contacts recorded for this customer.`
         }
+
+
+        // Process License Data
+        if (contactsJsonData.length > 0) {
+            // With a for loop, add the data fields to a table
+            for (i = 0; i < licenseJsonData.length; i++) {
+                licenseEntries += `
+                <tr class="select-customer" id="${licenseJsonData[i].pk}" onclick="viewContact(event, '${licenseJsonData[i].pk}')">
+                    <td>${licenseJsonData[i].fields.product === null ? "" : licenseJsonData[i].fields.product}</td>
+                    <td>${licenseJsonData[i].fields.purchase_date === null ? "" : licenseJsonData[i].fields.purchase_date}</td>
+                    <td>${licenseJsonData[i].fields.expiration_date === null ? "" : licenseJsonData[i].fields.expiration_date}</td>
+                    <td>${licenseJsonData[i].fields.license_key === null ? "" : licenseJsonData[i].fields.license_key}</td>
+                    <td>${licenseJsonData[i].fields.license_file === null ? "" : licenseJsonData[i].fields.license_file}</td>
+                </tr>
+                \n
+                `
+            }
+            customerLicensesTable =
+                `
+                <!-- CONTACT INFORMATION -->
+                <h5 class="text-center baskerville-font mb-3">License Information</h5>
+                <table class="table  table-striped table-responsive">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Product</th>
+                            <th scope="col">Purchase Date</th>
+                            <th scope="col">Expiration Date</th>
+                            <th scope="col">License Key</th>
+                            <th scope="col">License File</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${licenseEntries}
+                    </tbody>
+                </table>
+                `
+        } else {
+            customerLicensesTable = `No contacts recorded for this customer.`
+        }
+
 
 
 
@@ -306,6 +255,10 @@ const viewClient = async (id) => {
         // Find the root for the contacts content
         const contactsRoot = document.querySelector(`#contactsDetailsRoot`)
         contactsRoot.innerHTML = customerContactsTable
+
+        // Find the root for the licenses content
+        const licensesRoot = document.querySelector(`#licensesDetailsRoot`)
+        licensesRoot.innerHTML = customerLicensesTable
 
         // Open the modal
         customerModal.show()

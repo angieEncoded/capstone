@@ -15,5 +15,6 @@ urlpatterns = [
     path("get_contact/<int:id>", views.get_contact, name="get_contact"),
     path("edit_contact/<int:id>/<str:fieldName>", views.edit_contact, name="edit_contact"),
     path("add_license/", views.add_license, name="add_license"),
+    path("get_customer_licenses/<int:id>", views.get_customer_licenses, name="get_customer_licenses"),
 
 ]

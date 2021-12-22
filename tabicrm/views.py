@@ -304,6 +304,27 @@ def add_license(request):
             return redirect("add_license")
 
 
+def get_customer_licenses(request, id):
+
+    try:
+
+        # get the customer from the database
+        customer = Customer.objects.get(id = id)
+
+        #get the licenses assigned to that customer
+        licenses = License.objects.filter(customer = customer)
+
+        console.log(licenses)
+
+        # send them back in a json
+        jsonLicenses = serializers.serialize("json", licenses)
+
+        return JsonResponse({"success": "Successfully retrieved data", "data": jsonLicenses})
+    except Exception as error:
+        return JsonResponse({"error": error})
+
+
+    pass
 
 
 
