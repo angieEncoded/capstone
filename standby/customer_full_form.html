@@ -1,0 +1,166 @@
+{% extends "tabicrm/layout.html" %}
+<!-- Weird that I had to do this here, it doesn't seem to inherit from the layout? -->
+{% load static %}
+{% load humanize %}
+{% block body %}
+
+
+
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="customer-tab" data-bs-toggle="tab" data-bs-target="#customer" type="button"
+            role="tab" aria-controls="customer" aria-selected="true">Customer</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="contacts-tab" data-bs-toggle="tab" data-bs-target="#contacts" type="button"
+            role="tab" aria-controls="contacts" aria-selected="false">Contacts</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="licenses-tab" data-bs-toggle="tab" data-bs-target="#licenses" type="button"
+            role="tab" aria-controls="licenses" aria-selected="false">Licenses</button>
+    </li>
+</ul>
+
+
+
+
+
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="customer" role="tabpanel" aria-labelledby="customer-tab">
+        <div class="container mt-2">
+            <div class="form-background mb-5">
+                <h2 class=" baskerville-font text-center">Edit customer</h2>
+                <hr>
+                <form action="{% url 'add_customer' %}" method="POST">
+                    {% csrf_token %}
+
+                    <!-- BASIC CUSTOMER INFORMATION -->
+                    <h3 class="baskerville-font text-center">Basic information</h3>
+                    <div class="row">
+                        <div class="col-12 col-lg-6">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Customer Name</label>
+                                {{form.name}}
+                            </div>
+                            <div class="mb-3">
+                                <label for="primary_phone" class="form-label">Primary Phone</label>
+                                {{form.primary_phone}}
+                            </div>
+                            <div class="mb-3">
+                                <label for="secondary_phone" class="form-label">Secondary Phone</label>
+                                {{form.secondary_phone}}
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <div class="mb-3">
+                                <label for="fax" class="form-label">Fax</label>
+                                {{form.fax}}
+                            </div>
+                            <div class="mb-3">
+                                <label for="website" class="form-label">Website</label>
+                                {{form.website}}
+                            </div>
+                            <div class="mb-3">
+                                <label for="website" class="form-label">Notes</label>
+                                {{form.notes}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BILLING ADDRESS INFORMATION -->
+                    <h3 class="baskerville-font text-center">Billing Address</h3>
+                    <div class="row">
+                        <div class="col-12 col-lg-6">
+                            <div class="mb-3">
+                                <label for="billing_address_one" class="form-label">Billing Address 1</label>
+                                {{form.billing_address_one}}
+                            </div>
+                            <div class="mb-3">
+                                <label for="billing_address_two" class="form-label">Billing Address 2</label>
+                                {{form.billing_address_two}}
+                            </div>
+                            <div class="mb-3">
+                                <label for="billing_address_city" class="form-label">City</label>
+                                {{form.billing_address_city}}
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <div class="mb-3">
+                                <label for="billing_address_state" class="form-label">State</label>
+                                {{form.billing_address_state}}
+                            </div>
+                            <div class="mb-3">
+                                <label for="billing_address_zip" class="form-label">Zip</label>
+                                {{form.billing_address_zip}}
+                            </div>
+                            <div class="mb-3">
+                                <label for="billing_address_country" class="form-label">Country</label>
+                                {{form.billing_address_country}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SHIPPING ADDRESS INFORMATION -->
+                    <h3 class="baskerville-font text-center">Shipping Address</h3>
+                    <div class="row">
+                        <div class="col-12 col-lg-6">
+                            <div class="mb-3">
+                                <label for="shipping_address_one" class="form-label">Shipping Address 1</label>
+                                {{form.shipping_address_one}}
+                            </div>
+                            <div class="mb-3">
+                                <label for="shipping_address_two" class="form-label">Shipping Address 2</label>
+                                {{form.shipping_address_two}}
+                            </div>
+                            <div class="mb-3">
+                                <label for="shipping_address_city" class="form-label">City</label>
+                                {{form.shipping_address_city}}
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <div class="mb-3">
+                                <label for="shipping_address_state" class="form-label">State</label>
+                                {{form.shipping_address_state}}
+                            </div>
+                            <div class="mb-3">
+                                <label for="shipping_address_zip" class="form-label">Zip</label>
+                                {{form.shipping_address_zip}}
+                            </div>
+                            <div class="mb-3">
+                                <label for="shipping_address_country" class="form-label">Country</label>
+                                {{form.shipping_address_country}}
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-logo">Add Customer</button>
+                    </div>
+
+
+
+                </form>
+            </div>
+
+        </div>
+
+
+
+
+    </div>
+    <div class="tab-pane fade" id="contacts" role="tabpanel" aria-labelledby="contacts-tab">...</div>
+    <div class="tab-pane fade" id="licenses" role="tabpanel" aria-labelledby="licenses-tab">...</div>
+</div>
+
+
+
+
+
+
+
+
+
+{% endblock %}

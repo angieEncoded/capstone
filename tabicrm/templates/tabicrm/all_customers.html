@@ -58,18 +58,21 @@
     </table>
 </div>
 
-<script src="{% static 'tabicrm/javascript/getCookie.js' %} "></script>
-<script src="{% static 'tabicrm/javascript/textCheck.js' %} "></script>
-<script src="{% static 'tabicrm/javascript/reloadContent.js' %} "></script>
-<script src="{% static 'tabicrm/javascript/viewContact.js' %} "></script>
-<script src="{% static 'tabicrm/javascript/editField.js' %} "></script>
-<script src="{% static 'tabicrm/javascript/submitForm.js' %} "></script>
-<script src="{% static 'tabicrm/javascript/cancelEdit.js' %} "></script>
-<script src="{% static 'tabicrm/javascript/viewClient.js' %} "></script>
-<script src="{% static 'tabicrm/javascript/closeContact.js' %} "></script>
-<script src="{% static 'tabicrm/javascript/editContactField.js' %} "></script>
-<script src="{% static 'tabicrm/javascript/cancelContactEdit.js' %} "></script>
-<script src="{% static 'tabicrm/javascript/submitEditContactForm.js' %} "></script>
+
+<!-- View and utility javascript files -->
+<script src="{% static 'tabicrm/javascript/utility.js' %} "></script>
+<script src="{% static 'tabicrm/javascript/viewFunctions/viewClient.js' %} "></script>
+<script src="{% static 'tabicrm/javascript/viewFunctions/viewContact.js' %} "></script>
+<script src="{% static 'tabicrm/javascript/viewFunctions/viewLicense.js' %} "></script>
+
+<!-- Handle editing the customer -->
+<script src="{% static 'tabicrm/javascript/manageCustomer.js' %} "></script>
+
+<!-- Handle editing the contacts -->
+<script src="{% static 'tabicrm/javascript/manageContacts.js' %} "></script>
+
+
+
 
 
 

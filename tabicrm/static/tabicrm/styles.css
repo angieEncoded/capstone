@@ -147,13 +147,13 @@
     box-shadow:5px 8px 8px -8px #000000;
   }
 
-a {
+.frontend-link {
     color:gray;
     text-decoration: none;
     font-size:medium;
   }
 
-a:hover {
+.frontend-link:hover {
     color: indigo;
     text-decoration: none;
     cursor: pointer;

@@ -53,6 +53,7 @@ const viewClient = async (id) => {
             customerContactsTable =
                 `
                 <!-- CONTACT INFORMATION -->
+                <h5 class="text-center baskerville-font mb-3">Contacts</h5>
                 <table class="table  table-striped table-responsive">
                     <thead class="thead-dark">
                         <tr>
@@ -70,23 +71,23 @@ const viewClient = async (id) => {
                 `
         } else {
             customerContactsTable = `
-            <h5 class="text-center baskerville-font mb-3">License Information</h5>
+            <h5 class="text-center baskerville-font mb-3">Contacts</h5>
             No Contacts recorded for this customer.
             `
         }
 
 
         // Process License Data
-        if (contactsJsonData.length > 0) {
+        if (licenseJsonData.length > 0) {
             // With a for loop, add the data fields to a table
             for (i = 0; i < licenseJsonData.length; i++) {
                 licenseEntries += `
-                <tr id="${licenseJsonData[i].pk}">
+                <tr id="${licenseJsonData[i].pk}" class="select-customer" onclick="viewLicense(event, '${licenseJsonData[i].pk}')">
                     <td>${licenseJsonData[i].fields.product === null ? "" : licenseJsonData[i].fields.product}</td>
                     <td>${licenseJsonData[i].fields.purchase_date === null ? "" : licenseJsonData[i].fields.purchase_date}</td>
                     <td>${licenseJsonData[i].fields.expiration_date === null ? "" : licenseJsonData[i].fields.expiration_date}</td>
                     <td>${licenseJsonData[i].fields.license_key === null ? "" : licenseJsonData[i].fields.license_key}</td>
-                    <td class="text-truncate"  style="max-width: 150px;"><a href="/download_license/${licenseJsonData[i].pk}" download>${licenseJsonData[i].fields.license_file === null ? "" : licenseJsonData[i].fields.license_file}</a></td>
+                    <td class="text-truncate"  style="max-width: 50px;">${licenseJsonData[i].fields.license_file === null ? "" : licenseJsonData[i].fields.license_file}</td>
                 </tr>
                 \n
                 `
@@ -259,7 +260,7 @@ const viewClient = async (id) => {
         const modalTitle = document.querySelector(`#clientDetailsTitle`)
         modalTitle.innerHTML = `
             Viewing details for: ${finalData.name}
-            <a class="full-form-link ms-5" href="/customer_full_form/${customerId}">Go to the Full Form</a>
+
         `
         const clientDetails = document.querySelector(`#clientDetailsRoot`)
         clientDetails.innerHTML = customerDetailsForm
