@@ -111,6 +111,8 @@ const editContactField = async (fieldName, id, fieldType) => {
     currentEditField.innerHTML = editTemplate
 }
 
+
+
 // Close the small editing form
 const cancelContactEdit = (fieldName, currentData) => {
     const editButton = document.querySelector(`#edit-contact-${fieldName}-icon`)
