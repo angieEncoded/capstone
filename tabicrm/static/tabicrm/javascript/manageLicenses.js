@@ -126,6 +126,7 @@ const editLicenseField = async (fieldName, id, fieldType) => {
 
     // a date field
     if (fieldType === "date") {
+        console.log(currentData)
         editTemplate = `
         <form onsubmit="submitEditContactForm(event,'${id}', '${fieldName}')">
             <input type="date" class="form-control mb-2 form-control-sm" id="license-input-${fieldName}" value='${currentData === 'null' ? "" : currentData}'>
