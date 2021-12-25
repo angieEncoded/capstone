@@ -8,9 +8,9 @@
 
 <div class="container">
     <div class="form-background mb-5">
-        <h2 class=" baskerville-font text-center">Add a license</h2>
+        <h2 class=" baskerville-font text-center">Edit license</h2>
         <hr>
-        <form action="{% url 'add_license' %}" method="POST" enctype="multipart/form-data">
+        <form action="{% url 'edit_license' license_id %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="row">
                 <div class="col-12 col-lg-6">
@@ -44,7 +44,7 @@
                         {{form.license_key}}
                     </div>
                     <div class="mb-3">
-                        <label for="license_file" class="form-label">License File</label>
+                        <label for="license_file" class="form-label">License File <span class="text-muted">({{license_name}})</span></label>
                         {{form.license_file}}
                     </div>
                     <div class="mb-3">
@@ -55,7 +55,8 @@
             </div>
 
             <div class="text-end">
-                <button type="submit" class="btn btn-logo">Add License</button>
+                <a href="{% url 'index' %}" class="btn btn-silver">Back to Clients</a>
+                <button type="submit" class="btn btn-logo">Submit Changes</button>
             </div>
 
 
@@ -64,6 +65,16 @@
     </div>
 
 </div>
+
+
+
+
+
+
+
+
+
+
 
 
 

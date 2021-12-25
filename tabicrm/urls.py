@@ -5,6 +5,7 @@ from . import views
 urlpatterns = [
     path("", views.index, name="index"),
     # path("views/", views.views_view, name="views"),
+    path("login/", views.login_view, name="login"),
     path("logout", views.logout_view, name="logout"),
 
     path("add_customer", views.add_customer, name="add_customer"),
@@ -21,7 +22,7 @@ urlpatterns = [
     path("get_customer_licenses/<int:id>", views.get_customer_licenses, name="get_customer_licenses"),
     path("download_license/<int:id>", views.download_license, name="download_license"),
     path("get_license/<int:id>", views.get_license, name="get_license"),
-    path("edit_license_text_field/<int:id>/<str:fieldName>", views.edit_license_text_field, name="edit_license_text_field"),
+    path("edit_license/<int:id>", views.edit_license, name="edit_license"),
 
     # path("customer_full_form/<int:id>", views.customer_full_form, name="customer_full_form"),
 ]

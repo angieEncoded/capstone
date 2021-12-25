@@ -28,6 +28,7 @@ const closeContact = async (id) => {
         customerContactsTable =
             `
                     <!-- CONTACT INFORMATION -->
+                    <h5 class="text-center baskerville-font mb-3">Contacts</h5>
                     <table class="table  table-striped table-responsive">
                         <thead class="thead-dark">
                             <tr>

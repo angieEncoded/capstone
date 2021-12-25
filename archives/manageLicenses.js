@@ -99,10 +99,20 @@ const editLicenseField = async (fieldName, id, fieldType) => {
     const currentData = currentEditField.innerHTML
 
     // Will have a text field
-    if (fieldType === "textinput") {
+    if (fieldType === "menu") {
         editTemplate = `
-        <form onsubmit="submitEditContactForm(event,'${id}', '${fieldName}')">
-            <input type="text" class="form-control mb-2 form-control-sm" value='${currentData === 'null' ? "" : currentData}' id="license-input-${fieldName}" maxlength=255 />
+        <form onsubmit="submitEditLicenseForm(event,'${id}', '${fieldName}', 'textInput')">
+
+            <select name="product" class="form-select mb-2" placeholder=""  id="license-input-${fieldName}">
+                <option value="AVAST PRO" ${currentData === 'AVAST PRO' ? 'selected' : ""}>AVAST PRO</option>
+                <option value="AVAST ENDPOINT" ${currentData === 'AVAST ENDPOINT' ? 'selected' : ""}>AVAST ENDPOINT</option>
+                <option value="MALWAREBYTES" ${currentData === 'MALWAREBYTES' ? 'selected' : ""}>MALWAREBYTES</option>
+                <option value="MICROSOFT OFFICE 2010" ${currentData === 'MICROSOFT OFFICE 2010' ? 'selected' : ""}>MICROSOFT OFFICE 2010</option>
+                <option value="MICROSOFT OFFICE 2013" ${currentData === 'MICROSOFT OFFICE 2013' ? 'selected' : ""}>MICROSOFT OFFICE 2013</option>
+                <option value="MICROSOFT OFFICE 2016" ${currentData === 'MICROSOFT OFFICE 2016' ? 'selected' : ""}>MICROSOFT OFFICE 2016</option>
+                <option value="MICROSOFT OFFICE 2019" ${currentData === 'MICROSOFT OFFICE 2019' ? 'selected' : ""}>MICROSOFT OFFICE 2019</option>
+                <option value="MICROSOFT OFFICE 365" ${currentData === 'MICROSOFT OFFICE 365' ? 'selected' : ""}>MICROSOFT OFFICE 365</option>
+            </select> 
             <div class="float-end">
                 <button class="btn btn-sm btn-logo" type="submit">Save</button>
                 <button class="btn btn-sm btn-silver" type="button" onclick="cancelLicenseEdit('${fieldName}', '${currentData}' )">Cancel</button>
@@ -114,7 +124,7 @@ const editLicenseField = async (fieldName, id, fieldType) => {
     // a textarea
     if (fieldType === "textarea") {
         editTemplate = `
-        <form onsubmit="submitEditContactForm(event,'${id}', '${fieldName}')">
+        <form onsubmit="submitEditLicenseForm(event,'${id}', '${fieldName}', 'textarea')">
             <textarea class="form-control mb-2 form-control-sm" id="license-input-${fieldName}">${currentData === 'null' ? "" : currentData}</textarea>
             <div class="float-end">
                 <button class="btn btn-sm btn-logo" type="submit">Save</button>
@@ -126,9 +136,8 @@ const editLicenseField = async (fieldName, id, fieldType) => {
 
     // a date field
     if (fieldType === "date") {
-        console.log(currentData)
         editTemplate = `
-        <form onsubmit="submitEditContactForm(event,'${id}', '${fieldName}')">
+        <form onsubmit="submitEditLicenseForm(event,'${id}', '${fieldName}', 'date')">
             <input type="date" class="form-control mb-2 form-control-sm" id="license-input-${fieldName}" value='${currentData === 'null' ? "" : currentData}'>
             <div class="float-end">
                 <button class="btn btn-sm btn-logo" type="submit">Save</button>
@@ -141,7 +150,7 @@ const editLicenseField = async (fieldName, id, fieldType) => {
     // and a file field
     if (fieldType === "file") {
         editTemplate = `
-        <form onsubmit="submitEditContactForm(event,'${id}', '${fieldName}')">
+        <form onsubmit="submitEditLicenseForm(event,'${id}', '${fieldName}', 'file')">
             <input type="file" class="form-control mb-2 form-control-sm" id="license-input-${fieldName}">
             <div class="float-end">
                 <button class="btn btn-sm btn-logo" type="submit">Save</button>
@@ -153,4 +162,38 @@ const editLicenseField = async (fieldName, id, fieldType) => {
 
     // insert the form into the div
     currentEditField.innerHTML = editTemplate
+}
+
+
+
+
+
+
+const submitEditLicenseForm = async (event, id, fieldName, fieldType) => {
+    event.preventDefault() // stop any propegation
+
+    // Get the data from the form
+    const data = document.querySelector(`#license-input-${fieldName}`)
+    const submission = {
+        [fieldName]: data.value // use [] for a json key variable
+    }
+
+    try {
+
+        // Send the data to the back end
+        const results = await fetch(`/edit_license/${id}/${fieldName}`, {
+            method: "POST",
+            body: JSON.stringify(submission),
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken'),
+                'Content-Type': 'application/json'
+            }
+        })
+        console.log(results)
+        console.log(submission)
+    }
+    catch (error) {
+
+    }
+
 }

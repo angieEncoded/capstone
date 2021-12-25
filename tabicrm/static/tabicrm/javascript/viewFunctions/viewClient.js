@@ -82,13 +82,26 @@ const viewClient = async (id) => {
             // With a for loop, add the data fields to a table
             for (i = 0; i < licenseJsonData.length; i++) {
                 licenseEntries += `
-                <tr id="${licenseJsonData[i].pk}" class="select-customer" onclick="viewLicense(event, '${licenseJsonData[i].pk}')">
+                <tr id="${licenseJsonData[i].pk}">
                     <td>${licenseJsonData[i].fields.product === null ? "" : licenseJsonData[i].fields.product}</td>
                     <td>${licenseJsonData[i].fields.purchase_date === null ? "" : licenseJsonData[i].fields.purchase_date}</td>
                     <td>${licenseJsonData[i].fields.expiration_date === null ? "" : licenseJsonData[i].fields.expiration_date}</td>
                     <td>${licenseJsonData[i].fields.license_key === null ? "" : licenseJsonData[i].fields.license_key}</td>
-                    <td class="text-truncate"  style="max-width: 50px;">${licenseJsonData[i].fields.license_file === null ? "" : licenseJsonData[i].fields.license_file}</td>
-                </tr>
+                    <td class="text-truncate"  style="max-width: 50px;">
+                        <a href="/download_license/${licenseJsonData[i].pk}" class="frontend-link" download>
+                        ${licenseJsonData[i].fields.license_file === null ? "" : licenseJsonData[i].fields.license_file}
+                        </a>
+                    </td>
+                    
+                    <td class="select-customer">
+                        <a href="/edit_license/${licenseJsonData[i].pk}">
+                            <div class="full-expand text-center">
+                                <i class="las la-edit"></i>
+                            </div>
+                        </a>
+                    </td> 
+                    
+                    </tr>
                 \n
                 `
             }
@@ -96,7 +109,7 @@ const viewClient = async (id) => {
                 `
                 <!-- CONTACT INFORMATION -->
                 <h5 class="text-center baskerville-font mb-3">License Information</h5>
-                <table class="table table-striped table-responsive">
+                <table class="table table-responsive">
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">Product</th>
@@ -104,6 +117,7 @@ const viewClient = async (id) => {
                             <th scope="col">Expiration Date</th>
                             <th scope="col">License Key</th>
                             <th scope="col">License File</th>
+                            <th scope="col"  class="text-center">Edit Form</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -1,32 +1,115 @@
+# CODE THAT IS ON STANDBY DOWN HERE - MAYBE WILL RUN WITH IT MAYBE NOT
+
+
+# def customer_full_form(request, id):
+
+# # Get the customer's initial form values
+# customer = Customer.objects.get(id = id)
+# customerForm = forms.newCustomerForm(initial={
+# 'name': customer.name,
+# 'primary_phone': customer.primary_phone,
+# 'secondary_phone': customer.secondary_phone,
+# 'fax': customer.fax,
+# 'website': customer.website,
+# 'notes': customer.notes,
+# 'billing_address_one': customer.billing_address_one,
+# 'billing_address_two': customer.billing_address_two,
+# 'billing_address_city': customer.billing_address_city,
+# 'billing_address_state': customer.billing_address_state,
+# 'billing_address_zip': customer.billing_address_zip,
+# 'billing_address_country': customer.billing_address_country,
+# 'shipping_address_one': customer.shipping_address_one,
+# 'shipping_address_two': customer.shipping_address_two,
+# 'shipping_address_city': customer.shipping_address_city,
+# 'shipping_address_state': customer.shipping_address_state,
+# 'shipping_address_zip': customer.shipping_address_zip,
+# 'shipping_address_country': customer.shipping_address_country
+# })
+
+# # Get the list of licenses
+
+
+# # Get the list of contacts
+
+# return render(request, "tabicrm/customer_full_form.html", {
+# "form": customerForm,
+# })
+
+
+let results, data;
+
+// Deal with a basic text input
+if (fieldType === 'textInput') {
+
+
+if (!results.ok) { throw { status: results.status, statusText: results.statusText } }
+data = await results.json()
+if (data.error) { throw data.error }
+}
+
+
+
+
+
+
+// If the server sent back an error because we did something wrong
+
+
+if (textData.success) {
+const successDiv = document.querySelector(`#customer-feedback-data`)
+successDiv.innerHTML = `<span class="text-success">${textData.success}</span>`
+document.querySelector(`#edit-contact-${fieldName}`).innerHTML = textData.content
+const editButton = document.querySelector(`#edit-contact-${fieldName}-icon`)
+editButton.style.display = "block"
+setTimeout(() => {
+successDiv.innerHTML = ""
+}, 10000);
+}
+} catch (error) {
+console.log(error)
+const errorDiv = document.querySelector(`#customer-feedback-data`)
+if (error.status) {
+errorDiv.innerHTML = `<span class="text-danger">${error.status} ${error.statusText}</span>`
+} else {
+errorDiv.innerHTML = `<span class="text-danger">${error}</span>`
+}
+setTimeout(() => {
+errorDiv.innerHTML = ""
+}, 20000);
+
+}`
+`
+
+
+
+
+
+
+
 <div class="container-fluid">
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="customer-tab" data-bs-toggle="tab" data-bs-target="#customer"
-                type="button" role="tab" aria-controls="customer" aria-selected="true">Customers</button>
+            <button class="nav-link active" id="customer-tab" data-bs-toggle="tab" data-bs-target="#customer" type="button" role="tab" aria-controls="customer" aria-selected="true">Customers</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="contacts-tab" data-bs-toggle="tab" data-bs-target="#contacts" type="button"
-                role="tab" aria-controls="contacts" aria-selected="false">Contacts</button>
+            <button class="nav-link" id="contacts-tab" data-bs-toggle="tab" data-bs-target="#contacts" type="button" role="tab" aria-controls="contacts" aria-selected="false">Contacts</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="licenses-tab" data-bs-toggle="tab" data-bs-target="#licenses" type="button"
-                role="tab" aria-controls="licenses" aria-selected="false">Licenses</button>
+            <button class="nav-link" id="licenses-tab" data-bs-toggle="tab" data-bs-target="#licenses" type="button" role="tab" aria-controls="licenses" aria-selected="false">Licenses</button>
         </li>
     </ul>
 
 
     <div class="tab-content" id="myTabContent">
 
-        <div class="tab-pane fade show active mt-3 container-fluid" id="customer" role="tabpanel"
-            aria-labelledby="home-tab">
+        <div class="tab-pane fade show active mt-3 container-fluid" id="customer" role="tabpanel" aria-labelledby="home-tab">
             <!-- Notes -->
             <div class="row mb-2">
                 <div class="col-4 d-none d-lg-block">Notes</div>
                 <div class="col-10 col-lg-4">
                     <div id="edit-notes" class="text-wrap">{{customer.notes}}</div>
                 </div>
-                <div class="col-2 col-lg-4"><i id="edit-notes-icon" class="las la-edit icon-hover"
-                        onclick="editField('notes', '{{customerId}}', 'textarea')"></i></div>
+                <div class="col-2 col-lg-4"><i id="edit-notes-icon" class="las la-edit icon-hover" onclick="editField('notes', '{{customerId}}', 'textarea')"></i></div>
 
             </div>
 
@@ -41,24 +124,21 @@
                         <div class="col-10 col-lg-4">
                             <div id="edit-name">{{customer.name}}</div>
                         </div>
-                        <div class="col-2 col-lg-4"><i id="edit-name-icon" class="las la-edit icon-hover"
-                                onclick="editField('name', '{{customerId}}', 'textinput')"></i></div>
+                        <div class="col-2 col-lg-4"><i id="edit-name-icon" class="las la-edit icon-hover" onclick="editField('name', '{{customerId}}', 'textinput')"></i></div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Primary Phone: </div>
                         <div class="col-10 col-lg-4">
                             <div id="edit-primary_phone">{{customer.primary_phone}}</div>
                         </div>
-                        <div class="col-2 col-lg-4"><i id="edit-primary_phone-icon" class="las la-edit icon-hover"
-                                onclick="editField('primary_phone', '{{customerId}}', 'textinput')"></i></div>
+                        <div class="col-2 col-lg-4"><i id="edit-primary_phone-icon" class="las la-edit icon-hover" onclick="editField('primary_phone', '{{customerId}}', 'textinput')"></i></div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Secondary Phone: </div>
                         <div class="col-10 col-lg-4">
                             <div id="edit-secondary_phone">{{customer.secondary_phone}} </div>
                         </div>
-                        <div class="col-2 col-lg-4"><i id="edit-secondary_phone-icon" class="las la-edit icon-hover"
-                                onclick="editField('secondary_phone', '{{customerId}}', 'textinput')"></i></div>
+                        <div class="col-2 col-lg-4"><i id="edit-secondary_phone-icon" class="las la-edit icon-hover" onclick="editField('secondary_phone', '{{customerId}}', 'textinput')"></i></div>
                     </div>
                 </div>
                 <div class="col-12 col-xl-6">
@@ -67,16 +147,14 @@
                         <div class="col-10 col-lg-4">
                             <div id="edit-fax">{{customer.fax}} </div>
                         </div>
-                        <div class="col-2 col-lg-4"><i id="edit-fax-icon" class="las la-edit icon-hover"
-                                onclick="editField('fax', '{{customerId}}','textinput')"></i></div>
+                        <div class="col-2 col-lg-4"><i id="edit-fax-icon" class="las la-edit icon-hover" onclick="editField('fax', '{{customerId}}','textinput')"></i></div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Website: </div>
                         <div class="col-10 col-lg-4">
                             <div id="edit-website">{{customer.website}} </div>
                         </div>
-                        <div class="col-2 col-lg-4"><i id="edit-website-icon" class="las la-edit icon-hover"
-                                onclick="editField('website', '{{customerId}}', 'textinput')"></i></div>
+                        <div class="col-2 col-lg-4"><i id="edit-website-icon" class="las la-edit icon-hover" onclick="editField('website', '{{customerId}}', 'textinput')"></i></div>
                     </div>
                 </div>
             </div>
@@ -90,25 +168,21 @@
                         <div class="col-10 col-lg-4">
                             <div id="edit-billing_address_one">{{customer.billing_address_one}} </div>
                         </div>
-                        <div class="col-2 col-lg-4"><i id="edit-billing_address_one-icon" class="las la-edit icon-hover"
-                                onclick="editField('billing_address_one', '{{customerId}}', 'textinput')"></i></div>
+                        <div class="col-2 col-lg-4"><i id="edit-billing_address_one-icon" class="las la-edit icon-hover" onclick="editField('billing_address_one', '{{customerId}}', 'textinput')"></i></div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Billing Address Two: </div>
                         <div class="col-10 col-lg-4">
                             <div id="edit-billing_address_two">{{customer.billing_address_two}} </div>
                         </div>
-                        <div class="col-2 col-lg-4"><i id="edit-billing_address_two-icon" class="las la-edit icon-hover"
-                                onclick="editField('billing_address_two', '{{customerId}}', 'textinput')"></i></div>
+                        <div class="col-2 col-lg-4"><i id="edit-billing_address_two-icon" class="las la-edit icon-hover" onclick="editField('billing_address_two', '{{customerId}}', 'textinput')"></i></div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Billing Address City: </div>
                         <div class="col-10 col-lg-4">
                             <div id="edit-billing_address_city">{{customer.billing_address_city}} </div>
                         </div>
-                        <div class="col-2 col-lg-4"><i id="edit-billing_address_city-icon"
-                                class="las la-edit icon-hover"
-                                onclick="editField('billing_address_city', '{{customerId}}', 'textinput')"></i></div>
+                        <div class="col-2 col-lg-4"><i id="edit-billing_address_city-icon" class="las la-edit icon-hover" onclick="editField('billing_address_city', '{{customerId}}', 'textinput')"></i></div>
                     </div>
                 </div>
                 <div class="col-12 col-xl-6">
@@ -117,26 +191,21 @@
                         <div class="col-10 col-lg-4">
                             <div id="edit-billing_address_state">{{customer.billing_address_state}}</div>
                         </div>
-                        <div class="col-2 col-lg-4"><i id="edit-billing_address_state-icon"
-                                class="las la-edit icon-hover"
-                                onclick="editField('billing_address_state', '{{customerId}}', 'textinput')"></i></div>
+                        <div class="col-2 col-lg-4"><i id="edit-billing_address_state-icon" class="las la-edit icon-hover" onclick="editField('billing_address_state', '{{customerId}}', 'textinput')"></i></div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Billing Address Zip: </div>
                         <div class="col-10 col-lg-4">
                             <div id="edit-billing_address_zip">{{customer.billing_address_zip}}</div>
                         </div>
-                        <div class="col-2 col-lg-4"><i id="edit-billing_address_zip-icon" class="las la-edit icon-hover"
-                                onclick="editField('billing_address_zip', '{{customerId}}', 'textinput')"></i></div>
+                        <div class="col-2 col-lg-4"><i id="edit-billing_address_zip-icon" class="las la-edit icon-hover" onclick="editField('billing_address_zip', '{{customerId}}', 'textinput')"></i></div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-4 d-none d-lg-block">Billing Address Country: </div>
                         <div class="col-10 col-lg-4">
                             <div id="edit-billing_address_country">{{customer.billing_address_country}}</div>
                         </div>
-                        <div class="col-2 col-lg-4"><i id="edit-billing_address_country-icon"
-                                class="las la-edit icon-hover"
-                                onclick="editField('billing_address_country', '{{customerId}}', 'textinput')"></i></div>
+                        <div class="col-2 col-lg-4"><i id="edit-billing_address_country-icon" class="las la-edit icon-hover" onclick="editField('billing_address_country', '{{customerId}}', 'textinput')"></i></div>
                     </div>
                 </div>
             </div>
@@ -150,9 +219,7 @@
                         <div class="col-10 col-lg-4">
                             <div id="edit-shipping_address_one">{{customer.shipping_address_one}} </div>
                         </div>
-                        <div class="col-2 col-lg-4"><i id="edit-shipping_address_one-icon"
-                                class="las la-edit icon-hover"
-                                onclick="editField('shipping_address_one', '{{customerId}}', '{{customer.shipping_address_one}}', 'textinput')"></i>
+                        <div class="col-2 col-lg-4"><i id="edit-shipping_address_one-icon" class="las la-edit icon-hover" onclick="editField('shipping_address_one', '{{customerId}}', '{{customer.shipping_address_one}}', 'textinput')"></i>
                         </div>
                     </div>
                     <div class="row mb-2">
@@ -160,9 +227,7 @@
                         <div class="col-10 col-lg-4">
                             <div id="edit-shipping_address_two">{{customer.shipping_address_two}} </div>
                         </div>
-                        <div class="col-2 col-lg-4"><i id="edit-shipping_address_two-icon"
-                                class="las la-edit icon-hover"
-                                onclick="editField('shipping_address_two', '{{customerId}}', '{{customer.shipping_address_two}}', 'textinput')"></i>
+                        <div class="col-2 col-lg-4"><i id="edit-shipping_address_two-icon" class="las la-edit icon-hover" onclick="editField('shipping_address_two', '{{customerId}}', '{{customer.shipping_address_two}}', 'textinput')"></i>
                         </div>
                     </div>
                     <div class="row mb-2">
@@ -170,9 +235,7 @@
                         <div class="col-10 col-lg-4">
                             <div id="edit-shipping_address_city">{{customer.shipping_address_city}} </div>
                         </div>
-                        <div class="col-2 col-lg-4"><i id="edit-shipping_address_city-icon"
-                                class="las la-edit icon-hover"
-                                onclick="editField('shipping_address_city', '{{customerId}}', '{{customer.shipping_address_city}}', 'textinput')"></i>
+                        <div class="col-2 col-lg-4"><i id="edit-shipping_address_city-icon" class="las la-edit icon-hover" onclick="editField('shipping_address_city', '{{customerId}}', '{{customer.shipping_address_city}}', 'textinput')"></i>
                         </div>
                     </div>
 
@@ -184,9 +247,7 @@
                         <div class="col-10 col-lg-4">
                             <div id="edit-shipping_address_state">{{customer.shipping_address_state}} </div>
                         </div>
-                        <div class="col-2 col-lg-4"><i id="edit-shipping_address_state-icon"
-                                class="las la-edit icon-hover"
-                                onclick="editField('shipping_address_state', '{{customerId}}', '{{customer.shipping_address_state}}', 'textinput')"></i>
+                        <div class="col-2 col-lg-4"><i id="edit-shipping_address_state-icon" class="las la-edit icon-hover" onclick="editField('shipping_address_state', '{{customerId}}', '{{customer.shipping_address_state}}', 'textinput')"></i>
                         </div>
                     </div>
                     <div class="row mb-2">
@@ -194,9 +255,7 @@
                         <div class="col-10 col-lg-4">
                             <div id="edit-shipping_address_zip">{{customer.shipping_address_zip}}</div>
                         </div>
-                        <div class="col-2 col-lg-4"><i id="edit-shipping_address_zip-icon"
-                                class="las la-edit icon-hover"
-                                onclick="editField('shipping_address_zip', '{{customerId}}', '{{customer.shipping_address_zip}}', 'textinput')"></i>
+                        <div class="col-2 col-lg-4"><i id="edit-shipping_address_zip-icon" class="las la-edit icon-hover" onclick="editField('shipping_address_zip', '{{customerId}}', '{{customer.shipping_address_zip}}', 'textinput')"></i>
                         </div>
                     </div>
                     <div class="row mb-2">
@@ -204,9 +263,7 @@
                         <div class="col-10 col-lg-4">
                             <div id="edit-shipping_address_country">{{customer.shipping_address_country}} </div>
                         </div>
-                        <div class="col-2 col-lg-4"><i id="edit-shipping_address_country-icon"
-                                class="las la-edit icon-hover"
-                                onclick="editField('shipping_address_country', '{{customerId}}', '{{customer.shipping_address_country}}', 'textinput')"></i>
+                        <div class="col-2 col-lg-4"><i id="edit-shipping_address_country-icon" class="las la-edit icon-hover" onclick="editField('shipping_address_country', '{{customerId}}', '{{customer.shipping_address_country}}', 'textinput')"></i>
                         </div>
                     </div>
 

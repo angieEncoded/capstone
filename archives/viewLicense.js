@@ -25,7 +25,7 @@ const viewLicense = async (event, id) => {
                         <div class="row mb-2">
                             <div class="col-4 d-none d-lg-block">Product: </div>
                             <div class="col-10 col-lg-4"><div id="edit-license-product">${finalLicenseData.product === null ? "" : finalLicenseData.product}</div></div>
-                            <div class="col-2 col-lg-4"><i id="edit-license-product-icon" class="las la-edit icon-hover" onclick="editLicenseField('product', '${licenseId}', 'textinput')"></i></div>
+                            <div class="col-2 col-lg-4"><i id="edit-license-product-icon" class="las la-edit icon-hover" onclick="editLicenseField('product', '${licenseId}', 'menu')"></i></div>
                         </div>
 
 
@@ -38,7 +38,7 @@ const viewLicense = async (event, id) => {
 
                         <div class="row mb-2">
                             <div class="col-4 d-none d-lg-block">Expiration Date: </div>
-                            <div class="col-10 col-lg-4"><div id="edit-license-expiration_date">${finalLicenseData.expiration_date === null ? "" : finalLicenseData.expiration_date} </div></div>
+                            <div class="col-10 col-lg-4"><div id="edit-license-expiration_date">${finalLicenseData.expiration_date === null ? "" : finalLicenseData.expiration_date}</div></div>
                             <div class="col-2 col-lg-4"><i id="edit-license-expiration_date-icon"  class="las la-edit icon-hover" onclick="editLicenseField('expiration_date', '${licenseId}',  'date')"></i></div>
                         </div>
 
@@ -80,8 +80,9 @@ const viewLicense = async (event, id) => {
                 </div>
             </div>
             <hr>
+            <button class="btn btn-sm btn-silver" type="button" onclick="deleteLicense('${licenseId}')">Delete License</button>
             <div class="float-end">
-                <button class="btn btn-sm btn-silver" type="button" onclick="closeLicense('${finalLicenseData.customer}')">Back to client</button>
+                <button class="btn btn-sm btn-logo" type="button" onclick="closeLicense('${finalLicenseData.customer}')">Back to client</button>
             </div>
         
         `

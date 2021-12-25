@@ -95,7 +95,7 @@ class License(models.Model):
     id = models.AutoField(primary_key=True)
     product = models.CharField(max_length=255, choices=PRODUCT_CHOICES, default=AVAST_PRO) # microsoft, avast, etc
     purchase_date = models.DateField(default=timezone.now)
-    expiration_date = models.DateField(blank=True, null=True)
+    expiration_date = models.DateField(blank=True, null=True, )
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="license_customer")
     license_key = models.CharField(max_length=255,blank=True, null=True)
     license_file = models.FileField(upload_to='licenses/%m_%d_%Y', blank=True)

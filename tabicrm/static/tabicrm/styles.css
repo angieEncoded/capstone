@@ -6,6 +6,11 @@
 
 /* bootstrap override */
 
+.full-expand {
+  height: 100%;
+  width: 100%;
+}
+
 .select-customer:hover {
   cursor: pointer;
   background-color: aliceblue;

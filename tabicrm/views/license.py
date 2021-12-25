@@ -92,7 +92,7 @@ def get_customer_licenses(request, id):
         #get the licenses assigned to that customer
         licenses = License.objects.filter(customer = customer)
 
-        console.log(licenses)
+        # console.log(licenses)
 
         # send them back in a json
         jsonLicenses = serializers.serialize("json", licenses)
@@ -126,25 +126,22 @@ def get_license(request, id):
 
 
 @login_required
-def edit_license_text_field(request, id, fieldName):
+def edit_license(request, id):
 
-    # Get the content from the json object
-    data = json.loads(request.body)
-    replacement = data[fieldName]
+    if request.method == "GET":
+        # get the license information
+        license = License.objects.get(id = id)
+        console.log(license.license_file)
+        # Set it to a form
+        form = forms.NewLicenseForm(initial={
+           'product': license.product, 
+           'purchase_date': license.purchase_date, 
+           'expiration_date' : license.expiration_date,
+           'customer' : license.customer, 
+           'license_key' : license.license_key,
+           'license_file' : license.license_file, 
+           'notes' : license.notes, 
+           'end_of_life' : license.end_of_life
+        })
 
-    # validate it and send back if it fails
-    if not contentValidator.match(replacement):
-        return JsonResponse({"error": "There is something wrong with that input. Please check that you are using 2-255 alphanumeric characters. (server response)"})
-
-    # save the item to the database if we got here and send data back to the front end
-    try:
-        contactToEdit = License.objects.get(id = id)
-        setattr(contactToEdit, fieldName, replacement)
-        contactToEdit.save()
-        return JsonResponse({"success" :"Successfully saved your changes!", "content": replacement})
-    except:
-        return JsonResponse({"error" :"Something went wrong."})
-
-
-
-
+        return render(request, "tabicrm/edit_license.html", {'form': form, 'license_name': license.license_file, 'license_id': id})

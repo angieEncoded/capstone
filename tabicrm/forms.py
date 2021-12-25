@@ -64,3 +64,4 @@ class NewLicenseForm(ModelForm):
             'end_of_life': DateInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
         }
 
+# Note to self - after MUCH googling and about three hours of searching, there is no good, clean answer to the issue of the wonky date formats. I am making the design decision to just... leave it as it is. 
