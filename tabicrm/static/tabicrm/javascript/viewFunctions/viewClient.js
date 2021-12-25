@@ -94,7 +94,7 @@ const viewClient = async (id) => {
                     </td>
                     
                     <td class="select-customer">
-                        <a href="/edit_license/${licenseJsonData[i].pk}">
+                        <a href="/edit_license/${licenseJsonData[i].pk}" class="frontend-link">
                             <div class="full-expand text-center">
                                 <i class="las la-edit"></i>
                             </div>

@@ -44,7 +44,11 @@
                         {{form.license_key}}
                     </div>
                     <div class="mb-3">
-                        <label for="license_file" class="form-label">License File <span class="text-muted">({{license_name}})</span></label>
+                        <label for="license_file" class="form-label">License File
+                            <a href="{% url 'download_license' license_id %}" class="frontend-link" download>({{license_name}})</a>
+
+
+                        </label>
                         {{form.license_file}}
                     </div>
                     <div class="mb-3">
