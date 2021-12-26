@@ -89,9 +89,6 @@ class License(models.Model):
         ( MICROSOFT_OFFICE_365, 'MICROSOFT OFFICE 365'),
     ]
 
-
-    # LEFT OFF ON FIGURING OUT WHY MY TWO NEW FIELDS DON'T APPEAR IN MY FORM, DOESNT MAKE SENSE
-
     id = models.AutoField(primary_key=True)
     product = models.CharField(max_length=255, choices=PRODUCT_CHOICES, default=AVAST_PRO) # microsoft, avast, etc
     purchase_date = models.DateField(default=timezone.now)
@@ -106,14 +103,45 @@ class License(models.Model):
     def __str__(this):
         return f"{this.product} {this.customer}"
 
+class Equipment(models.Model):
 
-# class Equipment(models.Model):
-#     id = models.AutoField(primary_key=True)
-#     type = models.CharField(max_length=255) #antivirus, office, etc
-#     vendor = models.CharField(max_length=255) # microsoft, avast, etc
-#     model = models.CharField(max_length=255) # Vostro 1200, etc
-#     purchase_date = models.DateField()
-#     warranty_length = models.IntegerField()
-#     warranty_end_date = models.DateField()
-#     customer = models.ForeignKey(Customer, on_delete=CASCADE, related_name="customer_equipment")
-#     user = models.ForeignKey(Contact, on_delete=SET_NULL, related_name="user_equipment", null=True)
+
+    # Fields for equipment type
+    SERVER = 'SERVER'
+    ROUTER = 'ROUTER'
+    SWITCH = 'SWITCH'
+    MODEM = 'MODEM'
+    DESKTOP = 'DESKTOP'
+    LAPTOP = 'LAPTOP'
+    IP_PHONE = 'IP_PHONE'
+    TABLET = 'TABLET'
+    CELL_PHONE = 'CELL_PHONE'
+
+    TYPE_CHOICES = [
+        (SERVER,'SERVER'),
+        (ROUTER,'ROUTER'),
+        (SWITCH,'SWITCH'),
+        (MODEM,'MODEM'),
+        (DESKTOP,'DESKTOP'),
+        (LAPTOP,'LAPTOP'),
+        (IP_PHONE,'IP_PHONE'),
+        (TABLET,'TABLET'),
+        (CELL_PHONE,'CELL_PHONE')
+    ]
+
+
+
+    id = models.AutoField(primary_key=True)
+    type = models.CharField(max_length=255, choices=TYPE_CHOICES, default=SERVER)
+    vendor = models.CharField(max_length=255)
+    model = models.CharField(max_length=255)
+    purchase_date = models.DateField()
+    warranty_end_date = models.DateField()
+    internal_ip_address = models.CharField(max_length=255, blank=True, null=True)
+    external_ip_address = models.CharField(max_length=255, blank=True, null=True)
+    subnet_mask = models.CharField(max_length=255, blank=True, null=True)
+    default_gateway = models.CharField(max_length=255, blank=True, null=True)
+
+    customer = models.ForeignKey(Customer, on_delete=CASCADE, related_name="customer_equipment")
+    notes = models.TextField(blank=True, null=True)
+
