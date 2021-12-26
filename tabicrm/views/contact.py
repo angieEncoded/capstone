@@ -23,24 +23,17 @@ console = angie.Console()
 contentValidator = re.compile('^[a-zA-Z0-9.,!\"\'?:;\s@#$%^&*()[\]_+={}\-]{0,255}$')
 
 
-
 @login_required
-def add_contact(request):
-
-    if request.method == "GET":
-        form = forms.NewContactForm()
-        return render(request, "tabicrm/add_contact.html", {
-            "form": form,
-            "navadd_contact": True
-        })
-
+def add_contact(request, id):
 
     if request.method == "POST":
         form = forms.NewContactForm(request.POST)
+        customer = Customer.objects.get(id = id)
+
         # Short circuit if the form is bad
         if not form.is_valid():
-            messages.add_message(request, messages.ERROR, 'Form is not valid')
-            return redirect("add_contact")
+            messages.add_message(request, messages.ERROR, 'You are trying to submit an invalid form.')
+            return redirect("customer_full_form", id)
 
         # Assign all the fields
         first_name = form.cleaned_data["first_name"]
@@ -48,7 +41,7 @@ def add_contact(request):
         job_title = form.cleaned_data["job_title"]
         notes = form.cleaned_data["notes"]
         extension = form.cleaned_data["extension"]
-        assigned_to = form.cleaned_data["assigned_to"]
+        assigned_to = customer
 
         contact = Contact(first_name=first_name, last_name=last_name, job_title=job_title, notes=notes, extension=extension,assigned_to=assigned_to)
 
@@ -56,12 +49,12 @@ def add_contact(request):
             contact.save()
             messages.add_message(request, messages.SUCCESS,
                          "Successfully saved the contact.")
-            return redirect("add_contact")
+            return redirect("customer_full_form", id)
         except Exception as error:
             console.log(error)
             messages.add_message(request, messages.ERROR,
                          error)
-            return redirect("add_contact")
+            return redirect("add_contact", id)
 
 
 

@@ -45,7 +45,10 @@ const closeContact = async (id) => {
                     </table>
                     `
     } else {
-        customerContactsTable = `No contacts recorded for this customer.`
+        customerContactsTable = `
+        <h5 class="text-center baskerville-font mb-3">Contacts</h5>
+        <p class="text-center">No contacts recorded for this customer.</p>
+        `
     }
 
 

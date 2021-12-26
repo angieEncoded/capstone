@@ -1,7 +1,7 @@
 from django.http.response import JsonResponse
 from django.core import serializers
 from django.shortcuts import render, redirect
-from ..models import Customer
+from ..models import Customer, License, Contact
 # looks like this is the express equivelent to flash
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -114,42 +114,107 @@ def edit_customer(request, id, fieldName):
         return JsonResponse({"error" :"Something went wrong."})
 
 
-
-# CODE THAT IS ON STANDBY DOWN HERE - MAYBE WILL RUN WITH IT MAYBE NOT
-
-
 def customer_full_form(request, id):
 
-    # Get the customer's initial form values
-    customer = Customer.objects.get(id = id)
-    customerForm = forms.newCustomerForm(initial={
-    'name': customer.name,
-    'primary_phone': customer.primary_phone,
-    'secondary_phone': customer.secondary_phone,
-    'fax': customer.fax,
-    'website': customer.website,
-    'notes': customer.notes,
-    'billing_address_one': customer.billing_address_one,
-    'billing_address_two': customer.billing_address_two,
-    'billing_address_city': customer.billing_address_city,
-    'billing_address_state': customer.billing_address_state,
-    'billing_address_zip': customer.billing_address_zip,
-    'billing_address_country': customer.billing_address_country,
-    'shipping_address_one': customer.shipping_address_one,
-    'shipping_address_two': customer.shipping_address_two,
-    'shipping_address_city': customer.shipping_address_city,
-    'shipping_address_state': customer.shipping_address_state,
-    'shipping_address_zip': customer.shipping_address_zip,
-    'shipping_address_country': customer.shipping_address_country
-    })
+    if request.method == "GET":
 
-# Get the list of licenses
+        customer = Customer.objects.get(id = id)
+        
+        newContactForm = forms.NewContactForm()
+        newLicenseForm = forms.NewLicenseForm()
+
+        # Get the customer's initial form values
+        customerForm = forms.newCustomerForm(initial={
+            'name': customer.name,
+            'primary_phone': customer.primary_phone,
+            'secondary_phone': customer.secondary_phone,
+            'fax': customer.fax,
+            'website': customer.website,
+            'notes': customer.notes,
+            'billing_address_one': customer.billing_address_one,
+            'billing_address_two': customer.billing_address_two,
+            'billing_address_city': customer.billing_address_city,
+            'billing_address_state': customer.billing_address_state,
+            'billing_address_zip': customer.billing_address_zip,
+            'billing_address_country': customer.billing_address_country,
+            'shipping_address_one': customer.shipping_address_one,
+            'shipping_address_two': customer.shipping_address_two,
+            'shipping_address_city': customer.shipping_address_city,
+            'shipping_address_state': customer.shipping_address_state,
+            'shipping_address_zip': customer.shipping_address_zip,
+            'shipping_address_country': customer.shipping_address_country
+        })
 
 
-# Get the list of contacts
+        return render(request, "tabicrm/customer_full_form.html", {
+            "form": customerForm,
+            'newContactForm': newContactForm,
+            'newLicenseForm': newLicenseForm,
+            'customer_name': customer.name,
+            'customer_id': customer.id,
+            'customer':customer,
+        })
 
-    return render(request, "tabicrm/customer_full_form.html", {
-    "form": customerForm,
-})
+    if request.method == "POST":
+
+        form = forms.newCustomerForm(request.POST)
+
+        # Short circuit if the form is bad
+        if not form.is_valid():
+            messages.add_message(request, messages.ERROR, 'Form is not valid')
+            return redirect("customer_full_form", id)
+
+        try: 
+
+            name = form.cleaned_data["name"]
+            primary_phone = form.cleaned_data["primary_phone"]
+            fax = form.cleaned_data["fax"]
+            website = form.cleaned_data["website"]
+            notes = form.cleaned_data["notes"]
+            secondary_phone = form.cleaned_data["secondary_phone"]
+            billing_address_one = form.cleaned_data["billing_address_one"]
+            billing_address_two = form.cleaned_data["billing_address_two"]
+            billing_address_city = form.cleaned_data["billing_address_city"]
+            billing_address_state = form.cleaned_data["billing_address_state"]
+            billing_address_zip = form.cleaned_data["billing_address_zip"]
+            billing_address_country = form.cleaned_data["billing_address_country"]
+            shipping_address_one = form.cleaned_data["shipping_address_one"]
+            shipping_address_two = form.cleaned_data["shipping_address_two"]
+            shipping_address_city = form.cleaned_data["shipping_address_city"]
+            shipping_address_state = form.cleaned_data["shipping_address_state"]
+            shipping_address_zip = form.cleaned_data["shipping_address_zip"]
+            shipping_address_country = form.cleaned_data["shipping_address_country"]
+
+
+
+            customerToEdit = Customer.objects.get(id = id)
+            setattr(customerToEdit, 'name',  name)
+            setattr(customerToEdit, 'primary_phone', primary_phone)
+            setattr(customerToEdit, 'fax',  fax)
+            setattr(customerToEdit, 'website',  website)
+            setattr(customerToEdit, 'notes',  notes)
+            setattr(customerToEdit, 'secondary_phone',  secondary_phone)
+            setattr(customerToEdit, 'billing_address_one',  billing_address_one)
+            setattr(customerToEdit, 'billing_address_two',  billing_address_two)
+            setattr(customerToEdit, 'billing_address_city',  billing_address_city)
+            setattr(customerToEdit, 'billing_address_state',  billing_address_state)
+            setattr(customerToEdit, 'billing_address_zip',  billing_address_zip)
+            setattr(customerToEdit, 'billing_address_country',  billing_address_country)
+            setattr(customerToEdit, 'shipping_address_one',  shipping_address_one)
+            setattr(customerToEdit, 'shipping_address_two',  shipping_address_two)
+            setattr(customerToEdit, 'shipping_address_city',  shipping_address_city)
+            setattr(customerToEdit, 'shipping_address_state',  shipping_address_state)
+            setattr(customerToEdit, 'shipping_address_zip',  shipping_address_zip)
+            setattr(customerToEdit, 'shipping_address_country',  shipping_address_country)
+            customerToEdit.save()
+            messages.add_message(request, messages.SUCCESS, "Successfully saved the changes!")
+            return redirect("customer_full_form", id)
+
+        except Exception as error:
+            console.log(error)
+            messages.add_message(request, messages.ERROR, error)
+            return redirect("customer_full_form", id)
+
+
 
 

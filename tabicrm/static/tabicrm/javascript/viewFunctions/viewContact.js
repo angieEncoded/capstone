@@ -21,7 +21,7 @@ const viewContact = async (event, id) => {
         // populate the form
         const contactDetails = `
             <div class="container-fluid">
-                <h5 class="text-center baskerville-font mb-3">Contact Information</h5>
+                <h5 class="text-center baskerville-font mb-3">Quick Contact Edit</h5>
                 <div class="row">
                     <div class="col-12 col-xl-6">
                         <div class="row mb-2">

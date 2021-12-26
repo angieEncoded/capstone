@@ -12,3 +12,4 @@ Under its own header within the README called Distinctiveness and Complexity: Wh
 What’s contained in each file you created.
 How to run your application.
 Any other additional information the staff should know about your project.
+Added jquery and datatables plugin for the pagination and search features on the front end

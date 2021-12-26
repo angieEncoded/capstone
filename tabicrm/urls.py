@@ -13,12 +13,12 @@ urlpatterns = [
     path("view_customer/<int:id>", views.view_customer, name="view_customer"),
     path("edit_customer/<int:id>/<str:fieldName>", views.edit_customer, name="edit_customer"),
 
-    path("add_contact", views.add_contact, name="add_contact"),
+    path("add_contact/<int:id>", views.add_contact, name="add_contact"),
     path("get_customer_contacts/<int:id>", views.get_customer_contacts, name="get_customer_contacts"),
     path("get_contact/<int:id>", views.get_contact, name="get_contact"),
     path("edit_contact/<int:id>/<str:fieldName>", views.edit_contact, name="edit_contact"),
 
-    path("add_license/", views.add_license, name="add_license"),
+    path("add_license/<int:id>", views.add_license, name="add_license"),
     path("get_customer_licenses/<int:id>", views.get_customer_licenses, name="get_customer_licenses"),
     path("download_license/<int:id>", views.download_license, name="download_license"),
     path("get_license/<int:id>", views.get_license, name="get_license"),
@@ -26,4 +26,6 @@ urlpatterns = [
     path("delete_license/<int:id>", views.delete_license, name="delete_license"),
 
     path("customer_full_form/<int:id>", views.customer_full_form, name="customer_full_form"),
+
+    
 ]

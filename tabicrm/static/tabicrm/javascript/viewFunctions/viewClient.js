@@ -72,7 +72,7 @@ const viewClient = async (id) => {
         } else {
             customerContactsTable = `
             <h5 class="text-center baskerville-font mb-3">Contacts</h5>
-            No Contacts recorded for this customer.
+            <p class="text-center">No contacts recorded for this customer.</p>
             `
         }
 
@@ -92,7 +92,7 @@ const viewClient = async (id) => {
                         ${licenseJsonData[i].fields.license_file === null ? "" : licenseJsonData[i].fields.license_file}
                         </a>
                     </td>
-                    
+                    <!--
                     <td class="select-customer">
                         <a href="/edit_license/${licenseJsonData[i].pk}" class="frontend-link">
                             <div class="full-expand text-center">
@@ -100,7 +100,7 @@ const viewClient = async (id) => {
                             </div>
                         </a>
                     </td> 
-                    
+                    -->
                     </tr>
                 \n
                 `
@@ -117,7 +117,7 @@ const viewClient = async (id) => {
                             <th scope="col">Expiration Date</th>
                             <th scope="col">License Key</th>
                             <th scope="col">License File</th>
-                            <th scope="col"  class="text-center">Edit Form</th>
+                           <!-- <th scope="col"  class="text-center">Edit Form</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -128,7 +128,7 @@ const viewClient = async (id) => {
         } else {
             customerLicensesTable = `
             <h5 class="text-center baskerville-font mb-3">License Information</h5>
-            No Licenses recorded for this customer.
+            <p class="text-center">No licenses recorded for this customer.</p>
             `
         }
 
@@ -273,7 +273,7 @@ const viewClient = async (id) => {
         // Populate the modal's data
         const modalTitle = document.querySelector(`#clientDetailsTitle`)
         modalTitle.innerHTML = `
-            Viewing details for: ${finalData.name}
+            Viewing basic details for: ${finalData.name} <a href="/customer_full_form/${id}" class="frontend-link ms-5">Go to full edit form</a>
 
         `
         const clientDetails = document.querySelector(`#clientDetailsRoot`)

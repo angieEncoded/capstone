@@ -20,7 +20,7 @@
 <body>
     <nav class="navbar navbar-expand-xl navbar-dark bg-dark mb-5 fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'index' %}">Home</a>
+            <a class="navbar-brand" href="{% url 'index' %}">TabiCRM</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -29,28 +29,14 @@
 
 
                     {% if user.is_authenticated %}
-
                     <li class="nav-item {% if navadd_customer %}active{% endif %}">
-                        <a class="nav-link" href="{% url 'all_customers' %}">Customer Quick View</a>
+                        <a class="nav-link" href="{% url 'all_customers' %}">Open tickets</a>
                     </li>
-
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Add Data
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-
-                            <li class="nav-item {% if navadd_customer %}active{% endif %}">
-                                <a class="dropdown-item" href="{% url 'add_customer' %}">Add Customer</a>
-                            </li>
-                            <li class="nav-item {% if navadd_contact %}active{% endif %}">
-                                <a class="dropdown-item" href="{% url 'add_contact' %}">Add Contact</a>
-                            </li>
-                            <li class="nav-item {% if navadd_license %}active{% endif %}">
-                                <a class="dropdown-item" href="{% url 'add_license' %}">Add License</a>
-                            </li>
-                        </ul>
+                    <li class="nav-item {% if navadd_customer %}active{% endif %}">
+                        <a class="nav-link" href="{% url 'all_customers' %}">All customers</a>
+                    </li>
+                    <li class="nav-item {% if navadd_customer %}active{% endif %}">
+                        <a class="nav-link" href="{% url 'add_customer' %}">Add Customer</a>
                     </li>
 
 
@@ -67,11 +53,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
                     </li>
-                    <ul class="dropdown-menu me-auto" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
                     {% else %}
                     <li class="nav-item">
                         <a class="nav-link {% if navlogin %}active{% endif %}" href="{% url 'login' %}">Log In</a>
@@ -112,6 +93,7 @@
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <!-- View and utility javascript files -->
     <script src="{% static 'tabicrm/javascript/utility.js' %} "></script>
+    <script src="{% static 'tabicrm/javascript/modals.js' %} "></script>
     <script src="{% static 'tabicrm/javascript/viewFunctions/viewClient.js' %} "></script>
     <script src="{% static 'tabicrm/javascript/viewFunctions/viewContact.js' %} "></script>
     <!-- <script src="{% static 'tabicrm/javascript/viewFunctions/viewLicense.js' %} "></script> -->

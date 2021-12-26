@@ -5,34 +5,151 @@
 {% block body %}
 
 
+<div id="addContactModal" class="modal fade static" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" class=" baskerville-font text-center">Add a contact for: {{customer.name}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="container">
+                <div class="form-background mb-5">
+                    <form action="{% url 'add_contact' customer.id %}" method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-12 col-lg-6">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">First Name</label>
+                                    {{newContactForm.first_name}}
+                                </div>
+                                <div class="mb-3">
+                                    <label for="primary_phone" class="form-label">Last Name</label>
+                                    {{newContactForm.last_name}}
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <div class="mb-3">
+                                    <label for="secondary_phone" class="form-label">Job Title</label>
+                                    {{newContactForm.job_title}}
+                                </div>
+                                <div class="mb-3">
+                                    <label for="fax" class="form-label">Extension</label>
+                                    {{newContactForm.extension}}
+                                </div>
+                                <div class="mb-3">
+                                    <label for="website" class="form-label">Notes</label>
+                                    {{newContactForm.notes}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-logo">Add Contact</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="addLicenseModal" class="modal fade static" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" class=" baskerville-font text-center">Add a license for: {{customer.name}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="container">
+                <div class="form-background mb-5">
+                    <form action="{% url 'add_license' customer.id%}" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-12 col-lg-6">
+                                <div class="mb-3">
+                                    <label for="product" class="form-label">Product</label>
+                                    {{newLicenseForm.product}}
+                                </div>
+                                <div class="mb-3">
+                                    <label for="purchase_date" class="form-label">Purchase Date</label>
+                                    {{newLicenseForm.purchase_date}}
+                                </div>
+                                <div class="mb-3">
+                                    <label for="expiration_date" class="form-label">Expiration Date</label>
+                                    {{newLicenseForm.expiration_date}}
+                                </div>
+                                <div class="mb-3">
+                                    <label for="end_of_life" class="form-label">End of Life</label>
+                                    {{newLicenseForm.end_of_life}}
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <div class="mb-3">
+                                    <label for="license_key" class="form-label">License Key</label>
+                                    {{newLicenseForm.license_key}}
+                                </div>
+                                <div class="mb-3">
+                                    <label for="license_file" class="form-label">License File</label>
+                                    {{newLicenseForm.license_file}}
+                                </div>
+                                <div class="mb-3">
+                                    <label for="notes" class="form-label">Notes</label>
+                                    {{newLicenseForm.notes}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-logo">Add License</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
 
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="customer-tab" data-bs-toggle="tab" data-bs-target="#customer" type="button"
-            role="tab" aria-controls="customer" aria-selected="true">Customer</button>
+        <button class="nav-link active" id="customer-tab" data-bs-toggle="tab" data-bs-target="#customer" type="button" role="tab" aria-controls="customer" aria-selected="true">Customer</button>
     </li>
     <li class="nav-item" role="presentation">
-        <button class="nav-link" id="contacts-tab" data-bs-toggle="tab" data-bs-target="#contacts" type="button"
-            role="tab" aria-controls="contacts" aria-selected="false">Contacts</button>
+        <button class="nav-link" id="contacts-tab" data-bs-toggle="tab" data-bs-target="#contacts" type="button" role="tab" aria-controls="contacts" aria-selected="false">Contacts</button>
     </li>
     <li class="nav-item" role="presentation">
-        <button class="nav-link" id="licenses-tab" data-bs-toggle="tab" data-bs-target="#licenses" type="button"
-            role="tab" aria-controls="licenses" aria-selected="false">Licenses</button>
+        <button class="nav-link" id="licenses-tab" data-bs-toggle="tab" data-bs-target="#licenses" type="button" role="tab" aria-controls="licenses" aria-selected="false">Licenses</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="equipment-tab" data-bs-toggle="tab" data-bs-target="#equipment" type="button" role="tab" aria-controls="equipment" aria-selected="false">Equipment</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="tickets-tab" data-bs-toggle="tab" data-bs-target="#tickets" type="button" role="tab" aria-controls="tickets" aria-selected="false">Tickets</button>
     </li>
 </ul>
-
-
-
 
 
 <div class="tab-content" id="myTabContent">
     <div class="tab-pane fade show active" id="customer" role="tabpanel" aria-labelledby="customer-tab">
         <div class="container mt-2">
             <div class="form-background mb-5">
-                <h2 class=" baskerville-font text-center">Edit customer</h2>
+                <h2 class=" baskerville-font text-center">{{customer_name}}</h2>
+                <div class="text-center">
+                    <button onclick="showNewContactFormModal()" class="btn btn-sm btn-silver">Add Contact</button>
+                    <button onclick="showNewLicenseFormModal()" class="btn btn-sm btn-silver">Add License</button>
+                    <a class="btn btn-sm btn-silver">Add Ticket</a>
+                    <a class="btn btn-sm btn-silver">Add Equipment</a>
+                </div>
+
                 <hr>
-                <form action="{% url 'add_customer' %}" method="POST">
+                <form action="{% url 'customer_full_form' customer.id %}" method="POST">
                     {% csrf_token %}
 
                     <!-- BASIC CUSTOMER INFORMATION -->
@@ -135,13 +252,13 @@
                     </div>
 
 
-
-                    <div class="text-end">
-                        <button type="submit" class="btn btn-logo">Add Customer</button>
+                    <div class="mb-3">
+                        <button type="button" class="btn btn-stop" onclick="showConfirmDeleteModal()">Delete Customer</button>
+                        <span class="float-end">
+                            <a href="{% url 'index' %}" class="btn btn-silver">Back to Customers</a>
+                            <button type="submit" class="btn btn-logo">Submit Changes</button>
+                        </span>
                     </div>
-
-
-
                 </form>
             </div>
 
@@ -151,8 +268,10 @@
 
 
     </div>
-    <div class="tab-pane fade" id="contacts" role="tabpanel" aria-labelledby="contacts-tab">...</div>
-    <div class="tab-pane fade" id="licenses" role="tabpanel" aria-labelledby="licenses-tab">...</div>
+    <div class="tab-pane fade" id="contacts" role="tabpanel" aria-labelledby="contacts-tab">CONTACTS</div>
+    <div class="tab-pane fade" id="licenses" role="tabpanel" aria-labelledby="licenses-tab">LICENSES</div>
+    <div class="tab-pane fade" id="equipment" role="tabpanel" aria-labelledby="equipment-tab">EQUIPMENT</div>
+    <div class="tab-pane fade" id="tickets" role="tabpanel" aria-labelledby="tickets-tab">TICKETS</div>
 </div>
 
 
