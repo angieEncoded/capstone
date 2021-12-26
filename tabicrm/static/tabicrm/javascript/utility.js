@@ -24,3 +24,7 @@ const textCheck = (value) => {
 const reloadContent = () => {
     location.reload()
 }
+
+$(document).ready(function () {
+    $('#customersTable').DataTable();
+});

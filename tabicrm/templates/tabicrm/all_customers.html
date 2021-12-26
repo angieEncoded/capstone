@@ -2,6 +2,7 @@
 <!-- Weird that I had to do this here, it doesn't seem to inherit from the layout? -->
 {% load static %}
 {% load humanize %}
+
 {% block body %}
 
 <!-- Modal to toggle for viewing and editing client content -->
@@ -29,7 +30,7 @@
 </div>
 
 <div class="container-fluid">
-    <table class="table  table-striped table-responsive">
+    <table class="table table-striped table-responsive" id="customersTable">
         <thead class="thead-dark">
             <tr>
                 <th scope="col">Id</th>
@@ -58,20 +59,9 @@
 </div>
 
 
-<!-- View and utility javascript files -->
-<script src="{% static 'tabicrm/javascript/utility.js' %} "></script>
-<script src="{% static 'tabicrm/javascript/viewFunctions/viewClient.js' %} "></script>
-<script src="{% static 'tabicrm/javascript/viewFunctions/viewContact.js' %} "></script>
-<!-- <script src="{% static 'tabicrm/javascript/viewFunctions/viewLicense.js' %} "></script> -->
 
-<!-- Handle editing the customer -->
-<script src="{% static 'tabicrm/javascript/manageFunctions/manageCustomer.js' %} "></script>
 
-<!-- Handle editing the contacts -->
-<script src="{% static 'tabicrm/javascript/manageFunctions/manageContacts.js' %} "></script>
 
-<!-- Handle editing the licenses -->
-<!-- <script src="{% static 'tabicrm/javascript/manageLicenses.js' %} "></script> -->
 
 
 
