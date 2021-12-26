@@ -218,3 +218,27 @@ def customer_full_form(request, id):
 
 
 
+
+def delete_customer(request, id):
+    
+    if request.method == "POST":
+        try: 
+            # Check and make sure we're getting what we expect
+            form = request.POST.dict() # This will turn it into a 'dictionary'
+            if not form['delete'] == 'True': # and remember, it isn't json, we have to use this other way because Python is the language of less unnecessary syntax.
+                messages.add_message(request, messages.ERROR,"I don't recognize that request. Please use the form to make your request.")
+                return redirect(f"/customer_full_form/{id}")
+             
+            customer = Customer.objects.get(id = id)
+            customer.delete()
+
+            messages.add_message(request, messages.SUCCESS,"Successfully deleted the customer.")
+            return redirect("all_customers")
+
+        except Exception as error:
+            console.log(error)
+            messages.add_message(request, messages.SUCCESS, error)
+            return redirect("all_customers")
+
+
+

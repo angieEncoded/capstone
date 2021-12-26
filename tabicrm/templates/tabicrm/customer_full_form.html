@@ -108,7 +108,30 @@
     </div>
 </div>
 
-
+<!-- Modal to verify deletion -->
+<div class="modal fade" tabindex="-1" id="confirmDelete">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{% url 'delete_customer' customer.id %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="delete" value="True">
+                <div class="modal-body">
+                    <p>
+                        Are you sure you want to delete {{customer.name}}?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-stop">Confirm</button>
+                    <button type="button" class="btn btn-silver" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 
 

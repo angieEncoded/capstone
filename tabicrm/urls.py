@@ -26,6 +26,7 @@ urlpatterns = [
     path("delete_license/<int:id>", views.delete_license, name="delete_license"),
 
     path("customer_full_form/<int:id>", views.customer_full_form, name="customer_full_form"),
+    path("delete_customer/<int:id>", views.delete_customer, name="delete_customer"),
 
-    
+
 ]
