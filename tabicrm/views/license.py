@@ -81,7 +81,7 @@ def add_license(request):
                          error)
             return redirect("add_license")
 
-
+@login_required
 def get_customer_licenses(request, id):
 
     try:
@@ -104,12 +104,14 @@ def get_customer_licenses(request, id):
 
     pass
 
+@login_required
 def download_license(request, id):
     
     license = License.objects.get(id = id)
     response = FileResponse(open(license.license_file.name, 'rb'))
     return response
 
+@login_required
 def get_license(request, id):
     try:
         #get the contacts assigned to that customer
@@ -194,3 +196,98 @@ def edit_license(request, id):
             messages.add_message(request, messages.ERROR,
                          error)
             return redirect(f"/edit_license/{id}")
+
+@login_required
+def delete_license(request, id):
+
+    if request.method == "POST":
+        
+        # Check and make sure we're getting what we expect
+        form = request.POST.dict() # This will turn it into a 'dictionary'
+        if not form['delete'] == 'True': # and remember, it isn't json, we have to use this other way because Python is the language of less unnecessary syntax.
+            messages.add_message(request, messages.ERROR,
+                         "I don't recognize that request. Please use the form to make your request.")
+            return redirect(f"/edit_license/{id}")
+
+
+        try:
+            # find the record
+            license = License.objects.get(id = id)
+            license.delete()
+            messages.add_message(request, messages.SUCCESS,
+                         "Successfully deleted the record.")
+            return redirect("/all_customers")
+
+
+        except Exception as error:
+            console.log(error)
+            messages.add_message(request, messages.ERROR,
+                         error)
+            return redirect(f"/edit_license/{id}")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

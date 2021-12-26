@@ -152,6 +152,21 @@
     box-shadow:5px 8px 8px -8px #000000;
   }
 
+.btn-stop {
+  border: 2px solid rgb(168, 8, 8);
+  color: white;
+  background-color: rgb(168, 8, 8);
+  box-shadow: 5px 8px 8px -5px #000000;
+}
+
+.btn-stop:hover {
+  border: 2px solid rgb(146, 9, 9);
+  color: rgb(255, 255, 255);
+  background-color:rgb(146, 9, 9);
+  box-shadow:5px 8px 8px -8px #000000;
+}
+
+
 .frontend-link {
     color:gray;
     text-decoration: none;

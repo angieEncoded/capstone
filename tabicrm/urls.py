@@ -23,6 +23,7 @@ urlpatterns = [
     path("download_license/<int:id>", views.download_license, name="download_license"),
     path("get_license/<int:id>", views.get_license, name="get_license"),
     path("edit_license/<int:id>", views.edit_license, name="edit_license"),
+    path("delete_license/<int:id>", views.delete_license, name="delete_license"),
 
-    # path("customer_full_form/<int:id>", views.customer_full_form, name="customer_full_form"),
+    path("customer_full_form/<int:id>", views.customer_full_form, name="customer_full_form"),
 ]
