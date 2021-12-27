@@ -105,43 +105,50 @@ class License(models.Model):
 
 class Equipment(models.Model):
 
-
     # Fields for equipment type
     SERVER = 'SERVER'
+    UPS = 'UPS'
     ROUTER = 'ROUTER'
     SWITCH = 'SWITCH'
     MODEM = 'MODEM'
     DESKTOP = 'DESKTOP'
     LAPTOP = 'LAPTOP'
+    PRINTER = 'PRINTER'
     IP_PHONE = 'IP_PHONE'
     TABLET = 'TABLET'
     CELL_PHONE = 'CELL_PHONE'
+    OTHER = 'OTHER'
 
     TYPE_CHOICES = [
         (SERVER,'SERVER'),
+        (UPS, 'UPS'),
         (ROUTER,'ROUTER'),
         (SWITCH,'SWITCH'),
         (MODEM,'MODEM'),
         (DESKTOP,'DESKTOP'),
         (LAPTOP,'LAPTOP'),
+        (PRINTER, 'PRINTER'),
         (IP_PHONE,'IP_PHONE'),
         (TABLET,'TABLET'),
-        (CELL_PHONE,'CELL_PHONE')
+        (CELL_PHONE,'CELL_PHONE'),
+        (OTHER, 'OTHER')
     ]
 
-
-
     id = models.AutoField(primary_key=True)
+    customer = models.ForeignKey(Customer, on_delete=CASCADE, related_name="customer_equipment")
     type = models.CharField(max_length=255, choices=TYPE_CHOICES, default=SERVER)
     vendor = models.CharField(max_length=255)
     model = models.CharField(max_length=255)
+    os_version = models.CharField(max_length=255, blank=True, null=True)
     purchase_date = models.DateField()
     warranty_end_date = models.DateField()
     internal_ip_address = models.CharField(max_length=255, blank=True, null=True)
     external_ip_address = models.CharField(max_length=255, blank=True, null=True)
+    ilo_ip_address = models.CharField(max_length=255, blank=True, null=True)
     subnet_mask = models.CharField(max_length=255, blank=True, null=True)
     default_gateway = models.CharField(max_length=255, blank=True, null=True)
-
-    customer = models.ForeignKey(Customer, on_delete=CASCADE, related_name="customer_equipment")
+    dns_one = models.CharField(max_length=255, blank=True, null=True)
+    dns_two = models.CharField(max_length=255, blank=True, null=True)
+    serial_number = models.CharField(max_length=255, blank=True, null=True)
+    product_number = models.CharField(max_length=255, blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
-
