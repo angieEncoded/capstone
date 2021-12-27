@@ -1,3 +1,4 @@
+from datetime import timedelta
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models.deletion import CASCADE, SET_NULL
@@ -7,6 +8,12 @@ from django.utils import timezone # https://stackoverflow.com/questions/65157917
 # REMEMBER - IF YOU DECIDE TO RENAME THE APP AGAIN AND MESS WITH THE MIGRATIONS YOU HAVE TO DO THIS
 # https://stackoverflow.com/questions/36153748/django-makemigrations-no-changes-detected
 # https://simpleisbetterthancomplex.com/tutorial/2016/07/26/how-to-reset-migrations.html
+
+
+# helper function to add three years to a date - https://stackoverflow.com/questions/27491248/django-default-timezone-now-delta/27491426
+def default_three_year():
+    return timezone.now() + timezone.timedelta(days=1095)
+
 
 
 # Create your models here.
@@ -46,6 +53,12 @@ class Customer(models.Model):
     shipping_address_zip = models.CharField(max_length=255, null=True, blank=True)
     shipping_address_country = models.CharField(max_length=255, null=True, blank=True)
 
+    # ADDITIONAL details
+    added_by = models.ForeignKey(User, on_delete=SET_NULL, related_name="customer_addedby", blank=True, null=True)
+    updated_by = models.ForeignKey(User, on_delete=SET_NULL, related_name="customer_updatedon", blank=True, null=True)
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
     # Set this up to represent the object in the select field - this is how django represents objects
     def __str__(this):
         return f"{this.name}"
@@ -60,11 +73,18 @@ class Contact(models.Model):
     extension = models.CharField(max_length=255,blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
     assigned_to = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="contact_customer")
+    # Additional details
+    added_by = models.ForeignKey(User, on_delete=SET_NULL, related_name="contact_addedby", blank=True, null=True)
+    updated_by = models.ForeignKey(User, on_delete=SET_NULL, related_name="contact_updatedon", blank=True, null=True)
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
 
     def __str__(this):
         return f"{this.first_name} {this.last_name}"
 
 # https://docs.djangoproject.com/en/4.0/ref/models/fields/
+
+
 
 class License(models.Model):
 
@@ -92,13 +112,19 @@ class License(models.Model):
     id = models.AutoField(primary_key=True)
     product = models.CharField(max_length=255, choices=PRODUCT_CHOICES, default=AVAST_PRO) # microsoft, avast, etc
     purchase_date = models.DateField(default=timezone.now)
-    expiration_date = models.DateField(blank=True, null=True, )
+    expiration_date = models.DateField(blank=True, null=True, default=default_three_year)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="license_customer")
     license_key = models.CharField(max_length=255,blank=True, null=True)
     license_file = models.FileField(upload_to='licenses/%m_%d_%Y', blank=True, default=None)
     notes = models.TextField(blank=True, null=True)
-    end_of_life = models.DateField(blank=True, null=True)
+    end_of_life = models.DateField(blank=True, null=True, default=default_three_year)
+    # Additional Details
     added_by = models.ForeignKey(User, on_delete=SET_NULL, related_name="license_addedby", blank=True, null=True)
+    updated_by = models.ForeignKey(User, on_delete=SET_NULL, related_name="license_updatedon", blank=True, null=True)
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+
 
     def __str__(this):
         return f"{this.product} {this.customer}"
@@ -140,9 +166,9 @@ class Equipment(models.Model):
     vendor = models.CharField(max_length=255)
     model = models.CharField(max_length=255)
     os_version = models.CharField(max_length=255, blank=True, null=True)
-    purchase_date = models.DateField()
-    warranty_end_date = models.DateField()
-    end_of_life = models.DateField()
+    purchase_date = models.DateField(default=timezone.now)
+    warranty_end_date = models.DateField(default=default_three_year)
+    end_of_life = models.DateField(default=default_three_year)
     internal_ip_address = models.CharField(max_length=255, blank=True, null=True)
     external_ip_address = models.CharField(max_length=255, blank=True, null=True)
     ilo_ip_address = models.CharField(max_length=255, blank=True, null=True)
@@ -153,3 +179,8 @@ class Equipment(models.Model):
     serial_number = models.CharField(max_length=255, blank=True, null=True)
     product_number = models.CharField(max_length=255, blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
+
+    added_by = models.ForeignKey(User, on_delete=SET_NULL, related_name="equipment_addedby", blank=True, null=True)
+    updated_by = models.ForeignKey(User, on_delete=SET_NULL, related_name="equipment_updatedon", blank=True, null=True)
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)

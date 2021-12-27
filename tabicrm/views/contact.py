@@ -42,8 +42,10 @@ def add_contact(request, id):
         notes = form.cleaned_data["notes"]
         extension = form.cleaned_data["extension"]
         assigned_to = customer
+        added_by = request.user
+        updated_by = request.user
 
-        contact = Contact(first_name=first_name, last_name=last_name, job_title=job_title, notes=notes, extension=extension,assigned_to=assigned_to)
+        contact = Contact(first_name=first_name, last_name=last_name, job_title=job_title, notes=notes, extension=extension,assigned_to=assigned_to, added_by=added_by, updated_by=updated_by)
 
         try:
             contact.save()

@@ -24,33 +24,30 @@ contentValidator = re.compile('^[a-zA-Z0-9.,!\"\'?:;\s@#$%^&*()[\]_+={}\-]{0,255
 
 
 @login_required
-def add_license(request):
-
-    if request.method == "GET":
-        form = forms.NewLicenseForm()
-        return render(request, "tabicrm/add_license.html", {
-            "form": form,
-            "navadd_license": True
-        })
+def add_license(request, id):
 
 
     if request.method == "POST":
+
         form = forms.NewLicenseForm(request.POST, request.FILES)
+        customer = Customer.objects.get(id = id)
+        user = request.user
+
         # Short circuit if the form is bad
         if not form.is_valid():
             messages.add_message(request, messages.ERROR, 'Form is not valid')
-            return redirect("add_license")
+            return redirect("customer_full_form", id)
 
 
         # Assign all the fields
         product = form.cleaned_data["product"]
         purchase_date = form.cleaned_data["purchase_date"]
         expiration_date = form.cleaned_data["expiration_date"]
-        customer = form.cleaned_data["customer"]
         license_key = form.cleaned_data["license_key"]
         notes = form.cleaned_data["notes"]
         end_of_life = form.cleaned_data["end_of_life"]
-
+        added_by = request.user
+        updated_by = request.user
 
         # if we have a file, None if we dont
         if request.FILES:
@@ -67,19 +64,20 @@ def add_license(request):
             notes=notes, 
             end_of_life=end_of_life, 
             license_file=license_file, 
-            added_by = request.user
+            added_by = added_by,
+            updated_by = updated_by
         )
 
         try:
             license.save()
             messages.add_message(request, messages.SUCCESS,
                          "Successfully saved the license.")
-            return redirect("add_license")
+            return redirect("customer_full_form", id)
         except Exception as error:
             console.log(error)
             messages.add_message(request, messages.ERROR,
                          error)
-            return redirect("add_license")
+            return redirect("customer_full_form", id)
 
 @login_required
 def get_customer_licenses(request, id):

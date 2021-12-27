@@ -72,6 +72,7 @@ class newEquipmentForm(ModelForm):
                 'os_version', 
                 'purchase_date',
                 'warranty_end_date',
+                'end_of_life',
                 'internal_ip_address',
                 'external_ip_address',
                 'ilo_ip_address',

@@ -58,13 +58,15 @@ def add_customer(request):
         shipping_address_state = form.cleaned_data["shipping_address_state"]
         shipping_address_zip = form.cleaned_data["shipping_address_zip"]
         shipping_address_country = form.cleaned_data["shipping_address_country"]
+        added_by = request.user
+        updated_by = request.user
 
         # Create the object
         customer = Customer(name=name, primary_phone=primary_phone, fax=fax, website=website, notes=notes, secondary_phone=secondary_phone, billing_address_one=billing_address_one,
                             billing_address_two=billing_address_two, billing_address_city=billing_address_city, billing_address_state=billing_address_state, 
                             billing_address_zip=billing_address_zip, billing_address_country=billing_address_country, shipping_address_one=shipping_address_one,
                             shipping_address_two=shipping_address_two, shipping_address_city=shipping_address_city, shipping_address_state=shipping_address_state,
-                            shipping_address_zip=shipping_address_zip, shipping_address_country=shipping_address_country)
+                            shipping_address_zip=shipping_address_zip, shipping_address_country=shipping_address_country, added_by=added_by, updated_by=updated_by)
         try:
             customer.save()
             messages.add_message(request, messages.SUCCESS,
