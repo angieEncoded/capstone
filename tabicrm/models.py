@@ -72,7 +72,7 @@ class Contact(models.Model):
     job_title =   models.CharField(max_length=255,blank=True, null=True)
     extension = models.CharField(max_length=255,blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
-    assigned_to = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="contact_customer")
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="contact_customer")
     # Additional details
     added_by = models.ForeignKey(User, on_delete=SET_NULL, related_name="contact_addedby", blank=True, null=True)
     updated_by = models.ForeignKey(User, on_delete=SET_NULL, related_name="contact_updatedon", blank=True, null=True)
@@ -133,36 +133,44 @@ class Equipment(models.Model):
 
     # Fields for equipment type
     SERVER = 'SERVER'
+    ILO = 'ILO'
     UPS = 'UPS'
     ROUTER = 'ROUTER'
     SWITCH = 'SWITCH'
+    WAP = 'WAP'
     MODEM = 'MODEM'
     DESKTOP = 'DESKTOP'
     LAPTOP = 'LAPTOP'
     PRINTER = 'PRINTER'
     IP_PHONE = 'IP_PHONE'
+    RECEIPTER = 'RECEIPTER'
+    PRINT_SERVER = 'PRINT_SERVER'
     TABLET = 'TABLET'
     CELL_PHONE = 'CELL_PHONE'
     OTHER = 'OTHER'
 
     TYPE_CHOICES = [
-        (SERVER,'SERVER'),
+        (SERVER,'Server'),
+        (ILO, 'ILO (or equivelent)'),
         (UPS, 'UPS'),
-        (ROUTER,'ROUTER'),
-        (SWITCH,'SWITCH'),
-        (MODEM,'MODEM'),
-        (DESKTOP,'DESKTOP'),
-        (LAPTOP,'LAPTOP'),
-        (PRINTER, 'PRINTER'),
-        (IP_PHONE,'IP_PHONE'),
-        (TABLET,'TABLET'),
-        (CELL_PHONE,'CELL_PHONE'),
-        (OTHER, 'OTHER')
+        (ROUTER,'Router'),
+        (SWITCH,'Switch'),
+        (WAP, 'Wireless Access Point'),
+        (MODEM,'Modem'),
+        (DESKTOP,'Desktop'),
+        (LAPTOP,'Laptop'),
+        (PRINTER, 'Printer'),
+        (IP_PHONE,'IP Phone'),
+        (RECEIPTER,'Receipter'),
+        (PRINT_SERVER, 'Print Server'),
+        (TABLET,'Tablet'),
+        (CELL_PHONE,'Cell phone'),
+        (OTHER, 'Other')
     ]
 
     id = models.AutoField(primary_key=True)
     customer = models.ForeignKey(Customer, on_delete=CASCADE, related_name="customer_equipment")
-    type = models.CharField(max_length=255, choices=TYPE_CHOICES, default=SERVER)
+    type =  models.CharField(max_length=255, choices=TYPE_CHOICES, default=SERVER)
     vendor = models.CharField(max_length=255)
     model = models.CharField(max_length=255)
     os_version = models.CharField(max_length=255, blank=True, null=True)
@@ -171,7 +179,6 @@ class Equipment(models.Model):
     end_of_life = models.DateField(default=default_three_year)
     internal_ip_address = models.CharField(max_length=255, blank=True, null=True)
     external_ip_address = models.CharField(max_length=255, blank=True, null=True)
-    ilo_ip_address = models.CharField(max_length=255, blank=True, null=True)
     subnet_mask = models.CharField(max_length=255, blank=True, null=True)
     default_gateway = models.CharField(max_length=255, blank=True, null=True)
     dns_one = models.CharField(max_length=255, blank=True, null=True)
@@ -184,3 +191,67 @@ class Equipment(models.Model):
     updated_by = models.ForeignKey(User, on_delete=SET_NULL, related_name="equipment_updatedon", blank=True, null=True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
+
+    def __str__(this):
+        return f"{this.type} {this.vendor} {this.model} {this.customer}"
+
+class Ticket(models.Model):
+
+    OPEN='OPEN'
+    IN_PROGRESS='IN_PROGRESS'
+    WAITING_ON_CUSTOMER = 'WAITING_ON_CUSTOMER'
+    CLOSED = 'CLOSED'
+    LOW = 'LOW'
+    NORMAL = 'NORMAL'
+    HIGH = 'HIGH'
+    URGENT = 'URGENT'
+    SOLVED_ON_PHONE = 'SOLVED_ON_PHONE'
+    SERVER_SERVICE = 'SERVER_SERVICE'
+    ROUTER_SERVICE = 'ROUTER_SERVICE'
+    CONTRACT_SERVICE = 'CONTRACT_SERVICE'
+    NON_CONTRACT_SERVICE = 'NON_CONTRACT_SERVICE'
+
+
+
+
+    STATUS_CHOICES = [
+        (OPEN, 'OPEN'),
+        (IN_PROGRESS, 'IN PROGRESS'),
+        (WAITING_ON_CUSTOMER, 'WAITING ON CUSTOMER'),
+        (CLOSED, 'CLOSED')
+    ]
+
+    PRIORITY_CHOICES = [
+        (LOW, 'LOW'),
+        (NORMAL, 'NORMAL'),
+        (HIGH, 'HIGH'),
+        (URGENT, 'URGENT')
+    ]
+
+    # The display portion is handled here
+    RESULTS_CHOICES = [
+        (SOLVED_ON_PHONE, 'Solved on phone'),
+        (SERVER_SERVICE, 'Server service'),
+        (ROUTER_SERVICE, 'Router service'),
+        (CONTRACT_SERVICE, 'Contract service'),
+        (NON_CONTRACT_SERVICE, 'Non-contract service')
+    ]
+
+
+    id = models.AutoField(primary_key=True)
+    customer = models.ForeignKey(Customer, on_delete=CASCADE, related_name="customer_ticket")
+    assigned_to = models.ForeignKey(User, on_delete=SET_NULL, related_name="ticket_assignedto", blank=True, null=True)
+    title = models.CharField(max_length=255)
+    status =  models.CharField(max_length=255, choices=STATUS_CHOICES, default=OPEN)
+    priority = models.CharField(max_length=255, choices=PRIORITY_CHOICES, default=NORMAL)
+    results = models.CharField(max_length=255, choices=RESULTS_CHOICES, default=SOLVED_ON_PHONE)
+    description = models.TextField(blank=True, null=True)
+    solution = models.TextField(blank=True, null=True)
+    added_by = models.ForeignKey(User, on_delete=SET_NULL, related_name="ticket_addedby", blank=True, null=True)
+    updated_by = models.ForeignKey(User, on_delete=SET_NULL, related_name="ticket_updatedon", blank=True, null=True)
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+
+
+    # And the last model will be comments on tickets

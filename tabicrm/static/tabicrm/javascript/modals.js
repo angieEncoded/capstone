@@ -30,3 +30,11 @@ const showNewEquipmentFormModal = () => {
     })
     newEquipmentModal.show()
 }
+
+const showNewTicketFormModal = () => {
+    let newTicketModal = new bootstrap.Modal(document.getElementById('addTicketModal'), {
+        keyboard: false,
+        backdrop: 'static'
+    })
+    newTicketModal.show()
+}

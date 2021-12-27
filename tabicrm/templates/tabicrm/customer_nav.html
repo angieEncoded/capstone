@@ -1,0 +1,21 @@
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link {% if cust_details %}active{% endif %}" aria-current="page"
+            href="{% url 'customer_full_form' customer.id %}">Details</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link  {% if cust_contacts %}active{% endif %}"
+            href="{% url 'display_contacts' customer.id %}">Contacts</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="">Equipment</a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="">Tickets</a>
+    </li>
+
+
+</ul>

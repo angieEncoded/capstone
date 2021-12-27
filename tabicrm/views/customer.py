@@ -26,14 +26,14 @@ contentValidator = re.compile('^[a-zA-Z0-9.,!\"\'?:;\s@#$%^&*()[\]_+={}\-]{0,255
 @login_required
 def add_customer(request):
     if request.method == "GET":
-        form = forms.newCustomerForm()
+        form = forms.NewCustomerForm()
         return render(request, "tabicrm/add_customer.html", {
             "form": form,
             "navadd_customer": True
         })
 
     if request.method == "POST":
-        form = forms.newCustomerForm(request.POST)
+        form = forms.NewCustomerForm(request.POST)
         # Short circuit if the form is bad
         if not form.is_valid():
             messages.add_message(request, messages.ERROR, 'Form is not valid')
@@ -124,10 +124,13 @@ def customer_full_form(request, id):
         
         newContactForm = forms.NewContactForm()
         newLicenseForm = forms.NewLicenseForm()
-        newEquipmentForm = forms.newEquipmentForm()
+        newEquipmentForm = forms.NewEquipmentForm()
+        newTicketForm = forms.NewTicketForm(initial={
+            'assigned_to': request.user
+        })
 
         # Get the customer's initial form values
-        customerForm = forms.newCustomerForm(initial={
+        customerForm = forms.NewCustomerForm(initial={
             'name': customer.name,
             'primary_phone': customer.primary_phone,
             'secondary_phone': customer.secondary_phone,
@@ -148,22 +151,21 @@ def customer_full_form(request, id):
             'shipping_address_country': customer.shipping_address_country
         })
 
-        
-
-
         return render(request, "tabicrm/customer_full_form.html", {
             "form": customerForm,
             'newContactForm': newContactForm,
             'newLicenseForm': newLicenseForm,
+            'newTicketForm':newTicketForm,
             'newEquipmentForm': newEquipmentForm,
             'customer_name': customer.name,
             'customer_id': customer.id,
             'customer':customer,
+            'cust_details': True
         })
 
     if request.method == "POST":
 
-        form = forms.newCustomerForm(request.POST)
+        form = forms.NewCustomerForm(request.POST)
 
         # Short circuit if the form is bad
         if not form.is_valid():

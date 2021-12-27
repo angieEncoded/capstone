@@ -12,7 +12,8 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="clientDetailsTitle"></h5>
                 <div id="customer-feedback-data" class="ms-3"></div>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="reloadContent()"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    onclick="reloadContent()"></button>
             </div>
 
 
@@ -44,7 +45,7 @@
         </thead>
         <tbody>
             {% for customer in customers %}
-            <tr class="select-customer" id="{{customer.id}}" onclick="viewClient('{{customer.id}}')">
+            <tr class="select-customer" id="{{customer.id}}" onclick="viewCustomer('{{customer.id}}')">
                 <th scope=" row">{{customer.id}}</th>
                 <td>{{customer.name}}</td>
                 <td>{{customer.primary_phone}}</td>

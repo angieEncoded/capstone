@@ -1,4 +1,4 @@
-const viewClient = async (id) => {
+const viewCustomer = async (id) => {
 
     // Hide the editing root for the contacts if needed
     document.querySelector(`#contactsEditContent`).style.display = "none"

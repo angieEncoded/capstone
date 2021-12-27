@@ -28,5 +28,8 @@ urlpatterns = [
     path("customer_full_form/<int:id>", views.customer_full_form, name="customer_full_form"),
     path("delete_customer/<int:id>", views.delete_customer, name="delete_customer"),
 
+    path("add_equipment/<int:id>", views.add_equipment, name="add_equipment"),
+    path("add_ticket/<int:id>", views.add_ticket, name="add_ticket"),
+    path("display_contacts/<int:id>", views.display_contacts, name="display_contacts")
 
 ]

@@ -3,10 +3,10 @@ from django.db.models.fields import DateField
 from django.forms import Form, ModelForm, TextInput, Textarea, Select
 from django.forms.fields import FileField
 from django.forms.widgets import DateInput, FileInput, Widget
-from .models import Customer, Contact, License, Equipment
+from .models import Customer, Contact, License, Equipment, Ticket
 
 
-class newCustomerForm(forms.Form):
+class NewCustomerForm(forms.Form):
     name = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}))
     primary_phone = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': "form-control mb-2",'placeholder': ""}))
     fax = forms.CharField(required=False, max_length=255, widget=forms.TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}))
@@ -62,7 +62,7 @@ class NewLicenseForm(ModelForm):
 
 # Note to self - after MUCH googling and about three hours of searching, there is no good, clean answer to the issue of the wonky date formats. I am making the design decision to just... leave it as it is. 
 
-class newEquipmentForm(ModelForm):
+class NewEquipmentForm(ModelForm):
     class Meta:
         model = Equipment
         fields = (
@@ -75,7 +75,6 @@ class newEquipmentForm(ModelForm):
                 'end_of_life',
                 'internal_ip_address',
                 'external_ip_address',
-                'ilo_ip_address',
                 'subnet_mask',
                 'default_gateway',
                 'dns_one',
@@ -94,7 +93,6 @@ class newEquipmentForm(ModelForm):
             'end_of_life': DateInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
             'internal_ip_address': TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
             'external_ip_address': TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
-            'ilo_ip_address': TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
             'subnet_mask': TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
             'default_gateway': TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
             'dns_one': TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
@@ -102,5 +100,28 @@ class newEquipmentForm(ModelForm):
             'serial_number': TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
             'product_number': TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
             'notes': Textarea(attrs={'rows': 3,'class': "form-control mb-2", 'placeholder': ""}),
+        }  
+        
+
+class NewTicketForm(ModelForm):
+    class Meta:
+        model = Ticket
+        fields = (
+                'assigned_to',
+                'title',
+                'status',
+                'priority', 
+                'description',
+                'results',
+                'solution',
+            )
+        widgets = {
+            'assigned_to': Select(attrs={'class': "form-select mb-2", 'placeholder': ""}),
+            'title': TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
+            'status':  Select(attrs={'class': "form-select mb-2", 'placeholder': ""}),
+            'priority':  Select(attrs={'class': "form-select mb-2", 'placeholder': ""}),
+            'results':  Select(attrs={'class': "form-select mb-2", 'placeholder': ""}),
+            'description': Textarea(attrs={'rows': 3,'class': "form-control mb-2", 'placeholder': ""}),
+            'solution': Textarea(attrs={'rows': 3,'class': "form-control mb-2", 'placeholder': ""}),
         }  
         

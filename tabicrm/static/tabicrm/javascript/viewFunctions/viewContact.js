@@ -56,7 +56,7 @@ const viewContact = async (event, id) => {
             </div>
             <hr>
             <div class="float-end">
-                <button class="btn btn-sm btn-silver" type="button" onclick="closeContact('${finalContactData.assigned_to}')">Back to client</button>
+                <button class="btn btn-sm btn-silver" type="button" onclick="closeContact('${finalContactData.customer}')">Back to client</button>
             </div>
         
         `

@@ -23,6 +23,8 @@ console = angie.Console()
 contentValidator = re.compile('^[a-zA-Z0-9.,!\"\'?:;\s@#$%^&*()[\]_+={}\-]{0,255}$')
 
 
+
+# BACK END TEMPLATE LOGIC HERE
 @login_required
 def add_contact(request, id):
 
@@ -58,7 +60,21 @@ def add_contact(request, id):
                          error)
             return redirect("add_contact", id)
 
+def display_contacts(request, id):
+    customer = Customer.objects.get(id = id)
+    contacts = Contact.objects.filter(customer = customer)
+    return render(request,"tabicrm/full_forms/display_contacts.html", {"contacts": contacts, 'customer': customer, 'cust_contacts': True })
 
+
+
+
+
+
+
+
+
+
+# FRONT END ITEMS BELOW HERE - ALL JSON RESPONSES
 
 @login_required
 def get_customer_contacts(request, id):
@@ -68,7 +84,7 @@ def get_customer_contacts(request, id):
         customer = Customer.objects.get(id = id)
 
         #get the contacts assigned to that customer
-        contacts = Contact.objects.filter(assigned_to = customer)
+        contacts = Contact.objects.filter(customer = customer)
 
         # send them back in a json
         jsonContacts = serializers.serialize("json", contacts)

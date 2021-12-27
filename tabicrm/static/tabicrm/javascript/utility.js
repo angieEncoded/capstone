@@ -28,3 +28,7 @@ const reloadContent = () => {
 $(document).ready(function () {
     $('#customersTable').DataTable();
 });
+
+$(document).ready(function () {
+    $('#contactsTable').DataTable();
+});
