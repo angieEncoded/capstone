@@ -3,7 +3,7 @@ from django.db.models.fields import DateField
 from django.forms import Form, ModelForm, TextInput, Textarea, Select
 from django.forms.fields import FileField
 from django.forms.widgets import DateInput, FileInput, Widget
-from .models import Customer, Contact, License
+from .models import Customer, Contact, License, Equipment
 
 
 class newCustomerForm(forms.Form):
@@ -46,8 +46,6 @@ class DateInput(forms.DateInput):
     input_type = 'date'
 
 
-
-
 class NewLicenseForm(ModelForm):
     class Meta:
         model = License
@@ -63,3 +61,45 @@ class NewLicenseForm(ModelForm):
         }
 
 # Note to self - after MUCH googling and about three hours of searching, there is no good, clean answer to the issue of the wonky date formats. I am making the design decision to just... leave it as it is. 
+
+class newEquipmentForm(ModelForm):
+    class Meta:
+        model = Equipment
+        fields = (
+                'type',
+                'vendor',
+                'model',
+                'os_version', 
+                'purchase_date',
+                'warranty_end_date',
+                'internal_ip_address',
+                'external_ip_address',
+                'ilo_ip_address',
+                'subnet_mask',
+                'default_gateway',
+                'dns_one',
+                'dns_two',
+                'serial_number',
+                'product_number',
+                'notes',
+            )
+        widgets = {
+            'type': Select(attrs={'class': "form-select mb-2", 'placeholder': ""}),
+            'vendor': TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
+            'model': TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
+            'os_version': TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
+            'purchase_date' : DateInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
+            'warranty_end_date': DateInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
+            'end_of_life': DateInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
+            'internal_ip_address': TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
+            'external_ip_address': TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
+            'ilo_ip_address': TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
+            'subnet_mask': TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
+            'default_gateway': TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
+            'dns_one': TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
+            'dns_two': TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
+            'serial_number': TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
+            'product_number': TextInput(attrs={'class': "form-control mb-2", 'placeholder': ""}),
+            'notes': Textarea(attrs={'rows': 3,'class': "form-control mb-2", 'placeholder': ""}),
+        }  
+        

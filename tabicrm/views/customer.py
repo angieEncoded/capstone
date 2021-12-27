@@ -122,6 +122,7 @@ def customer_full_form(request, id):
         
         newContactForm = forms.NewContactForm()
         newLicenseForm = forms.NewLicenseForm()
+        newEquipmentForm = forms.newEquipmentForm()
 
         # Get the customer's initial form values
         customerForm = forms.newCustomerForm(initial={
@@ -145,11 +146,14 @@ def customer_full_form(request, id):
             'shipping_address_country': customer.shipping_address_country
         })
 
+        
+
 
         return render(request, "tabicrm/customer_full_form.html", {
             "form": customerForm,
             'newContactForm': newContactForm,
             'newLicenseForm': newLicenseForm,
+            'newEquipmentForm': newEquipmentForm,
             'customer_name': customer.name,
             'customer_id': customer.id,
             'customer':customer,

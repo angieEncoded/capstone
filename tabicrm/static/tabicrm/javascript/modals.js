@@ -22,3 +22,11 @@ const showNewLicenseFormModal = () => {
     })
     newContactModal.show()
 }
+
+const showNewEquipmentFormModal = () => {
+    let newEquipmentModal = new bootstrap.Modal(document.getElementById('addEquipmentModal'), {
+        keyboard: false,
+        backdrop: 'static'
+    })
+    newEquipmentModal.show()
+}
