@@ -16,6 +16,12 @@ from .. import forms
 # my alias to print()
 console = angie.Console()
 
+@login_required
+def display_equipment(request, id):
+    customer = Customer.objects.get(id = id)
+    equipments = Equipment.objects.filter(customer = customer)
+    return render(request,"tabicrm/full_forms/display_equipment.html", {"equipments": equipments, 'customer': customer, 'cust_equipment': True })
+
 
 @login_required
 def add_equipment(request, id):

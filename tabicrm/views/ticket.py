@@ -19,6 +19,13 @@ console = angie.Console()
 
 
 @login_required
+def display_tickets(request, id):
+    customer = Customer.objects.get(id = id)
+    tickets = Ticket.objects.filter(customer = customer)
+    return render(request,"tabicrm/full_forms/display_tickets.html", {"tickets": tickets, 'customer': customer, 'cust_tickets': True })
+
+
+@login_required
 def add_ticket(request, id):
 
 

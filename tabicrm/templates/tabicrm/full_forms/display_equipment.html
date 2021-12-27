@@ -1,0 +1,55 @@
+{% extends "tabicrm/layout.html" %}
+<!-- Weird that I had to do this here, it doesn't seem to inherit from the layout? -->
+{% load static %}
+{% load humanize %}
+
+{% block body %}
+
+
+
+
+<div class="container-fluid mt-2">
+    {% include 'tabicrm/customer_nav.html' %}
+
+
+    <div class="container-fluid mt-2">
+        <table class="table table-striped table-responsive" id="equipmentTable">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Type</th>
+                    <th scope="col">Vendor</th>
+                    <th scope="col">Model</th>
+                    <th scope="col">Operating System</th>
+                    <th scope="col">End of Life</th>
+                    <th scope="col">IP Address</th>
+                    <th scope="col">Serial Number</th>
+                    <th scope="col">Product Number</th>
+                    <th scope="col">Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for equipment in equipments %}
+                <tr class="select-customer" id="{{customer.id}}" onclick="openFirstModal()">
+                    <td>{{equipment.type}}</td>
+                    <td>{{equipment.vendor}}</td>
+                    <td>{{equipment.model}}</td>
+                    <td>{{equipment.operating_system}}</td>
+                    <td>{{equipment.end_of_life}}</td>
+                    <td>{{equipment.internal_ip_address}}</td>
+                    <td>{{equipment.serial_number}}</td>
+                    <td>{{equipment.product_number}}</td>
+                    <td>{{equipment.notes}}</td>
+
+                </tr>
+                {% endfor%}
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+</div>
+
+
+{% endblock %}

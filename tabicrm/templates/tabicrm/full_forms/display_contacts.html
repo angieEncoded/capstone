@@ -27,7 +27,8 @@
             <tbody>
                 {% for contact in contacts %}
                 <tr class="select-customer" id="{{customer.id}}" onclick="openFirstModal()">
-                    <th scope=" row">{{contact.first_name}}</th>
+
+                    <td>{{contact.first_name}}</td>
                     <td>{{contact.last_name}}</td>
                     <td>{{contact.job_title}}</td>
                     <td>{{contact.extension}}</td>

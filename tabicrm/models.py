@@ -89,24 +89,24 @@ class Contact(models.Model):
 class License(models.Model):
 
     # Fields for the choices in the drop down
-    AVAST_PRO = 'AVAST PRO'
-    AVAST_ENDPOINT = 'AVAST ENDPOINT'
-    MALWAREBYTES = 'MALWAREBYTES'
-    MICROSOFT_OFFICE_2010 = 'MICROSOFT OFFICE 2010'
-    MICROSOFT_OFFICE_2013 = 'MICROSOFT OFFICE 2013'
-    MICROSOFT_OFFICE_2016 = 'MICROSOFT OFFICE 2016'
-    MICROSOFT_OFFICE_2019 = 'MICROSOFT OFFICE 2019'
-    MICROSOFT_OFFICE_365 = 'MICROSOFT OFFICE 365'
+    AVAST_PRO = 'Avast Pro'
+    AVAST_ENDPOINT = 'Avast Endpoint Protection'
+    MALWAREBYTES = 'Malwarebytes'
+    MICROSOFT_OFFICE_2010 = 'Microsoft Office 2010'
+    MICROSOFT_OFFICE_2013 = 'Microsoft Office 2013'
+    MICROSOFT_OFFICE_2016 = 'Microsoft Office 2016'
+    MICROSOFT_OFFICE_2019 = 'Microsoft Office 2019'
+    MICROSOFT_OFFICE_365 = 'Microsoft Office 365'
 
     PRODUCT_CHOICES = [
-        (AVAST_PRO, 'AVAST PRO'),
-        (AVAST_ENDPOINT , 'AVAST ENDPOINT'),
-        ( MALWAREBYTES, 'MALWAREBYTES'),
-        ( MICROSOFT_OFFICE_2010,'MICROSOFT OFFICE 2010' ),
-        ( MICROSOFT_OFFICE_2013,'MICROSOFT OFFICE 2013' ),
-        (MICROSOFT_OFFICE_2016 , 'MICROSOFT OFFICE 2016'),
-        ( MICROSOFT_OFFICE_2019, 'MICROSOFT OFFICE 2019'),
-        ( MICROSOFT_OFFICE_365, 'MICROSOFT OFFICE 365'),
+        (AVAST_PRO, 'Avast Pro'),
+        (AVAST_ENDPOINT , 'Avast Endpoint Protection'),
+        ( MALWAREBYTES, 'Malwarebytes'),
+        ( MICROSOFT_OFFICE_2010,'Microsoft Office 2010' ),
+        ( MICROSOFT_OFFICE_2013,'Microsoft Office 2013' ),
+        (MICROSOFT_OFFICE_2016 , 'Microsoft Office 2016'),
+        ( MICROSOFT_OFFICE_2019, 'Microsoft Office 2019'),
+        ( MICROSOFT_OFFICE_365, 'Microsoft Office 365'),
     ]
 
     id = models.AutoField(primary_key=True)
@@ -132,26 +132,26 @@ class License(models.Model):
 class Equipment(models.Model):
 
     # Fields for equipment type
-    SERVER = 'SERVER'
+    SERVER = 'Server'
     ILO = 'ILO'
     UPS = 'UPS'
-    ROUTER = 'ROUTER'
-    SWITCH = 'SWITCH'
+    ROUTER = 'Router'
+    SWITCH = 'Switch'
     WAP = 'WAP'
-    MODEM = 'MODEM'
-    DESKTOP = 'DESKTOP'
-    LAPTOP = 'LAPTOP'
-    PRINTER = 'PRINTER'
-    IP_PHONE = 'IP_PHONE'
-    RECEIPTER = 'RECEIPTER'
-    PRINT_SERVER = 'PRINT_SERVER'
-    TABLET = 'TABLET'
-    CELL_PHONE = 'CELL_PHONE'
-    OTHER = 'OTHER'
+    MODEM = 'Modem'
+    DESKTOP = 'Desktop'
+    LAPTOP = 'Laptop'
+    PRINTER = 'Printer'
+    IP_PHONE = 'IP Phone'
+    RECEIPTER = 'Receipter'
+    PRINT_SERVER = 'Print Server'
+    TABLET = 'Tablet'
+    CELL_PHONE = 'Cell Phont'
+    OTHER = 'Other'
 
     TYPE_CHOICES = [
         (SERVER,'Server'),
-        (ILO, 'ILO (or equivelent)'),
+        (ILO, 'ILO (or equivalent)'),
         (UPS, 'UPS'),
         (ROUTER,'Router'),
         (SWITCH,'Switch'),
@@ -198,18 +198,18 @@ class Equipment(models.Model):
 class Ticket(models.Model):
 
     OPEN='OPEN'
-    IN_PROGRESS='IN_PROGRESS'
-    WAITING_ON_CUSTOMER = 'WAITING_ON_CUSTOMER'
-    CLOSED = 'CLOSED'
-    LOW = 'LOW'
-    NORMAL = 'NORMAL'
-    HIGH = 'HIGH'
-    URGENT = 'URGENT'
-    SOLVED_ON_PHONE = 'SOLVED_ON_PHONE'
-    SERVER_SERVICE = 'SERVER_SERVICE'
-    ROUTER_SERVICE = 'ROUTER_SERVICE'
-    CONTRACT_SERVICE = 'CONTRACT_SERVICE'
-    NON_CONTRACT_SERVICE = 'NON_CONTRACT_SERVICE'
+    IN_PROGRESS='In Progres'
+    WAITING_ON_CUSTOMER = 'Waiting on customer'
+    CLOSED = 'Closed'
+    LOW = 'Low'
+    NORMAL = 'Normal'
+    HIGH = 'High'
+    URGENT = 'Urgent'
+    SOLVED_ON_PHONE = 'Solved on Phone'
+    SERVER_SERVICE = 'Server service'
+    ROUTER_SERVICE = 'Router service'
+    CONTRACT_SERVICE = 'Contract service'
+    NON_CONTRACT_SERVICE = 'Non-contract service'
 
 
 

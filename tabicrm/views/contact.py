@@ -60,6 +60,7 @@ def add_contact(request, id):
                          error)
             return redirect("add_contact", id)
 
+@login_required
 def display_contacts(request, id):
     customer = Customer.objects.get(id = id)
     contacts = Contact.objects.filter(customer = customer)

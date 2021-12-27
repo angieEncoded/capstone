@@ -32,3 +32,11 @@ $(document).ready(function () {
 $(document).ready(function () {
     $('#contactsTable').DataTable();
 });
+
+$(document).ready(function () {
+    $('#ticketsTable').DataTable();
+});
+
+$(document).ready(function () {
+    $('#equipmentTable').DataTable();
+});
