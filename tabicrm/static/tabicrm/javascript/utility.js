@@ -45,3 +45,7 @@ $(document).ready(function () {
 const viewContactEditForm = (contactId) => {
     window.location.href = `/full_edit_contact/${contactId}`
 }
+
+const viewEquipmentEditForm = (equipmentId) => {
+    window.location.href = `/full_edit_equipment/${equipmentId}`
+}

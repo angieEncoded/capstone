@@ -23,6 +23,43 @@ def display_equipment(request, id):
     return render(request,"tabicrm/full_forms/display_equipment.html", {"equipments": equipments, 'customer': customer, 'cust_equipment': True })
 
 
+def full_edit_equipment(request, equipmentId):
+
+    if request.method == "GET":
+
+        equipment = Equipment.objects.get(id = equipmentId)
+        customer = equipment.customer
+        editEquipmentForm = forms.NewEquipmentForm(initial={
+            'type': equipment.type,
+            'vendor':equipment.vendor,
+            'model':equipment.model,
+            'os_version':equipment.os_version,
+            'pruchase_date':equipment.purchase_date,
+            'warranty_end_date':equipment.warranty_end_date,
+            'end_of_life':equipment.end_of_life,
+            'internal_ip_address':equipment.internal_ip_address,
+            'external_ip_address':equipment.external_ip_address,
+            'subnet_mask':equipment.subnet_mask,
+            'default_gateway':equipment.default_gateway,
+            'primary_dns':equipment.primary_dns,
+            'secondary_dns':equipment.secondary_dns,
+            'serial_number':equipment.serial_number,
+            'product_number':equipment.product_number,
+        })
+    
+        return render(request, "tabicrm/full_forms/edit_equipment.html", {
+            "editEquipmentForm": editEquipmentForm,
+            'customer_name': customer.name,
+            'customer_id': customer.id,
+            'customer':customer,
+            'equipment': equipment,
+            'cust_equipment': True
+        })
+
+    pass
+
+
+
 @login_required
 def add_equipment(request, id):
 
@@ -53,8 +90,8 @@ def add_equipment(request, id):
         external_ip_address = form.cleaned_data["external_ip_address"]
         subnet_mask = form.cleaned_data["subnet_mask"]
         default_gateway = form.cleaned_data["default_gateway"]
-        dns_one = form.cleaned_data["dns_one"]
-        dns_two = form.cleaned_data["dns_two"]
+        primary_dns = form.cleaned_data["dns_one"]
+        secondary_dns = form.cleaned_data["primary_dns"]
         serial_number = form.cleaned_data["serial_number"]
         product_number = form.cleaned_data["product_number"]
         notes = form.cleaned_data["notes"]
@@ -76,8 +113,8 @@ def add_equipment(request, id):
             external_ip_address=external_ip_address,
             subnet_mask=subnet_mask,
             default_gateway=default_gateway,
-            dns_one=dns_one,
-            dns_two= dns_two,
+            primary_dns=primary_dns,
+            secondary_dns= secondary_dns,
             serial_number=serial_number,
             product_number=product_number,
             notes=notes, 

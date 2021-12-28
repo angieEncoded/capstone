@@ -1,0 +1,156 @@
+{% extends "tabicrm/layout.html" %}
+<!-- Weird that I had to do this here, it doesn't seem to inherit from the layout? -->
+{% load static %}
+{% load humanize %}
+
+{% block body %}
+
+<!-- Modal to verify deletion -->
+<div class="modal fade" tabindex="-1" id="confirmDelete">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'delete_equipment' equipment.id %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="delete" value="True">
+                    <div class="modal-body">
+                        <p>
+                            Are you sure you want to delete this {{equipment.vendor }} {{equipment.model}}
+                            {{equipment.type}}?
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-stop">Confirm</button>
+                        <button type="button" class="btn btn-silver" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid mt-2">
+    {% include 'tabicrm/customer_nav.html' %}
+
+    <div class="container">
+        <div class="form-background mb-5">
+            <form action="{% url 'edit_equipment' equipment.id%}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+
+                    <!-- COLUMN 1 -->
+                    <div class="col-12 col-lg-6">
+
+                        <div class="mb-3">
+                            <label for="type" class="form-label">Type (required)</label>
+                            {{editEquipmentForm.type}}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="vendor" class="form-label">Vendor (required)</label>
+                            {{editEquipmentForm.vendor}}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="model" class="form-label">Model (required)</label>
+                            {{editEquipmentForm.model}}
+                        </div>
+                        <div class="mb-3">
+                            <label for="os_version" class="form-label">Operating System</label>
+                            {{editEquipmentForm.os_version}}
+                        </div>
+                        <div class="mb-3">
+                            <label for="purchase_date" class="form-label">Purchase Date (required)</label>
+                            {{editEquipmentForm.purchase_date}}
+                        </div>
+                        <div class="mb-3">
+                            <label for="warranty_end_date" class="form-label">Warranty End Date
+                                (required)</label>
+                            {{editEquipmentForm.warranty_end_date}}
+                        </div>
+                        <div class="mb-3">
+                            <label for="warranty_end_date" class="form-label">End of Life (required)</label>
+                            {{editEquipmentForm.end_of_life}}
+                        </div>
+                        <div class="mb-3">
+                            <label for="internal_ip_address" class="form-label">Internal IP Address</label>
+                            {{editEquipmentForm.internal_ip_address}}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="external_ip_address" class="form-label">External IP Address</label>
+                            {{editEquipmentForm.external_ip_address}}
+                        </div>
+
+
+
+
+                    </div>
+
+
+                    <!-- COLUMN 2 -->
+                    <div class="col-12 col-lg-6">
+
+                        <div class="mb-3">
+                            <label for="subnet_mask" class="form-label">Subnet Mask</label>
+                            {{editEquipmentForm.subnet_mask}}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="default_gateway" class="form-label">Default Gateway</label>
+                            {{editEquipmentForm.default_gateway}}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="dns_one" class="form-label">Primary DNS</label>
+                            {{editEquipmentForm.dns_one}}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="dns_two" class="form-label">Secondary DNS</label>
+                            {{editEquipmentForm.dns_two}}
+                        </div>
+                        <div class="mb-3">
+                            <label for="serial_number" class="form-label">Serial Number</label>
+                            {{editEquipmentForm.serial_number}}
+                        </div>
+                        <div class="mb-3">
+                            <label for="product_number" class="form-label">Product Number</label>
+                            {{editEquipmentForm.product_number}}
+                        </div>
+                        <div class="mb-3">
+                            <label for="notes_number" class="form-label">Notes</label>
+                            {{editEquipmentForm.notes}}
+                        </div>
+
+
+
+
+
+                    </div>
+
+
+
+                </div>
+                <div class="mb-3">
+                    <button type="button" class="btn btn-stop" onclick="showConfirmDeleteModal()">Delete
+                        Equipment</button>
+                    <span class="float-end">
+                        <a href="/display_equipment/{{customer.id}}" class="btn btn-silver">Back to all equipment</a>
+                        <button type="submit" class="btn btn-logo">Save Changes</button>
+                    </span>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+</div>
+
+
+{% endblock %}

@@ -29,7 +29,7 @@
             </thead>
             <tbody>
                 {% for equipment in equipments %}
-                <tr class="select-customer" id="{{customer.id}}" onclick="openFirstModal()">
+                <tr class="select-customer" onclick="viewEquipmentEditForm('{{equipment.id}}')">
                     <td>{{equipment.type}}</td>
                     <td>{{equipment.vendor}}</td>
                     <td>{{equipment.model}}</td>

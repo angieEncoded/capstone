@@ -106,6 +106,7 @@ def full_edit_contact(request, contactId):
             job_title = form.cleaned_data["job_title"]
             extension = form.cleaned_data["extension"]
             notes = form.cleaned_data["notes"]
+            updated_by = request.user
             
 
             contactToEdit = Contact.objects.get(id = contactId)
@@ -116,6 +117,7 @@ def full_edit_contact(request, contactId):
             setattr(contactToEdit, 'job_title',  job_title)
             setattr(contactToEdit, 'extension',  extension)
             setattr(contactToEdit, 'notes',  notes)
+            setattr(contactToEdit, 'updated_by',  updated_by)
 
             contactToEdit.save()
             messages.add_message(request, messages.SUCCESS, "Successfully saved the changes!")

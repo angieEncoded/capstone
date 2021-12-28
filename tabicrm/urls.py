@@ -38,13 +38,13 @@ urlpatterns = [
 
     # Edit paths below here
     path("full_edit_contact/<int:contactId>", views.full_edit_contact, name="full_edit_contact"),
-    # path("edit_equipment/<int:id>", views.edit_equipment, name="edit_equipment"),
+    path("full_edit_equipment/<int:equipmentId>", views.full_edit_equipment, name="full_edit_equipment"),
     # path("edit_tickets/<int:id>", views.edit_tickets, name="edit_tickets"),
 
 
     # full delete paths below here
     path("delete_contact/<int:contactId>", views.delete_contact, name="delete_contact"),
-    # path("edit_equipment/<int:id>", views.edit_equipment, name="edit_equipment"),
+    # path("delete_equipment/<int:equipmentId>", views.delete_equipment, name="delete_equipment"),
     # path("edit_tickets/<int:id>", views.edit_tickets, name="edit_tickets"),
 
 ]
