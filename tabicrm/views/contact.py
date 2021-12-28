@@ -43,22 +43,21 @@ def add_contact(request, id):
         job_title = form.cleaned_data["job_title"]
         notes = form.cleaned_data["notes"]
         extension = form.cleaned_data["extension"]
-        assigned_to = customer
         added_by = request.user
         updated_by = request.user
 
-        contact = Contact(first_name=first_name, last_name=last_name, job_title=job_title, notes=notes, extension=extension,assigned_to=assigned_to, added_by=added_by, updated_by=updated_by)
+        contact = Contact(first_name=first_name, last_name=last_name, job_title=job_title, notes=notes, extension=extension,customer=customer, added_by=added_by, updated_by=updated_by)
 
         try:
             contact.save()
             messages.add_message(request, messages.SUCCESS,
                          "Successfully saved the contact.")
-            return redirect("customer_full_form", id)
+            return redirect("display_contacts", id)
         except Exception as error:
             console.log(error)
             messages.add_message(request, messages.ERROR,
                          error)
-            return redirect("add_contact", id)
+            return redirect("customer_full_form", id)
 
 @login_required
 def display_contacts(request, id):
@@ -68,8 +67,94 @@ def display_contacts(request, id):
 
 
 
+def full_edit_contact(request, contactId):
+
+    if request.method == "GET":
+
+        contact = Contact.objects.get(id = contactId)
+        customer = contact.customer
+        editContactForm = forms.NewContactForm(initial={
+            'first_name': contact.first_name,
+            'last_name':contact.last_name,
+            'job_title': contact.job_title,
+            'extension': contact.extension,
+            'notes':contact.notes
+        })
+    
+        return render(request, "tabicrm/full_forms/full_edit_contact.html", {
+            "editContactForm": editContactForm,
+            'customer_name': customer.name,
+            'customer_id': customer.id,
+            'customer':customer,
+            'contact': contact,
+            'cust_contacts': True
+        })
 
 
+    if request.method == "POST":
+        form = forms.NewContactForm(request.POST)
+
+        # Short circuit if the form is bad
+        if not form.is_valid():
+            messages.add_message(request, messages.ERROR, 'Form is not valid')
+            return redirect("full_edit_contact", contactId)
+
+        try: 
+
+            first_name = form.cleaned_data["first_name"]
+            last_name = form.cleaned_data["last_name"]
+            job_title = form.cleaned_data["job_title"]
+            extension = form.cleaned_data["extension"]
+            notes = form.cleaned_data["notes"]
+            
+
+            contactToEdit = Contact.objects.get(id = contactId)
+            customerId = contactToEdit.customer.id
+
+            setattr(contactToEdit, 'first_name',  first_name)
+            setattr(contactToEdit, 'last_name',  last_name)
+            setattr(contactToEdit, 'job_title',  job_title)
+            setattr(contactToEdit, 'extension',  extension)
+            setattr(contactToEdit, 'notes',  notes)
+
+            contactToEdit.save()
+            messages.add_message(request, messages.SUCCESS, "Successfully saved the changes!")
+            return redirect("display_contacts", customerId)
+
+        except Exception as error:
+            console.log(error)
+            messages.add_message(request, messages.ERROR, error)
+            return redirect("full_edit_contact", contactId)
+
+
+
+
+
+
+
+
+
+def delete_contact(request, id):
+
+    if request.method == "POST":
+        try: 
+            # Check and make sure we're getting what we expect
+            form = request.POST.dict() # This will turn it into a 'dictionary'
+            if not form['delete'] == 'True': # and remember, it isn't json
+                messages.add_message(request, messages.ERROR,"I don't recognize that request. Please use the form to make your request.")
+                return redirect(f"/full_edit_contact/{id}")
+                
+            contact = Contact.objects.get(id = id)
+            customerId = contact.customer.id
+            contact.delete()
+
+            messages.add_message(request, messages.SUCCESS,"Successfully deleted the contact.")
+            return redirect("display_contacts", customerId)
+
+        except Exception as error:
+            console.log(error)
+            messages.add_message(request, messages.ERROR, error)
+            return redirect("all_customers")
 
 
 

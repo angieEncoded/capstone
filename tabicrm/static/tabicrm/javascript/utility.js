@@ -40,3 +40,8 @@ $(document).ready(function () {
 $(document).ready(function () {
     $('#equipmentTable').DataTable();
 });
+
+
+const viewContactEditForm = (contactId) => {
+    window.location.href = `/full_edit_contact/${contactId}`
+}

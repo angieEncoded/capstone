@@ -30,8 +30,21 @@ urlpatterns = [
 
     path("add_equipment/<int:id>", views.add_equipment, name="add_equipment"),
     path("add_ticket/<int:id>", views.add_ticket, name="add_ticket"),
+
+    # Display paths here
     path("display_contacts/<int:id>", views.display_contacts, name="display_contacts"),
     path("display_equipment/<int:id>", views.display_equipment, name="display_equipment"),
     path("display_tickets/<int:id>", views.display_tickets, name="display_tickets"),
+
+    # Edit paths below here
+    path("full_edit_contact/<int:contactId>", views.full_edit_contact, name="full_edit_contact"),
+    # path("edit_equipment/<int:id>", views.edit_equipment, name="edit_equipment"),
+    # path("edit_tickets/<int:id>", views.edit_tickets, name="edit_tickets"),
+
+
+    # full delete paths below here
+    path("delete_contact/<int:contactId>", views.delete_contact, name="delete_contact"),
+    # path("edit_equipment/<int:id>", views.edit_equipment, name="edit_equipment"),
+    # path("edit_tickets/<int:id>", views.edit_tickets, name="edit_tickets"),
 
 ]

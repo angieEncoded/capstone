@@ -245,7 +245,7 @@ def delete_customer(request, id):
 
         except Exception as error:
             console.log(error)
-            messages.add_message(request, messages.SUCCESS, error)
+            messages.add_message(request, messages.ERROR, error)
             return redirect("all_customers")
 
 

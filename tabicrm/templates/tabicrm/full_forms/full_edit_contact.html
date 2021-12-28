@@ -1,0 +1,92 @@
+{% extends "tabicrm/layout.html" %}
+<!-- Weird that I had to do this here, it doesn't seem to inherit from the layout? -->
+{% load static %}
+{% load humanize %}
+
+{% block body %}
+
+<!-- Modal to verify deletion -->
+<div class="modal fade" tabindex="-1" id="confirmDelete">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'delete_contact' contact.id %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="delete" value="True">
+                    <div class="modal-body">
+                        <p>
+                            Are you sure you want to delete {{contact.first_name}} {{contact.last_name}}?
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-stop">Confirm</button>
+                        <button type="button" class="btn btn-silver" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid mt-2">
+    {% include 'tabicrm/customer_nav.html' %}
+
+
+    <div class="container mt-5">
+
+        <div class="form-background mb-5">
+            <h5 class="baskerville-font text-center mb-3">Edit: {{contact.first_name}} {{contact.last_name}}</h5>
+            <hr>
+            <form action="{% url 'full_edit_contact' contact.id %}" method="POST">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-12 col-lg-6">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">First Name</label>
+                            {{editContactForm.first_name}}
+                        </div>
+                        <div class="mb-3">
+                            <label for="primary_phone" class="form-label">Last Name</label>
+                            {{editContactForm.last_name}}
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="mb-3">
+                            <label for="secondary_phone" class="form-label">Job Title</label>
+                            {{editContactForm.job_title}}
+                        </div>
+                        <div class="mb-3">
+                            <label for="fax" class="form-label">Extension</label>
+                            {{editContactForm.extension}}
+                        </div>
+                        <div class="mb-3">
+                            <label for="website" class="form-label">Notes</label>
+                            {{editContactForm.notes}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <button type="button" class="btn btn-stop" onclick="showConfirmDeleteModal()">Delete
+                        Contact</button>
+                    <span class="float-end">
+                        <a href="/display_contacts/{{customer.id}}" class="btn btn-silver">Back to all contacts</a>
+                        <button type="submit" class="btn btn-logo">Save Changes</button>
+                    </span>
+                </div>
+
+
+
+            </form>
+        </div>
+    </div>
+
+
+
+
+    {% endblock %}
