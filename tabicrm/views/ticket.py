@@ -2,7 +2,7 @@ from os import stat
 from django.http.response import JsonResponse
 from django.core import serializers
 from django.shortcuts import render, redirect
-from ..models import Customer, Ticket
+from ..models import Customer, Ticket, TicketHistory, TicketComment
 # looks like this is the express equivelent to flash
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -27,20 +27,16 @@ def display_tickets(request, id):
 
 @login_required
 def add_ticket(request, id):
-
-
     if request.method == "POST":
-
-
-
         form = forms.NewTicketForm(request.POST)
         customer = Customer.objects.get(id = id)
         user = request.user
+        customerId = customer.id
 
         # Short circuit if the form is bad
         if not form.is_valid():
             messages.add_message(request, messages.ERROR, 'Form is not valid')
-            return redirect("customer_full_form", id)
+            return redirect("customer_full_form", customerId)
 
 
         # Assign all the fields
@@ -53,10 +49,13 @@ def add_ticket(request, id):
         solution = form.cleaned_data["solution"]
         added_by = user
         updated_by = user
-
+        owned_by = user
    
 
-        ticket = Ticket(
+
+        try:
+            # interestingly, Python does not return an instance of the object unless we use this format https://stackoverflow.com/questions/10936737/why-does-django-orms-save-method-not-return-the-saved-object
+            result = Ticket.objects.create(
             customer=customer,
             assigned_to=assigned_to,
             title=title, 
@@ -66,16 +65,80 @@ def add_ticket(request, id):
             description=description,
             solution=solution,
             added_by = added_by,
-            updated_by = updated_by
+            updated_by = updated_by,
+            owned_by = owned_by
         )
 
-        try:
-            ticket.save()
+            # console.log(result)
+            # Add to the history
+            action = "Ticket Created"
+            ticket = result
+            taken_by = user
+
+            ticketAction = TicketHistory(
+                action = action,
+                ticket=ticket,
+                taken_by=taken_by
+            )
+            ticketAction.save()
+
             messages.add_message(request, messages.SUCCESS,
                          "Successfully saved the ticket.")
-            return redirect("customer_full_form", id)
+            return redirect("display_tickets", customerId)
         except Exception as error:
             console.log(error)
             messages.add_message(request, messages.ERROR,
                          error)
-            return redirect("customer_full_form", id)
+            return redirect("customer_full_form", customerId)
+
+
+
+def view_single_ticket(request, ticketId):
+    
+    if request.method == "GET":
+        ticket = Ticket.objects.get(id = ticketId)
+        customer = ticket.customer
+        ticketComments = TicketComment.objects.filter(ticket = ticket)
+        console.log(ticketComments)
+        ticketHistory = TicketHistory.objects.filter(ticket = ticket)
+        console.log(ticketHistory)
+        return render(request,"tabicrm/full_forms/full_edit_ticket.html", {
+            "ticket": ticket, 
+            'customer': customer, 
+            'ticketComments': ticketComments,
+            'ticketHistory': ticketHistory,
+            'cust_tickets': True })
+
+def full_edit_ticket(request, ticketId):
+    pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

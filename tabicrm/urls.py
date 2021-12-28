@@ -39,12 +39,12 @@ urlpatterns = [
     # Edit paths below here
     path("full_edit_contact/<int:contactId>", views.full_edit_contact, name="full_edit_contact"),
     path("full_edit_equipment/<int:equipmentId>", views.full_edit_equipment, name="full_edit_equipment"),
-    # path("edit_tickets/<int:id>", views.edit_tickets, name="edit_tickets"),
+    path("full_edit_ticket/<int:id>", views.full_edit_ticket, name="full_edit_ticket"),
 
 
     # full delete paths below here
     path("delete_contact/<int:contactId>", views.delete_contact, name="delete_contact"),
-    # path("delete_equipment/<int:equipmentId>", views.delete_equipment, name="delete_equipment"),
+    path("delete_equipment/<int:equipmentId>", views.delete_equipment, name="delete_equipment"),
     # path("edit_tickets/<int:id>", views.edit_tickets, name="edit_tickets"),
-
+    path("view_single_ticket/<int:ticketId>", views.view_single_ticket, name="view_single_ticket")
 ]

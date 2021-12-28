@@ -210,8 +210,12 @@ class Ticket(models.Model):
     ROUTER_SERVICE = 'Router service'
     CONTRACT_SERVICE = 'Contract service'
     NON_CONTRACT_SERVICE = 'Non-contract service'
-
-
+    NETWORK_SUPPORT_TEAM = "NETWORK"
+    SOFTWARE_SUPPORT_TEAM = "SOFTWARE"
+    SERVER_SUPPORT_TEAM = "SERVER"
+    HARDWARE_SUPPORT_TEAM = "HARDWARE"
+    SALES_TEAM = "SALES"
+    DEVELOPMENT_TEAM = "DEVELOPMENT"
 
 
     STATUS_CHOICES = [
@@ -237,10 +241,19 @@ class Ticket(models.Model):
         (NON_CONTRACT_SERVICE, 'Non-contract service')
     ]
 
+    TEAM_CHOICES = [
+        (NETWORK_SUPPORT_TEAM, "Network Support"),
+        (SOFTWARE_SUPPORT_TEAM, "Software Support"),
+        (SERVER_SUPPORT_TEAM, "Server Support"),
+        (HARDWARE_SUPPORT_TEAM, "Hardware Support"),
+        (SALES_TEAM, "Sales"),
+        (DEVELOPMENT_TEAM, "Development")
+    ]
 
     id = models.AutoField(primary_key=True)
     customer = models.ForeignKey(Customer, on_delete=CASCADE, related_name="customer_ticket")
-    assigned_to = models.ForeignKey(User, on_delete=SET_NULL, related_name="ticket_assignedto", blank=True, null=True)
+    assigned_to = models.CharField(max_length=255, choices=TEAM_CHOICES, default=SOFTWARE_SUPPORT_TEAM)
+    owned_by = models.ForeignKey(User, on_delete=SET_NULL, related_name="ticket_ownedby", blank=True, null=True)
     title = models.CharField(max_length=255)
     status =  models.CharField(max_length=255, choices=STATUS_CHOICES, default=OPEN)
     priority = models.CharField(max_length=255, choices=PRIORITY_CHOICES, default=NORMAL)
@@ -252,6 +265,22 @@ class Ticket(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
+    def __str__(this):
+        return f"{this.title} {this.assigned_to}"
 
 
-    # And the last model will be comments on tickets
+class TicketComment(models.Model):
+    id = models.AutoField(primary_key=True)
+    comment = models.TextField(blank=True, null=True)
+    ticket = models.ForeignKey(Ticket, on_delete=CASCADE, related_name="ticket_comment", blank=True, null=True)
+    added_by = models.ForeignKey(User, on_delete=SET_NULL, related_name="ticket_comment_addedby", blank=True, null=True)
+    updated_by = models.ForeignKey(User, on_delete=SET_NULL, related_name="ticket_comment_updatedon", blank=True, null=True)
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+class TicketHistory(models.Model):
+    id = models.AutoField(primary_key=True)    
+    action =  models.TextField(blank=True, null=True)
+    ticket = models.ForeignKey(Ticket, on_delete=CASCADE, related_name="ticket_history", blank=True, null=True)
+    taken_by = models.ForeignKey(User, on_delete=SET_NULL, related_name="ticket_action_taken_by", blank=True, null=True)
+    created_on = models.DateTimeField(auto_now_add=True)

@@ -49,3 +49,7 @@ const viewContactEditForm = (contactId) => {
 const viewEquipmentEditForm = (equipmentId) => {
     window.location.href = `/full_edit_equipment/${equipmentId}`
 }
+
+const viewSingleTicketForm = (ticketId) => {
+    window.location.href = `/view_single_ticket/${ticketId}`
+}

@@ -154,6 +154,7 @@
 
                                 <!-- COLUMN 1 -->
                                 <div class="col-12 col-lg-6">
+                                    <p>Hardware information</p>
 
                                     <div class="mb-3">
                                         <label for="type" class="form-label">Type (required)</label>
@@ -174,6 +175,14 @@
                                         {{newEquipmentForm.os_version}}
                                     </div>
                                     <div class="mb-3">
+                                        <label for="serial_number" class="form-label">Serial Number</label>
+                                        {{newEquipmentForm.serial_number}}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="product_number" class="form-label">Product Number</label>
+                                        {{newEquipmentForm.product_number}}
+                                    </div>
+                                    <div class="mb-3">
                                         <label for="purchase_date" class="form-label">Purchase Date (required)</label>
                                         {{newEquipmentForm.purchase_date}}
                                     </div>
@@ -186,15 +195,8 @@
                                         <label for="warranty_end_date" class="form-label">End of Life (required)</label>
                                         {{newEquipmentForm.end_of_life}}
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="internal_ip_address" class="form-label">Internal IP Address</label>
-                                        {{newEquipmentForm.internal_ip_address}}
-                                    </div>
 
-                                    <div class="mb-3">
-                                        <label for="external_ip_address" class="form-label">External IP Address</label>
-                                        {{newEquipmentForm.external_ip_address}}
-                                    </div>
+
 
 
 
@@ -203,7 +205,19 @@
 
 
                                 <!-- COLUMN 2 -->
+
                                 <div class="col-12 col-lg-6">
+                                    <p>Network information</p>
+                                    <div class="mb-3">
+                                        <label for="external_ip_address" class="form-label">External IP Address</label>
+                                        {{newEquipmentForm.external_ip_address}}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="internal_ip_address" class="form-label">Internal IP Address</label>
+                                        {{newEquipmentForm.internal_ip_address}}
+                                    </div>
+
+
 
                                     <div class="mb-3">
                                         <label for="subnet_mask" class="form-label">Subnet Mask</label>
@@ -224,19 +238,11 @@
                                         <label for="dns_two" class="form-label">Secondary DNS</label>
                                         {{newEquipmentForm.secondary_dns}}
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="serial_number" class="form-label">Serial Number</label>
-                                        {{newEquipmentForm.serial_number}}
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="product_number" class="form-label">Product Number</label>
-                                        {{newEquipmentForm.product_number}}
-                                    </div>
+
                                     <div class="mb-3">
                                         <label for="notes_number" class="form-label">Notes</label>
                                         {{newEquipmentForm.notes}}
                                     </div>
-
 
 
 
@@ -340,7 +346,7 @@
 
 
 <div class="container-fluid mt-2">
-    {% include 'tabicrm/customer_nav.html' %}
+    {% include 'tabicrm/partials/customer_nav.html' %}
     <div class="container">
 
 

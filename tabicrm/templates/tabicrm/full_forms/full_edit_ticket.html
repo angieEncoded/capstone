@@ -1,0 +1,55 @@
+{% extends "tabicrm/layout.html" %}
+<!-- Weird that I had to do this here, it doesn't seem to inherit from the layout? -->
+{% load static %}
+{% load humanize %}
+
+{% block body %}
+
+
+<div class="container-fluid mt-2">
+    {% include 'tabicrm/partials/customer_nav.html' %}
+
+    <div class="mt-5">
+        <button>Accept Ticket</button>
+        <button>Add Comment</button>
+        <button>Close Ticket</button>
+
+        <div class="row">
+            <div class="col">
+                <h5>Ticket Initial Information:</h5>
+                <p>Customer: {{customer.name}}</p>
+                <p>Assigned to: {{ticket.assigned_to}}</p>
+                <p>Currently Owned By: {{ticket.owned_by}}</p>
+                <p>title: {{ticket.title}}</p>
+                <p>Description: {{ticket.description}}</p>
+                <p>Status: {{ticket.status}}</p>
+                <p>Priority: {{ticket.priority}}</p>
+                <p>results: {{ticket.results}}</p>
+                <p>solution: {{ticket.solution}}</p>
+            </div>
+            <div class="col">
+                Ticket History
+
+                {% for entry in ticketHistory %}
+                <p>{{entry.created_on}}</p>
+                <p>{{entry.taken_by}}</p>
+                <p>{{entry.action}}</p>
+
+                {% endfor %}
+            </div>
+
+            <div class="col">
+                Ticket Comments
+                {% for comment in ticketComments %}
+                <p>{{item}}</p>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+
+{% endblock %}

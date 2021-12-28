@@ -35,16 +35,19 @@
 
 
 <div class="container-fluid mt-2">
-    {% include 'tabicrm/customer_nav.html' %}
+    {% include 'tabicrm/partials/customer_nav.html' %}
 
     <div class="container">
-        <div class="form-background mb-5">
-            <form action="{% url 'edit_equipment' equipment.id%}" method="POST" enctype="multipart/form-data">
+        <div class="form-background mb-5 mt-5">
+            <h5 class="text-center baskerville-font mb-3">Edit {{equipment.vendor}} {{equipment.model}}
+                {{equipment.type}}</h5>
+            <hr>
+            <form action="{% url 'full_edit_equipment' equipment.id%}" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="row">
-
                     <!-- COLUMN 1 -->
                     <div class="col-12 col-lg-6">
+                        <p>Hardware information</p>
 
                         <div class="mb-3">
                             <label for="type" class="form-label">Type (required)</label>
@@ -65,6 +68,14 @@
                             {{editEquipmentForm.os_version}}
                         </div>
                         <div class="mb-3">
+                            <label for="serial_number" class="form-label">Serial Number</label>
+                            {{editEquipmentForm.serial_number}}
+                        </div>
+                        <div class="mb-3">
+                            <label for="product_number" class="form-label">Product Number</label>
+                            {{editEquipmentForm.product_number}}
+                        </div>
+                        <div class="mb-3">
                             <label for="purchase_date" class="form-label">Purchase Date (required)</label>
                             {{editEquipmentForm.purchase_date}}
                         </div>
@@ -77,15 +88,8 @@
                             <label for="warranty_end_date" class="form-label">End of Life (required)</label>
                             {{editEquipmentForm.end_of_life}}
                         </div>
-                        <div class="mb-3">
-                            <label for="internal_ip_address" class="form-label">Internal IP Address</label>
-                            {{editEquipmentForm.internal_ip_address}}
-                        </div>
 
-                        <div class="mb-3">
-                            <label for="external_ip_address" class="form-label">External IP Address</label>
-                            {{editEquipmentForm.external_ip_address}}
-                        </div>
+
 
 
 
@@ -94,7 +98,19 @@
 
 
                     <!-- COLUMN 2 -->
+
                     <div class="col-12 col-lg-6">
+                        <p>Network information</p>
+                        <div class="mb-3">
+                            <label for="external_ip_address" class="form-label">External IP Address</label>
+                            {{editEquipmentForm.external_ip_address}}
+                        </div>
+                        <div class="mb-3">
+                            <label for="internal_ip_address" class="form-label">Internal IP Address</label>
+                            {{editEquipmentForm.internal_ip_address}}
+                        </div>
+
+
 
                         <div class="mb-3">
                             <label for="subnet_mask" class="form-label">Subnet Mask</label>
@@ -107,27 +123,19 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="dns_one" class="form-label">Primary DNS</label>
-                            {{editEquipmentForm.dns_one}}
+                            <label for="primary_dns" class="form-label">Primary DNS</label>
+                            {{editEquipmentForm.primary_dns}}
                         </div>
 
                         <div class="mb-3">
-                            <label for="dns_two" class="form-label">Secondary DNS</label>
-                            {{editEquipmentForm.dns_two}}
+                            <label for="secondary_dns" class="form-label">Secondary DNS</label>
+                            {{editEquipmentForm.secondary_dns}}
                         </div>
+
                         <div class="mb-3">
-                            <label for="serial_number" class="form-label">Serial Number</label>
-                            {{editEquipmentForm.serial_number}}
-                        </div>
-                        <div class="mb-3">
-                            <label for="product_number" class="form-label">Product Number</label>
-                            {{editEquipmentForm.product_number}}
-                        </div>
-                        <div class="mb-3">
-                            <label for="notes_number" class="form-label">Notes</label>
+                            <label for="notes" class="form-label">Notes</label>
                             {{editEquipmentForm.notes}}
                         </div>
-
 
 
 

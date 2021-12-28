@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Customer, License, Equipment, Ticket
+from .models import User, Customer, License, Equipment, Ticket, TicketComment, TicketHistory
 from django.contrib.auth.admin import UserAdmin # Import this to allow us to adjust the user passwords in the admin module
 
 # Helpful post to configure custom fields in the django admin interface
@@ -38,10 +38,18 @@ class EquipmentAdmin(admin.ModelAdmin):
 class TicketAdmin(admin.ModelAdmin):
     list_display = ('id', 'customer', 'title',)
 
+class TicketCommentAdmin(admin.ModelAdmin):
+    list_display = ('id', 'comment')
+
+class TicketHistoryAdmin(admin.ModelAdmin):
+    list_display = ('id', 'action')
+
 # Register your models here.
 admin.site.register(User, CustomUserAdmin)
 admin.site.register(Customer, CustomerAdmin)
 admin.site.register(License, LicenseAdmin)
 admin.site.register(Equipment, EquipmentAdmin)
 admin.site.register(Ticket, TicketAdmin)
+admin.site.register(TicketComment, TicketCommentAdmin)
+admin.site.register(TicketHistory, TicketHistoryAdmin)
 

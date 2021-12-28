@@ -181,3 +181,15 @@
     text-decoration:underline;
   }
 
+.tabs-link {
+  color:rgb(130, 7, 179);
+  text-decoration: none;
+  font-size:medium;
+}
+
+.tabs-link:hover{
+  color:rgb(157, 0, 219);
+  cursor: pointer;
+  font-size:medium;
+  text-decoration:underline;
+}

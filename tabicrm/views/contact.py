@@ -136,7 +136,7 @@ def full_edit_contact(request, contactId):
 
 
 
-def delete_contact(request, id):
+def delete_contact(request, contactId):
 
     if request.method == "POST":
         try: 
@@ -144,9 +144,9 @@ def delete_contact(request, id):
             form = request.POST.dict() # This will turn it into a 'dictionary'
             if not form['delete'] == 'True': # and remember, it isn't json
                 messages.add_message(request, messages.ERROR,"I don't recognize that request. Please use the form to make your request.")
-                return redirect(f"/full_edit_contact/{id}")
+                return redirect(f"/full_edit_contact/{contactId}")
                 
-            contact = Contact.objects.get(id = id)
+            contact = Contact.objects.get(id = contactId)
             customerId = contact.customer.id
             contact.delete()
 
@@ -156,7 +156,7 @@ def delete_contact(request, id):
         except Exception as error:
             console.log(error)
             messages.add_message(request, messages.ERROR, error)
-            return redirect("all_customers")
+            return redirect("display_contacts", customerId)
 
 
 
