@@ -45,6 +45,9 @@ urlpatterns = [
     # full delete paths below here
     path("delete_contact/<int:contactId>", views.delete_contact, name="delete_contact"),
     path("delete_equipment/<int:equipmentId>", views.delete_equipment, name="delete_equipment"),
-    # path("edit_tickets/<int:id>", views.edit_tickets, name="edit_tickets"),
-    path("view_single_ticket/<int:ticketId>", views.view_single_ticket, name="view_single_ticket")
+
+    path("view_single_ticket/<int:ticketId>", views.view_single_ticket, name="view_single_ticket"),
+
+    path("add_ticket_comment/<int:ticketId>", views.add_ticket_comment, name="add_ticket_comment"),
+
 ]

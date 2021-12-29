@@ -1,9 +1,10 @@
 from django import forms
+from django.db.models.base import Model
 from django.db.models.fields import DateField
 from django.forms import Form, ModelForm, TextInput, Textarea, Select
 from django.forms.fields import FileField
 from django.forms.widgets import DateInput, FileInput, Widget
-from .models import Customer, Contact, License, Equipment, Ticket
+from .models import Customer, Contact, License, Equipment, Ticket, TicketComment
 
 
 class NewCustomerForm(forms.Form):
@@ -125,3 +126,12 @@ class NewTicketForm(ModelForm):
             'solution': Textarea(attrs={'rows': 3,'class': "form-control mb-2", 'placeholder': ""}),
         }  
         
+class NewTicketCommentForm(ModelForm):
+    class Meta:
+        model = TicketComment
+        fields = (
+            'comment',
+        )
+        widgets = {
+            'comment': Textarea(attrs={'rows': 8,'class': "form-control mb-2", 'placeholder': ""}),
+        }

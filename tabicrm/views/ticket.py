@@ -99,15 +99,61 @@ def view_single_ticket(request, ticketId):
         ticket = Ticket.objects.get(id = ticketId)
         customer = ticket.customer
         ticketComments = TicketComment.objects.filter(ticket = ticket)
-        console.log(ticketComments)
         ticketHistory = TicketHistory.objects.filter(ticket = ticket)
-        console.log(ticketHistory)
+        commentForm = forms.NewTicketCommentForm()
         return render(request,"tabicrm/full_forms/full_edit_ticket.html", {
             "ticket": ticket, 
             'customer': customer, 
             'ticketComments': ticketComments,
             'ticketHistory': ticketHistory,
-            'cust_tickets': True })
+            'cust_tickets': True, 
+            'commentForm':commentForm })
+
+def add_ticket_comment(request, ticketId):
+
+    if request.method == "POST":
+        form = forms.NewTicketCommentForm(request.POST)
+        ticket = Ticket.objects.get(id = ticketId)
+        user = request.user
+
+        # Short circuit if the form is bad
+        if not form.is_valid():
+            messages.add_message(request, messages.ERROR, 'Form is not valid')
+            return redirect("view_single_ticket", ticketId)
+
+        comment = form.cleaned_data["comment"]
+        added_by = user
+        updated_by = user
+        ticketComment = TicketComment(comment=comment, added_by=added_by, updated_by=updated_by,ticket=ticket)
+
+        # Add an entry into the ticket history
+
+
+        action = "Comment Added"
+        ticket = ticket
+        taken_by = user
+
+        ticketAction = TicketHistory(
+            action = action,
+            ticket=ticket,
+            taken_by=taken_by
+        )
+        ticketAction.save()
+
+
+        try:
+            ticketComment.save()
+            messages.add_message(request, messages.SUCCESS,
+                         "Successfully saved the comment.")
+            return redirect("view_single_ticket", ticketId)
+        except Exception as error:
+            console.log(error)
+            messages.add_message(request, messages.ERROR,
+                         error)
+            return redirect("view_single_ticket", ticketId)
+
+
+
 
 def full_edit_ticket(request, ticketId):
     pass

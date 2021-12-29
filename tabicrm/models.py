@@ -198,7 +198,7 @@ class Equipment(models.Model):
 class Ticket(models.Model):
 
     OPEN='OPEN'
-    IN_PROGRESS='In Progres'
+    IN_PROGRESS='In Progress'
     WAITING_ON_CUSTOMER = 'Waiting on customer'
     CLOSED = 'Closed'
     LOW = 'Low'

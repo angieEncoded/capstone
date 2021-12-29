@@ -10,38 +10,72 @@
     {% include 'tabicrm/partials/customer_nav.html' %}
 
     <div class="mt-5">
-        <button>Accept Ticket</button>
-        <button>Add Comment</button>
-        <button>Close Ticket</button>
-
         <div class="row">
-            <div class="col">
-                <h5>Ticket Initial Information:</h5>
-                <p>Customer: {{customer.name}}</p>
-                <p>Assigned to: {{ticket.assigned_to}}</p>
-                <p>Currently Owned By: {{ticket.owned_by}}</p>
-                <p>title: {{ticket.title}}</p>
-                <p>Description: {{ticket.description}}</p>
-                <p>Status: {{ticket.status}}</p>
-                <p>Priority: {{ticket.priority}}</p>
-                <p>results: {{ticket.results}}</p>
-                <p>solution: {{ticket.solution}}</p>
+            <div class="col-12 col-lg-4">
+                <p class="text-center"><strong>Ticket Details</strong></p>
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ticket.title}}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{customer.name}}</h6>
+                        <p class="card-text">
+                            <strong>Assigned to:</strong> {{ticket.assigned_to}}<br />
+                            <strong>Owned By:</strong> {{ticket.owned_by}}<br />
+                            <strong>Status:</strong> {{ticket.status}}<br />
+                            <strong>Priority:</strong> {{ticket.priority}}<br />
+                            <strong>results:</strong> {{ticket.results}}<br />
+                            <strong>Description:</strong> {{ticket.description}}<br />
+                            <strong>solution:</strong> {{ticket.solution}}<br />
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <div class="text-center mb-2"><strong>Ticket Comments</strong></div>
+                    {% if ticketComments %}
+                    {% for comment in ticketComments %}
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <p class="card-text">
+                                {{comment.added_by}}<br />
+                                {{comment.comment}}<br />
+                            </p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% endif%}
+                </div>
             </div>
-            <div class="col">
-                Ticket History
+            <div class="col-12 col-lg-4">
+                <p class="text-center">Ticket Actions</p>
+                <div class="text-center mt-3">
+                    {% if not ticket.owned_by == request.user %}
+                    <a href="" class="btn btn-logo">Accept Ticket</a>
+                    {% endif%}
+                    <a href="" class="btn btn-logo">Waiting on Customer</a>
+                    <a href="" class="btn btn-logo">Close Ticket</a>
+                </div>
+                <div class="mt-5">
+                    <form action="{% url 'add_ticket_comment' ticket.id %}" method="POST">
+                        {% csrf_token %}
+                        {{commentForm.comment}}
+                        <div class="float-end">
+                            <button class="btn btn-sm btn-logo" type="submit">Add comment</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
+            <div class="col-12 col-lg-4">
+                <p class="text-center">Ticket History</p>
                 {% for entry in ticketHistory %}
-                <p>{{entry.created_on}}</p>
-                <p>{{entry.taken_by}}</p>
-                <p>{{entry.action}}</p>
-
-                {% endfor %}
-            </div>
-
-            <div class="col">
-                Ticket Comments
-                {% for comment in ticketComments %}
-                <p>{{item}}</p>
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <p class="card-text">
+                            {{entry.created_on}}<br />
+                            {{entry.taken_by}}<br />
+                            {{entry.action}}<br />
+                        </p>
+                    </div>
+                </div>
                 {% endfor %}
             </div>
 
