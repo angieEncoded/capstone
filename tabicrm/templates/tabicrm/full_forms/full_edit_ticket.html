@@ -69,6 +69,31 @@
 </div>
 
 
+<div id="ticketHistoryModal" class="modal fade static" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" class=" baskerville-font text-center">Ticket History</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% for entry in ticketHistory %}
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <p class="card-text">
+                            {{entry.created_on}}<br />
+                            {{entry.taken_by}}<br />
+                            {{entry.action}}<br />
+                        </p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 
 
@@ -97,21 +122,6 @@
                         </p>
                     </div>
                 </div>
-                <div class="mt-2">
-                    <div class="text-center mb-2"><strong>Ticket Comments</strong></div>
-                    {% if ticketComments %}
-                    {% for comment in ticketComments %}
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                            <p class="card-text">
-                                {{comment.added_by}}<br />
-                                {{comment.comment}}<br />
-                            </p>
-                        </div>
-                    </div>
-                    {% endfor %}
-                    {% endif%}
-                </div>
             </div>
             <div class="col-12 col-lg-4">
                 <p class="text-center">Ticket Actions</p>
@@ -131,6 +141,7 @@
                     {% endif%}
                     <a href="{% url 'ticket_actions' ticket.id 'close' %}" class="btn btn-logo">Close Ticket</a>
                     <button class="btn btn-logo" onclick="openTicketModal()">Open full edit form</button>
+                    <button class="btn btn-logo" onclick="openHistoryModal()">View Ticket history</button>
                     {% else %}
                     <a href="{% url 'ticket_actions' ticket.id 'reopen' %}" class="btn btn-logo">Reopen Ticket</a>
                     {% endif%}
@@ -150,19 +161,24 @@
 
             </div>
 
+
             <div class="col-12 col-lg-4">
-                <p class="text-center">Ticket History</p>
-                {% for entry in ticketHistory %}
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body">
-                        <p class="card-text">
-                            {{entry.created_on}}<br />
-                            {{entry.taken_by}}<br />
-                            {{entry.action}}<br />
-                        </p>
+                <div class="mt-2">
+                    <div class="text-center mb-2"><strong>Ticket Comments</strong></div>
+                    {% if ticketComments %}
+                    {% for comment in ticketComments %}
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <p class="card-text">
+                                {{comment.added_by}}<br />
+                                {{comment.comment}}<br />
+                            </p>
+                        </div>
                     </div>
+                    {% endfor %}
+                    {% endif%}
                 </div>
-                {% endfor %}
+
             </div>
 
         </div>

@@ -61,3 +61,11 @@ const openTicketModal = () => {
     })
     ticketModal.show()
 }
+
+const openHistoryModal = () => {
+    let ticketHistoryModal = new bootstrap.Modal(document.getElementById('ticketHistoryModal'), {
+        keyboard: false,
+        backdrop: 'static'
+    })
+    ticketHistoryModal.show()
+}
