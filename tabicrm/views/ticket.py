@@ -1,8 +1,9 @@
 from os import stat
+from django.contrib.auth import login
 from django.http.response import JsonResponse
 from django.core import serializers
 from django.shortcuts import render, redirect
-from ..models import Customer, Ticket, TicketHistory, TicketComment
+from ..models import Customer, Ticket, TicketHistory, TicketComment, User
 # looks like this is the express equivelent to flash
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -92,7 +93,7 @@ def add_ticket(request, id):
             return redirect("customer_full_form", customerId)
 
 
-
+@login_required
 def view_single_ticket(request, ticketId):
     
     if request.method == "GET":
@@ -101,14 +102,25 @@ def view_single_ticket(request, ticketId):
         ticketComments = TicketComment.objects.filter(ticket = ticket)
         ticketHistory = TicketHistory.objects.filter(ticket = ticket)
         commentForm = forms.NewTicketCommentForm()
+        ticketForm = forms.NewTicketForm(initial={
+            'assigned_to': ticket.assigned_to,
+            'status': ticket.status, 
+            'priority': ticket.priority,
+            'results': ticket.results,
+            'title':ticket.title,
+            'description': ticket.description,
+            'solution': ticket.solution
+        })
         return render(request,"tabicrm/full_forms/full_edit_ticket.html", {
             "ticket": ticket, 
             'customer': customer, 
             'ticketComments': ticketComments,
             'ticketHistory': ticketHistory,
             'cust_tickets': True, 
-            'commentForm':commentForm })
+            'commentForm':commentForm,
+            'editTicketForm': ticketForm })
 
+@login_required
 def add_ticket_comment(request, ticketId):
 
     if request.method == "POST":
@@ -153,11 +165,152 @@ def add_ticket_comment(request, ticketId):
             return redirect("view_single_ticket", ticketId)
 
 
+@login_required
+def ticket_actions(request, ticketId, action):
+    # possible actions:
+    # accept
+    # customer
+    # close
 
+    if request.method == "GET":
 
+        user = request.user
+        ticket = Ticket.objects.get(id = ticketId)
+
+        # Accept ticket logic
+        if action == "accept":
+            try: 
+
+                ticketAction = TicketHistory(
+                    action = "Accepted Ticket",
+                    ticket=ticket,
+                    taken_by=user
+                )
+                ticketAction.save()
+
+                setattr(ticket, 'owned_by',  request.user)
+                setattr(ticket, 'status',  "IN PROGRESS")
+                ticket.save()
+                messages.add_message(request, messages.SUCCESS, "Accepted the ticket")
+            except Exception as error:
+                console.log(error)
+                messages.add_message(request, messages.ERROR, error)
+                return redirect("view_single_ticket", ticketId)
+    
+        if action == "customer":
+            try: 
+
+                ticketAction = TicketHistory(
+                    action = "Set status to waiting on customer",
+                    ticket=ticket,
+                    taken_by=user
+                )
+                ticketAction.save()
+                setattr(ticket, 'status',  'WAITING ON CUSTOMER')
+                ticket.save()
+                messages.add_message(request, messages.SUCCESS, "Set status to WAITING ON CUSTOMER")
+            except Exception as error:
+                console.log(error)
+                messages.add_message(request, messages.ERROR, error)
+                return redirect("view_single_ticket", ticketId)
+
+        if action == "close":
+            try: 
+
+                ticketAction = TicketHistory(
+                    action = "Ticket Closed",
+                    ticket=ticket,
+                    taken_by=user
+                )
+                ticketAction.save()
+                setattr(ticket, 'status',  'CLOSED')
+                ticket.save()
+                messages.add_message(request, messages.SUCCESS, "Ticket closed")
+            except Exception as error:
+                console.log(error)
+                messages.add_message(request, messages.ERROR, error)
+                return redirect("view_single_ticket", ticketId)   
+        
+        if action == "resume":
+            try: 
+                ticketAction = TicketHistory(
+                    action = "Set status to IN PROGRESS",
+                    ticket=ticket,
+                    taken_by=user
+                )
+                ticketAction.save()
+                setattr(ticket, 'status',  'IN PROGRESS')
+                messages.add_message(request, messages.SUCCESS, "Resumed ticket")
+                ticket.save()
+            except Exception as error:
+                console.log(error)
+                messages.add_message(request, messages.ERROR, error)
+                return redirect("view_single_ticket", ticketId)  
+
+        if action == "reopen":
+            try: 
+                ticketAction = TicketHistory(
+                    action = "Reopened closed Ticket",
+                    ticket=ticket,
+                    taken_by=user
+                )
+                ticketAction.save()
+                setattr(ticket, 'status',  'IN PROGRESS')
+                setattr(ticket, 'owned_by',  request.user)
+                messages.add_message(request, messages.SUCCESS, "Resumed ticket")
+                ticket.save()
+            except Exception as error:
+                console.log(error)
+                messages.add_message(request, messages.ERROR, error)
+                return redirect("view_single_ticket", ticketId)  
+        
+        return redirect("view_single_ticket", ticketId)   
+
+@login_required
 def full_edit_ticket(request, ticketId):
-    pass
+    # get the form data
+    
+    if request.method == "POST":
+        form = forms.NewTicketForm(request.POST)
 
+        # Short circuit if the form is bad
+        if not form.is_valid():
+            messages.add_message(request, messages.ERROR, 'Form is not valid')
+            return redirect("view_single_ticket", ticketId)
+
+        try: 
+
+            assigned_to = form.cleaned_data["assigned_to"]
+            title = form.cleaned_data["title"]
+            status = form.cleaned_data["status"]
+            priority = form.cleaned_data["priority"]
+            results = form.cleaned_data["results"]
+            description = form.cleaned_data["description"]
+            solution = form.cleaned_data["solution"]
+            updated_by = request.user
+            
+
+            ticketToEdit = Ticket.objects.get(id = ticketId)
+            setattr(ticketToEdit, 'assigned_to',  assigned_to)
+            setattr(ticketToEdit, 'title',  title)
+            setattr(ticketToEdit, 'status',  status)
+            setattr(ticketToEdit, 'priority',  priority)
+            setattr(ticketToEdit, 'results',  results)
+            setattr(ticketToEdit, 'description',  description)
+            setattr(ticketToEdit, 'solution',  solution)
+            setattr(ticketToEdit, 'updated_by',  updated_by)
+
+            ticketToEdit.save()
+            messages.add_message(request, messages.SUCCESS, "Successfully saved the changes!")
+            return redirect("view_single_ticket", ticketId)
+
+        except Exception as error:
+            console.log(error)
+            messages.add_message(request, messages.ERROR, error)
+            return redirect("view_single_ticket", ticketId)
+
+
+    pass
 
 
 

@@ -5,6 +5,74 @@
 
 {% block body %}
 
+<!-- Model for full edit form of the ticket -->
+
+<div id="editTicketModal" class="modal fade static" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" class=" baskerville-font text-center">Edit ticket number TT{{ticket.id}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="container">
+                    <div class="form-background mb-5">
+                        <form action="{% url 'full_edit_ticket' ticket.id %}" method="POST">
+                            {% csrf_token %}
+                            <div class="row">
+                                <!-- COLUMN 1 -->
+                                <div class="col-12 col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="assigned_to" class="form-label">Assigned To:</label>
+                                        {{editTicketForm.assigned_to}}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="status" class="form-label">Status</label>
+                                        {{editTicketForm.status}}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="priority" class="form-label">Priority</label>
+                                        {{editTicketForm.priority}}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="sesults" class="form-label">Results</label>
+                                        {{editTicketForm.results}}
+                                    </div>
+                                </div>
+                                <!-- COLUMN 2 -->
+                                <div class="col-12 col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="title" class="form-label">Title</label>
+                                        {{editTicketForm.title}}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="description" class="form-label">Description</label>
+                                        {{editTicketForm.description}}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="solution" class="form-label">Solution</label>
+                                        {{editTicketForm.solution}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <button type="submit" class="btn btn-logo">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
 
 <div class="container-fluid mt-2">
     {% include 'tabicrm/partials/customer_nav.html' %}
@@ -17,14 +85,15 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ticket.title}}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">{{customer.name}}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">Ticket id: TT-{{ticket.id}}</h6>
                         <p class="card-text">
                             <strong>Assigned to:</strong> {{ticket.assigned_to}}<br />
                             <strong>Owned By:</strong> {{ticket.owned_by}}<br />
                             <strong>Status:</strong> {{ticket.status}}<br />
                             <strong>Priority:</strong> {{ticket.priority}}<br />
-                            <strong>results:</strong> {{ticket.results}}<br />
+                            <strong>Results:</strong> {{ticket.results}}<br />
                             <strong>Description:</strong> {{ticket.description}}<br />
-                            <strong>solution:</strong> {{ticket.solution}}<br />
+                            <strong>Solution:</strong> {{ticket.solution}}<br />
                         </p>
                     </div>
                 </div>
@@ -47,12 +116,27 @@
             <div class="col-12 col-lg-4">
                 <p class="text-center">Ticket Actions</p>
                 <div class="text-center mt-3">
+
+
+                    {% if not ticket.status == 'CLOSED' %}
                     {% if not ticket.owned_by == request.user %}
-                    <a href="" class="btn btn-logo">Accept Ticket</a>
+                    <a href="{% url 'ticket_actions' ticket.id 'accept' %}" class="btn btn-logo">Accept Ticket</a>
                     {% endif%}
-                    <a href="" class="btn btn-logo">Waiting on Customer</a>
-                    <a href="" class="btn btn-logo">Close Ticket</a>
+
+                    {% if not ticket.status == "WAITING ON CUSTOMER" %}
+                    <a href="{% url 'ticket_actions' ticket.id 'customer' %}" class="btn btn-logo">Waiting on
+                        Customer</a>
+                    {% else %}
+                    <a href="{% url 'ticket_actions' ticket.id 'resume' %}" class="btn btn-logo">Resume Ticket</a>
+                    {% endif%}
+                    <a href="{% url 'ticket_actions' ticket.id 'close' %}" class="btn btn-logo">Close Ticket</a>
+                    <button class="btn btn-logo" onclick="openTicketModal()">Open full edit form</button>
+                    {% else %}
+                    <a href="{% url 'ticket_actions' ticket.id 'reopen' %}" class="btn btn-logo">Reopen Ticket</a>
+                    {% endif%}
+
                 </div>
+                {% if not ticket.status == 'CLOSED' %}
                 <div class="mt-5">
                     <form action="{% url 'add_ticket_comment' ticket.id %}" method="POST">
                         {% csrf_token %}
@@ -62,6 +146,8 @@
                         </div>
                     </form>
                 </div>
+                {% endif %}
+
             </div>
 
             <div class="col-12 col-lg-4">

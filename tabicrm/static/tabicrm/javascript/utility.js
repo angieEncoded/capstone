@@ -53,3 +53,11 @@ const viewEquipmentEditForm = (equipmentId) => {
 const viewSingleTicketForm = (ticketId) => {
     window.location.href = `/view_single_ticket/${ticketId}`
 }
+
+const openTicketModal = () => {
+    let ticketModal = new bootstrap.Modal(document.getElementById('editTicketModal'), {
+        keyboard: false,
+        backdrop: 'static'
+    })
+    ticketModal.show()
+}

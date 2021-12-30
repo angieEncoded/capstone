@@ -89,24 +89,24 @@ class Contact(models.Model):
 class License(models.Model):
 
     # Fields for the choices in the drop down
-    AVAST_PRO = 'Avast Pro'
-    AVAST_ENDPOINT = 'Avast Endpoint Protection'
-    MALWAREBYTES = 'Malwarebytes'
-    MICROSOFT_OFFICE_2010 = 'Microsoft Office 2010'
-    MICROSOFT_OFFICE_2013 = 'Microsoft Office 2013'
-    MICROSOFT_OFFICE_2016 = 'Microsoft Office 2016'
-    MICROSOFT_OFFICE_2019 = 'Microsoft Office 2019'
-    MICROSOFT_OFFICE_365 = 'Microsoft Office 365'
+    AVAST_PRO = 'AVAST PRO'
+    AVAST_ENDPOINT = 'AVAST ENDPOINT PROTECTION'
+    MALWAREBYTES = 'MALWAREBYTES'
+    MICROSOFT_OFFICE_2010 = 'MICROSOFT OFFICE 2010'
+    MICROSOFT_OFFICE_2013 = 'MICROSOFT OFFICE 2013'
+    MICROSOFT_OFFICE_2016 = 'MICROSOFT OFFICE 2016'
+    MICROSOFT_OFFICE_2019 = 'MICROSOFT OFFICE 2019'
+    MICROSOFT_OFFICE_365 = 'MICROSOFT OFFICE 365'
 
     PRODUCT_CHOICES = [
         (AVAST_PRO, 'Avast Pro'),
         (AVAST_ENDPOINT , 'Avast Endpoint Protection'),
         ( MALWAREBYTES, 'Malwarebytes'),
-        ( MICROSOFT_OFFICE_2010,'Microsoft Office 2010' ),
-        ( MICROSOFT_OFFICE_2013,'Microsoft Office 2013' ),
-        (MICROSOFT_OFFICE_2016 , 'Microsoft Office 2016'),
-        ( MICROSOFT_OFFICE_2019, 'Microsoft Office 2019'),
-        ( MICROSOFT_OFFICE_365, 'Microsoft Office 365'),
+        ( MICROSOFT_OFFICE_2010,'MICROSOFT OFFICE 2010' ),
+        ( MICROSOFT_OFFICE_2013,'MICROSOFT OFFICE 2013' ),
+        (MICROSOFT_OFFICE_2016 , 'MICROSOFT OFFICE 2016'),
+        ( MICROSOFT_OFFICE_2019, 'MICROSOFT OFFICE 2019'),
+        ( MICROSOFT_OFFICE_365, 'MICROSOFT OFFICE 365'),
     ]
 
     id = models.AutoField(primary_key=True)
@@ -132,40 +132,40 @@ class License(models.Model):
 class Equipment(models.Model):
 
     # Fields for equipment type
-    SERVER = 'Server'
+    SERVER = 'SERVER'
     ILO = 'ILO'
     UPS = 'UPS'
-    ROUTER = 'Router'
-    SWITCH = 'Switch'
+    ROUTER = 'ROUTER'
+    SWITCH = 'SWITCH'
     WAP = 'WAP'
-    MODEM = 'Modem'
-    DESKTOP = 'Desktop'
-    LAPTOP = 'Laptop'
-    PRINTER = 'Printer'
-    IP_PHONE = 'IP Phone'
-    RECEIPTER = 'Receipter'
-    PRINT_SERVER = 'Print Server'
-    TABLET = 'Tablet'
-    CELL_PHONE = 'Cell Phont'
-    OTHER = 'Other'
+    MODEM = 'MODEM'
+    DESKTOP = 'DESKTOP'
+    LAPTOP = 'LAPTOP'
+    PRINTER = 'PRINTER'
+    IP_PHONE = 'IP_PHONE'
+    RECEIPTER = 'RECEIPTER'
+    PRINT_SERVER = 'PRINT_SERVER'
+    TABLET = 'TABLET'
+    CELL_PHONE = 'CELL_PHONE'
+    OTHER = 'OTHER'
 
     TYPE_CHOICES = [
-        (SERVER,'Server'),
-        (ILO, 'ILO (or equivalent)'),
+        (SERVER,'SERVER'),
+        (ILO, 'ILO'),
         (UPS, 'UPS'),
-        (ROUTER,'Router'),
-        (SWITCH,'Switch'),
-        (WAP, 'Wireless Access Point'),
-        (MODEM,'Modem'),
-        (DESKTOP,'Desktop'),
-        (LAPTOP,'Laptop'),
-        (PRINTER, 'Printer'),
-        (IP_PHONE,'IP Phone'),
-        (RECEIPTER,'Receipter'),
-        (PRINT_SERVER, 'Print Server'),
-        (TABLET,'Tablet'),
-        (CELL_PHONE,'Cell phone'),
-        (OTHER, 'Other')
+        (ROUTER,'ROUTER'),
+        (SWITCH,'SWITCH'),
+        (WAP, 'WAP'),
+        (MODEM,'MODEM'),
+        (DESKTOP,'DESKTOP'),
+        (LAPTOP,'LAPTOP'),
+        (PRINTER, 'PRINTER'),
+        (IP_PHONE,'IP_PHONE'),
+        (RECEIPTER,'RECEIPTER'),
+        (PRINT_SERVER, 'PRINT_SERVER'),
+        (TABLET,'TABLET'),
+        (CELL_PHONE,'CELL_PHONE'),
+        (OTHER, 'OTHER')
     ]
 
     id = models.AutoField(primary_key=True)
@@ -198,18 +198,18 @@ class Equipment(models.Model):
 class Ticket(models.Model):
 
     OPEN='OPEN'
-    IN_PROGRESS='In Progress'
-    WAITING_ON_CUSTOMER = 'Waiting on customer'
-    CLOSED = 'Closed'
-    LOW = 'Low'
-    NORMAL = 'Normal'
-    HIGH = 'High'
-    URGENT = 'Urgent'
-    SOLVED_ON_PHONE = 'Solved on Phone'
-    SERVER_SERVICE = 'Server service'
-    ROUTER_SERVICE = 'Router service'
-    CONTRACT_SERVICE = 'Contract service'
-    NON_CONTRACT_SERVICE = 'Non-contract service'
+    IN_PROGRESS='IN PROGRESS'
+    WAITING_ON_CUSTOMER = 'WAITING ON CUSTOMER'
+    CLOSED = 'CLOSED'
+    LOW = 'LOW'
+    NORMAL = 'NORMAL'
+    HIGH = 'HIGH'
+    URGENT = 'URGENT'
+    SOLVED_ON_PHONE = 'SOLVED ON PHONE'
+    SERVER_SERVICE = 'SERVER SERVICE'
+    ROUTER_SERVICE = 'ROUTER SERVICE'
+    CONTRACT_SERVICE = 'CONTRACT SERVICE'
+    NON_CONTRACT_SERVICE = 'NON-CONTRACT SERVICE'
     NETWORK_SUPPORT_TEAM = "NETWORK"
     SOFTWARE_SUPPORT_TEAM = "SOFTWARE"
     SERVER_SUPPORT_TEAM = "SERVER"
@@ -234,20 +234,20 @@ class Ticket(models.Model):
 
     # The display portion is handled here
     RESULTS_CHOICES = [
-        (SOLVED_ON_PHONE, 'Solved on phone'),
-        (SERVER_SERVICE, 'Server service'),
-        (ROUTER_SERVICE, 'Router service'),
-        (CONTRACT_SERVICE, 'Contract service'),
-        (NON_CONTRACT_SERVICE, 'Non-contract service')
+        (SOLVED_ON_PHONE, 'SOLVED ON PHONE'),
+        (SERVER_SERVICE, 'SERVER SERVICE'),
+        (ROUTER_SERVICE, 'ROUTER SERVICE'),
+        (CONTRACT_SERVICE, 'CONTRACT SERVICE'),
+        (NON_CONTRACT_SERVICE, 'NON-CONTRACT SERVICE')
     ]
 
     TEAM_CHOICES = [
-        (NETWORK_SUPPORT_TEAM, "Network Support"),
-        (SOFTWARE_SUPPORT_TEAM, "Software Support"),
-        (SERVER_SUPPORT_TEAM, "Server Support"),
-        (HARDWARE_SUPPORT_TEAM, "Hardware Support"),
-        (SALES_TEAM, "Sales"),
-        (DEVELOPMENT_TEAM, "Development")
+        (NETWORK_SUPPORT_TEAM, "NETWORK SUPPORT"),
+        (SOFTWARE_SUPPORT_TEAM, "SOFTWARE SUPPORT"),
+        (SERVER_SUPPORT_TEAM, "SERVER SUPPORT"),
+        (HARDWARE_SUPPORT_TEAM, "HARDWARE SUPPORT"),
+        (SALES_TEAM, "SALES"),
+        (DEVELOPMENT_TEAM, "DEVELOPMENT")
     ]
 
     id = models.AutoField(primary_key=True)
