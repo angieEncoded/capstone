@@ -215,7 +215,20 @@ def delete_equipment(request, equipmentId):
             messages.add_message(request, messages.ERROR, error)
             return redirect("display_equipment", customerId)
 
+def get_customer_equipment(request, id):
+    try:
+        # get the customer from the database
+        customer = Customer.objects.get(id = id)
 
+        #get the contacts assigned to that customer
+        equipment = Equipment.objects.filter(customer = customer)
+
+        # send them back in a json
+        jsonEquipment = serializers.serialize("json", equipment)
+
+        return JsonResponse({"success": "Successfully retrieved data", "data": jsonEquipment})
+    except Exception as error:
+        return JsonResponse({"error": error})
 
 
 

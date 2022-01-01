@@ -64,6 +64,9 @@ const closeContact = async (id) => {
     const licensesRoot = document.querySelector(`#licensesDetailsRoot`)
     licensesRoot.style.display = "block"
 
+    // Show the equipment again
+    document.querySelector(`#equipmentDetailsRoot`).style.display = "block"
+
 
     // Hide our old stuff
     const contactsEditRoot = document.querySelector(`#contactsEditContent`)

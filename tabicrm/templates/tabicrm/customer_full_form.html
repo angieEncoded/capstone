@@ -264,8 +264,6 @@
     </div>
 </div>
 
-
-
 <div id="addTicketModal" class="modal fade static" tabindex="-1">
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
@@ -344,20 +342,167 @@
 </div>
 
 
+{% include 'tabicrm/partials/customer_nav.html' %}
 
-<div class="container-fluid mt-2">
-    {% include 'tabicrm/partials/customer_nav.html' %}
+
+<div id="customer-simple-view">
     <div class="container">
-
-
         <div class="form-background mb-5 mt-1">
             <h2 class=" baskerville-font text-center">{{customer_name}}</h2>
-            <div class="text-center">
-                <button onclick="showNewContactFormModal()" class="btn btn-sm btn-silver">Add Contact</button>
-                <button onclick="showNewLicenseFormModal()" class="btn btn-sm btn-silver">Add License</button>
-                <button onclick="showNewEquipmentFormModal()" class="btn btn-sm btn-silver">Add Equipment</button>
-                <button onclick="showNewTicketFormModal()" class="btn btn-sm btn-silver">Add Ticket</button>
+            {% include 'tabicrm/partials/customer_buttons.html' %}
+            <hr>
+
+            <!-- BASIC INFORMATION -->
+            <h3 class="text-center baskerville-font mb-3">Basic Information</h3>
+            <hr>
+            <div class="row">
+                <div class="col-12 col-xl-6">
+                    <div class="row mb-2">
+                        <div class="col-4 d-none d-lg-block">Customer Name: </div>
+                        <div class="col-10 col-lg-4">
+                            <div id="edit-name">{{customer.name}}</div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4 d-none d-lg-block">Primary Phone: </div>
+                        <div class="col-10 col-lg-4">
+                            <div id="edit-primary_phone">{{customer.primary_phone}}</div>
+                        </div>
+
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4 d-none d-lg-block">Secondary Phone: </div>
+                        <div class="col-10 col-lg-4">
+                            <div id="edit-secondary_phone">{{customer.secondary_phone}} </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-12 col-xl-6">
+                    <div class="row mb-2">
+                        <div class="col-4 d-none d-lg-block">Fax: </div>
+                        <div class="col-10 col-lg-4">
+                            <div id="edit-fax">{{customer.fax}} </div>
+                        </div>
+
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4 d-none d-lg-block">Website: </div>
+                        <div class="col-10 col-lg-4">
+                            <div id="edit-website">{{customer.website}} </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
+
+            <!-- BILLING ADDRESS -->
+            <h3 class="text-center baskerville-font mb-3">Billing Address</h3>
+            <hr>
+            <div class="row">
+                <div class="col-12 col-xl-6">
+                    <div class="row mb-2">
+                        <div class="col-4 d-none d-lg-block">Billing Address One:</div>
+                        <div class="col-10 col-lg-4">
+                            <div id="edit-billing_address_one">{{customer.billing_address_one}} </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4 d-none d-lg-block">Billing Address Two: </div>
+                        <div class="col-10 col-lg-4">
+                            <div id="edit-billing_address_two">{{customer.billing_address_two}} </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4 d-none d-lg-block">Billing Address City: </div>
+                        <div class="col-10 col-lg-4">
+                            <div id="edit-billing_address_city">{{customer.billing_address_city}} </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-xl-6">
+                    <div class="row mb-2">
+                        <div class="col-4 d-none d-lg-block">Billing Address State: </div>
+                        <div class="col-10 col-lg-4">
+                            <div id="edit-billing_address_state">{{customer.billing_address_state}}</div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4 d-none d-lg-block">Billing Address Zip: </div>
+                        <div class="col-10 col-lg-4">
+                            <div id="edit-billing_address_zip">{{customer.billing_address_zip}}</div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4 d-none d-lg-block">Billing Address Country: </div>
+                        <div class="col-10 col-lg-4">
+                            <div id="edit-billing_address_country">{{customer.billing_address_country}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SHIPPING ADDRESS -->
+            <h3 class="text-center baskerville-font mb-3">Shipping Address</h3>
+            <hr>
+            <div class="row">
+                <div class="col-12 col-xl-6">
+                    <div class="row mb-2">
+                        <div class="col-4 d-none d-lg-block">Shipping Address One: </div>
+                        <div class="col-10 col-lg-4">
+                            <div id="edit-shipping_address_one">{{customer.shipping_address_one}} </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4 d-none d-lg-block">Shipping Address Two: </div>
+                        <div class="col-10 col-lg-4">
+                            <div id="edit-shipping_address_two">{{customer.shipping_address_two}} </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4 d-none d-lg-block">Shipping Address City: </div>
+                        <div class="col-10 col-lg-4">
+                            <div id="edit-shipping_address_city">{{customer.shipping_address_city}} </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-xl-6">
+                    <div class="row mb-2">
+                        <div class="col-4 d-none d-lg-block">Shipping Address State: </div>
+                        <div class="col-10 col-lg-4">
+                            <div id="edit-shipping_address_state">{{customer.shipping_address_state}} </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4 d-none d-lg-block">Shipping Address Zip: </div>
+                        <div class="col-10 col-lg-4">
+                            <div id="edit-shipping_address_zip">{{customer.shipping_address_zip}}</div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-4 d-none d-lg-block">Shipping Address Country: </div>
+                        <div class="col-10 col-lg-4">
+                            <div id="edit-shipping_address_country">{{customer.shipping_address_country}} </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-1">
+                <div class="text-end">
+                    <button type="button" class="btn btn-logo" onclick="openFullEditForm()">Switch to edit view</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="customer-full-edit-form" style="display: none;">
+    <div class="container">
+        <div class="form-background mb-5 mt-1">
+            <h2 class=" baskerville-font text-center">{{customer_name}}</h2>
+
+            {% include 'tabicrm/partials/customer_buttons.html' %}
 
             <hr>
             <form action="{% url 'customer_full_form' customer.id %}" method="POST">
@@ -468,17 +613,14 @@
                         Customer</button>
                     <span class="float-end">
                         <a href="{% url 'index' %}" class="btn btn-silver">Back to Customers</a>
+                        <button type="button" class="btn btn-silver" onclick="closeFullEditForm()">Close Full Edit Form</button>
                         <button type="submit" class="btn btn-logo">Submit Changes</button>
                     </span>
                 </div>
             </form>
         </div>
     </div>
-
 </div>
-
-
-
 
 
 

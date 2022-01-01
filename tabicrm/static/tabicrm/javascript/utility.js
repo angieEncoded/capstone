@@ -69,3 +69,13 @@ const openHistoryModal = () => {
     })
     ticketHistoryModal.show()
 }
+
+const openFullEditForm = () => {
+    document.querySelector("#customer-simple-view").style.display = "none"
+    document.querySelector("#customer-full-edit-form").style.display = "block"
+}
+
+const closeFullEditForm = () => {
+    document.querySelector("#customer-simple-view").style.display = "block"
+    document.querySelector("#customer-full-edit-form").style.display = "none"
+}

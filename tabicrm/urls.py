@@ -17,6 +17,8 @@ urlpatterns = [
     path("get_customer_contacts/<int:id>", views.get_customer_contacts, name="get_customer_contacts"),
     path("get_contact/<int:id>", views.get_contact, name="get_contact"),
     path("edit_contact/<int:id>/<str:fieldName>", views.edit_contact, name="edit_contact"),
+    path("get_customer_equipment/<int:id>", views.get_customer_equipment, name="get_customer_equipment"),
+    path("get_ticket_form/<int:customerId>", views.get_ticket_form, name="get_ticket_form"),
 
     path("add_license/<int:id>", views.add_license, name="add_license"),
     path("get_customer_licenses/<int:id>", views.get_customer_licenses, name="get_customer_licenses"),

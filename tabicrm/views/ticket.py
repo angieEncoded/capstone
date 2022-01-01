@@ -1,12 +1,16 @@
 from os import stat
 from django.contrib.auth import login
-from django.http.response import JsonResponse
+from django.http.response import HttpResponse, JsonResponse
 from django.core import serializers
 from django.shortcuts import render, redirect
 from ..models import Customer, Ticket, TicketHistory, TicketComment, User
 # looks like this is the express equivelent to flash
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+
+from django.utils.http import urlencode
+
+
 import json
 import re
 
@@ -163,6 +167,24 @@ def add_ticket_comment(request, ticketId):
             messages.add_message(request, messages.ERROR,
                          error)
             return redirect("view_single_ticket", ticketId)
+
+def get_ticket_form(request, customerId):
+    # create the form for the client in question
+
+
+    try:
+        newTicketForm = forms.NewTicketForm()
+        if newTicketForm.is_valid():
+            data = newTicketForm.cleaned_data
+            return JsonResponse(data, safe=False)
+        else:
+            data = newTicketForm.errors.as_json()
+            return JsonResponse(data, status=400, safe=False) 
+
+    except Exception as error:
+        console.log(error)
+        return JsonResponse({"error": "Something bad happened"})
+
 
 
 @login_required

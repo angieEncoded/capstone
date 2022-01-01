@@ -5,7 +5,13 @@
 
 
     {% if message %}
-    <div>{{ message }}</div>
+    <div class="alert alert-danger" role="alert">
+        {{ message }}
+    </div>
+
+
+
+
     {% endif %}
     <div class="form-background form-small">
         <h2 class="text-center mb-4">Login</h2>

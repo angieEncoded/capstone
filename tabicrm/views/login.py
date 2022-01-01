@@ -20,10 +20,6 @@ console = angie.Console()
 # Set up some basic validation for the input
 contentValidator = re.compile('^[a-zA-Z0-9.,!\"\'?:;\s@#$%^&*()[\]_+={}\-]{0,255}$')
 
-@login_required  # Can't enter the system without being logged in
-def index(request):
-
-    return redirect("all_customers")
 
 
 def login_view(request):

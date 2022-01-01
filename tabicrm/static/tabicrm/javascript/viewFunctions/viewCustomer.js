@@ -30,22 +30,31 @@ const viewCustomer = async (id) => {
         const licenseData = await licenseResults.json();
         const licenseJsonData = await JSON.parse(licenseData.data)
 
+        // Get the equipment data
+        const equipmentResults = await fetch(`/get_customer_equipment/${id}`)
+        if (!equipmentResults.ok) { throw { status: equipmentResults.status, statusText: equipmentResults.statusText } }
+        const equipmentData = await equipmentResults.json();
+        const equipmentJsonData = await JSON.parse(equipmentData.data)
+
+        // Set up the string for injecting into the DOM
         let customerContactsTable = ''
         let tableEntries = ''
         let customerLicensesTable = ''
         let licenseEntries = ''
+        let customerEquipmentTable = ''
+        let equipmentEntries = ''
 
-        // Proces Contacts Data
+        // Process Contacts Data
         if (contactsJsonData.length > 0) {
             // With a for loop, add the data fields to a table
             for (i = 0; i < contactsJsonData.length; i++) {
                 tableEntries += `
                 <tr class="select-customer" id="${contactsJsonData[i].pk}" onclick="viewContact(event, '${contactsJsonData[i].pk}')">
-                    <td>${contactsJsonData[i].fields.first_name === null ? "" : contactsJsonData[i].fields.first_name}</td>
-                    <td>${contactsJsonData[i].fields.last_name === null ? "" : contactsJsonData[i].fields.last_name}</td>
-                    <td>${contactsJsonData[i].fields.job_title === null ? "" : contactsJsonData[i].fields.job_title}</td>
-                    <td>${contactsJsonData[i].fields.extension === null ? "" : contactsJsonData[i].fields.extension}</td>
-                    <td  class="text-truncate"  style="max-width: 150px;">${contactsJsonData[i].fields.notes === null ? "" : contactsJsonData[i].fields.notes}</td>
+                    <td>${contactsJsonData[i].fields.first_name === null || contactsJsonData[i].fields.first_name === undefined ? "" : contactsJsonData[i].fields.first_name}</td>
+                    <td>${contactsJsonData[i].fields.last_name === null || contactsJsonData[i].fields.last_name === undefined ? "" : contactsJsonData[i].fields.last_name}</td>
+                    <td>${contactsJsonData[i].fields.job_title === null || contactsJsonData[i].fields.job_title === undefined ? "" : contactsJsonData[i].fields.job_title}</td>
+                    <td>${contactsJsonData[i].fields.extension === null || contactsJsonData[i].fields.extension === undefined ? "" : contactsJsonData[i].fields.extension}</td>
+                    <td  class="text-truncate"  style="max-width: 150px;">${contactsJsonData[i].fields.notes === null || contactsJsonData[i].fields.notes === undefined ? "" : contactsJsonData[i].fields.notes}</td>
                 </tr>
                 \n
                 `
@@ -83,13 +92,13 @@ const viewCustomer = async (id) => {
             for (i = 0; i < licenseJsonData.length; i++) {
                 licenseEntries += `
                 <tr id="${licenseJsonData[i].pk}">
-                    <td>${licenseJsonData[i].fields.product === null ? "" : licenseJsonData[i].fields.product}</td>
-                    <td>${licenseJsonData[i].fields.purchase_date === null ? "" : licenseJsonData[i].fields.purchase_date}</td>
-                    <td>${licenseJsonData[i].fields.expiration_date === null ? "" : licenseJsonData[i].fields.expiration_date}</td>
-                    <td>${licenseJsonData[i].fields.license_key === null ? "" : licenseJsonData[i].fields.license_key}</td>
+                    <td>${licenseJsonData[i].fields.product === null || licenseJsonData[i].fields.product === undefined ? "" : licenseJsonData[i].fields.product}</td>
+                    <td>${licenseJsonData[i].fields.purchase_date === null || licenseJsonData[i].fields.purchase_date === undefined ? "" : licenseJsonData[i].fields.purchase_date}</td>
+                    <td>${licenseJsonData[i].fields.expiration_date === null || licenseJsonData[i].fields.expiration_date === undefined ? "" : licenseJsonData[i].fields.expiration_date}</td>
+                    <td>${licenseJsonData[i].fields.license_key === null || licenseJsonData[i].fields.license_key === undefined ? "" : licenseJsonData[i].fields.license_key}</td>
                     <td class="text-truncate"  style="max-width: 50px;">
                         <a href="/download_license/${licenseJsonData[i].pk}" class="frontend-link" download>
-                        ${licenseJsonData[i].fields.license_file === null ? "" : licenseJsonData[i].fields.license_file}
+                        ${licenseJsonData[i].fields.license_file === null || licenseJsonData[i].fields.license_file === undefined ? "" : licenseJsonData[i].fields.license_file}
                         </a>
                     </td>
                     <!--
@@ -133,7 +142,48 @@ const viewCustomer = async (id) => {
         }
 
 
-
+        // Process Equipment Data
+        if (equipmentJsonData.length > 0) {
+            // With a for loop, add the data fields to a table
+            for (i = 0; i < equipmentJsonData.length; i++) {
+                equipmentEntries += `
+                <tr id="${equipmentJsonData[i].pk}")">
+                    <td>${equipmentJsonData[i].fields.type === null || equipmentJsonData[i].fields.type === undefined ? "" : equipmentJsonData[i].fields.type}</td>
+                    <td>${equipmentJsonData[i].fields.vendor === null || equipmentJsonData[i].fields.vendor === undefined ? "" : equipmentJsonData[i].fields.vendor}</td>
+                    <td>${equipmentJsonData[i].fields.model === null || equipmentJsonData[i].fields.model === undefined ? "" : equipmentJsonData[i].fields.model}</td>
+                    <td>${equipmentJsonData[i].fields.internal_ip_address === null || equipmentJsonData[i].fields.internal_ip_address === undefined ? "" : equipmentJsonData[i].fields.internal_ip_address}</td>
+                    <td>${equipmentJsonData[i].fields.external_ip_address === null || equipmentJsonData[i].fields.external_ip_address === undefined ? "" : equipmentJsonData[i].fields.external_ip_address}</td>
+                    <td>${equipmentJsonData[i].fields.serial === null || equipmentJsonData[i].fields.serial === undefined ? "" : equipmentJsonData[i].fields.serial}</td>
+                </tr>
+                    \n
+                `
+            }
+            customerEquipmentTable =
+                `
+                <!-- EQUIPMENT INFORMATION -->
+                <h5 class="text-center baskerville-font mb-3">Equipment</h5>
+                <table class="table  table-striped table-responsive">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Type</th>
+                            <th scope="col">Vendor</th>
+                            <th scope="col">Model</th>
+                            <th scope="col">Internal IP Address</th>
+                            <th scope="col">External IP Address</th>
+                            <th scope="col">Serial #</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${equipmentEntries}
+                    </tbody>
+                </table>
+                `
+        } else {
+            customerEquipmentTable = `
+            <h5 class="text-center baskerville-font mb-3">Equipment</h5>
+            <p class="text-center">No equipment recorded for this customer.</p>
+            `
+        }
 
 
 
@@ -273,8 +323,10 @@ const viewCustomer = async (id) => {
         // Populate the modal's data
         const modalTitle = document.querySelector(`#clientDetailsTitle`)
         modalTitle.innerHTML = `
-            Viewing basic details for: ${finalData.name} <a href="/customer_full_form/${id}" class="frontend-link ms-5">Go to full edit form</a>
-
+            ${finalData.name}
+            <a href="/customer_full_form/${id}" class="btn-sm btn-silver ms-5">Full Details</a>
+            <a id="openTicketButton" href="#" class="btn-sm btn-silver ms-2" onclick="quickOpenTicket('${id}');return false;" style="display: inline;">Open Ticket</a>
+            <a id="closeTicketButton" href="#" class="btn-sm btn-silver ms-2" onclick="closeTicketButton();return false;" style="display: none;">Close Ticket</a>
         `
         const clientDetails = document.querySelector(`#clientDetailsRoot`)
         clientDetails.innerHTML = customerDetailsForm
@@ -286,6 +338,11 @@ const viewCustomer = async (id) => {
         // Find the root for the licenses content
         const licensesRoot = document.querySelector(`#licensesDetailsRoot`)
         licensesRoot.innerHTML = customerLicensesTable
+
+        // Find the root for the equipment content
+        const equipmentRoot = document.querySelector(`#equipmentDetailsRoot`)
+        equipmentRoot.innerHTML = customerEquipmentTable
+
 
         // Open the modal
         customerModal.show()

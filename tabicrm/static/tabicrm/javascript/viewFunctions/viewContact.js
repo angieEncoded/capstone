@@ -3,14 +3,12 @@ const viewContact = async (event, id) => {
     document.querySelector(`#clientDetailsRoot`).style.display = "none"
     document.querySelector(`#contactsDetailsRoot`).style.display = "none"
     document.querySelector(`#licensesDetailsRoot`).style.display = "none"
+    document.querySelector(`#equipmentDetailsRoot`).style.display = "none"
 
     // get the div that we want to display our data in
     const contactsRoot = document.querySelector(`#contactsEditContent`)
 
     try {
-
-        // NOTE - word-wrap in bootstrap didn't work, but text-break did. 
-
         // Get the data for the contact
         const contactResults = await fetch(`/get_contact/${id}`)
         if (!contactResults.ok) { throw { status: contactResults.status, statusText: contactResults.statusText } }
