@@ -325,8 +325,8 @@ const viewCustomer = async (id) => {
         modalTitle.innerHTML = `
             ${finalData.name}
             <a href="/customer_full_form/${id}" class="btn-sm btn-silver ms-5">Full Details</a>
-            <a id="openTicketButton" href="#" class="btn-sm btn-silver ms-2" onclick="quickOpenTicket('${id}');return false;" style="display: inline;">Open Ticket</a>
-            <a id="closeTicketButton" href="#" class="btn-sm btn-silver ms-2" onclick="closeTicketButton();return false;" style="display: none;">Close Ticket</a>
+            <button id="openTicketButton" class="btn-sm btn-silver ms-2" onclick="quickOpenTicket('${id}')" style="display: inline;">Open Ticket</button>
+            <a id="closeTicketButton" href="#" class="btn-sm btn-silver ms-2" onclick="closeTicketButton('${id}');return false;" style="display: none;">Back to customer</a>
         `
         const clientDetails = document.querySelector(`#clientDetailsRoot`)
         clientDetails.innerHTML = customerDetailsForm

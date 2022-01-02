@@ -56,8 +56,6 @@ def add_ticket(request, id):
         updated_by = user
         owned_by = user
    
-
-
         try:
             # interestingly, Python does not return an instance of the object unless we use this format https://stackoverflow.com/questions/10936737/why-does-django-orms-save-method-not-return-the-saved-object
             result = Ticket.objects.create(
@@ -71,7 +69,7 @@ def add_ticket(request, id):
             solution=solution,
             added_by = added_by,
             updated_by = updated_by,
-            owned_by = owned_by
+            owned_by = None
         )
 
             # console.log(result)
@@ -168,23 +166,81 @@ def add_ticket_comment(request, ticketId):
                          error)
             return redirect("view_single_ticket", ticketId)
 
-def get_ticket_form(request, customerId):
-    # create the form for the client in question
+def post_new_ticket(request, customerId):
+
+    if request.method == "POST":
+        
+        customer = Customer.objects.get(id = customerId)
+        user = request.user
+        customerId = customer.id
+
+        form = forms.NewTicketForm(request.POST)
+        
+        if not form.is_valid():
+            return JsonResponse({"error":"Form is not valid"})
+        
+        # Assign all the fields
+        assigned_to = form.cleaned_data["assigned_to"]
+        title = form.cleaned_data["title"]
+        status = form.cleaned_data["status"]
+        priority = form.cleaned_data["priority"]
+        results = form.cleaned_data["results"]
+        description = form.cleaned_data["description"]
+        solution = form.cleaned_data["solution"]
+        added_by = user
+        updated_by = user
+        owned_by = None
+   
+        try:
+            # interestingly, Python does not return an instance of the object unless we use this format https://stackoverflow.com/questions/10936737/why-does-django-orms-save-method-not-return-the-saved-object
+            result = Ticket.objects.create(
+            customer=customer,
+            assigned_to=assigned_to,
+            title=title, 
+            status=status,
+            priority=priority,
+            results=results,
+            description=description,
+            solution=solution,
+            added_by = added_by,
+            updated_by = updated_by,
+            owned_by = owned_by
+        )
+
+            # console.log(result)
+            # Add to the history
+            action = "Ticket Created"
+            ticket = result
+            taken_by = user
+
+            ticketAction = TicketHistory(
+                action = action,
+                ticket=ticket,
+                taken_by=taken_by
+            )
+            ticketAction.save()
+            # return JsonResponse({"success":"Successfully opened the ticket", "ticket_number": "TEST"})
+            return JsonResponse({"success":"Successfully opened the ticket", "ticket_number": result.id})
+
+        except Exception as error:
+            console.log(error)
+            return JsonResponse({"error":"Unable to process that request."})
 
 
-    try:
-        newTicketForm = forms.NewTicketForm()
-        if newTicketForm.is_valid():
-            data = newTicketForm.cleaned_data
-            return JsonResponse(data, safe=False)
-        else:
-            data = newTicketForm.errors.as_json()
-            return JsonResponse(data, status=400, safe=False) 
 
-    except Exception as error:
-        console.log(error)
-        return JsonResponse({"error": "Something bad happened"})
 
+
+
+
+
+
+
+
+
+
+
+    return JsonResponse({"Success": "Success"})
+    
 
 
 @login_required

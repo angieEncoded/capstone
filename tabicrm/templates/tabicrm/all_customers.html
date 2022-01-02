@@ -26,12 +26,60 @@
                 <div id="contactsDetailsRoot"></div>
                 <div id="licensesDetailsRoot"></div>
                 <div id="equipmentDetailsRoot"></div>
+                <div id="newTicketFormContainer" class="newTicketForm" style="display: none;">
+                    <div id="newTicketFormDetails">
+                        {% csrf_token %}
+                        <div class="row">
+                            <!-- COLUMN 1 -->
+                            <div class="col-12 col-lg-6">
+                                <div class="mb-3">
+                                    <label for="assigned_to" class="form-label">Assigned To:</label>
+                                    {{newTicketForm.assigned_to}}
+                                </div>
+                                <div class="mb-3">
+                                    <label for="status" class="form-label">Status</label>
+                                    {{newTicketForm.status}}
+                                </div>
+                                <div class="mb-3">
+                                    <label for="priority" class="form-label">Priority</label>
+                                    {{newTicketForm.priority}}
+                                </div>
+                                <div class="mb-3">
+                                    <label for="sesults" class="form-label">Results</label>
+                                    {{newTicketForm.results}}
+                                </div>
 
+                            </div>
+                            <!-- COLUMN 2 -->
+                            <div class="col-12 col-lg-6">
+                                <div class="mb-3">
+                                    <label for="title" class="form-label">Title</label>
+                                    {{newTicketForm.title}}
+                                </div>
+                                <div class="mb-3">
+                                    <label for="description" class="form-label">Description</label>
+                                    {{newTicketForm.description}}
+                                </div>
+                                <div class="mb-3">
+                                    <label for="solution" class="form-label">Solution</label>
+                                    {{newTicketForm.solution}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-logo">Add Ticket</button>
+                        </div>
+                    </div>
+
+                </div>
             </div>
 
 
         </div>
+
+
     </div>
+</div>
 </div>
 
 <div class="container-fluid">

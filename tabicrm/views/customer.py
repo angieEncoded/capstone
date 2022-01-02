@@ -85,8 +85,13 @@ def add_customer(request):
 
 @login_required
 def all_customers(request):
+    # Get all the customers
     customers = Customer.objects.all()
-    return render(request,"tabicrm/all_customers.html", {"customers": customers})
+
+    # set up the new ticket form for the modal
+    newTicketForm = forms.NewTicketForm()
+
+    return render(request,"tabicrm/all_customers.html", {"customers": customers, 'newTicketForm':newTicketForm})
 
 @login_required
 def view_customer(request, id):
