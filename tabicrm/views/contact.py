@@ -52,7 +52,7 @@ def add_contact(request, id):
             contact.save()
             messages.add_message(request, messages.SUCCESS,
                          "Successfully saved the contact.")
-            return redirect("display_contacts", id)
+            return redirect("customer_full_form", id)
         except Exception as error:
             console.log(error)
             messages.add_message(request, messages.ERROR,
@@ -60,19 +60,25 @@ def add_contact(request, id):
             return redirect("customer_full_form", id)
 
 @login_required
-def display_contacts(request, id):
-    customer = Customer.objects.get(id = id)
+def display_contacts(request, customerId):
+    customer = Customer.objects.get(id = customerId)
     contacts = Contact.objects.filter(customer = customer)
-    return render(request,"tabicrm/full_forms/display_contacts.html", {"contacts": contacts, 'customer': customer, 'cust_contacts': True })
+    return render(request, "tabicrm/full_forms/display_contacts.html", {
+        "contacts": contacts, 
+        'customer': customer, 
+        'cust_contacts': True 
+        })
 
 
-
+@login_required
 def full_edit_contact(request, contactId):
 
+    # Show the full edit contact form
     if request.method == "GET":
-
         contact = Contact.objects.get(id = contactId)
         customer = contact.customer
+
+        # Set the form's initial data
         editContactForm = forms.NewContactForm(initial={
             'first_name': contact.first_name,
             'last_name':contact.last_name,
@@ -80,7 +86,7 @@ def full_edit_contact(request, contactId):
             'extension': contact.extension,
             'notes':contact.notes
         })
-    
+
         return render(request, "tabicrm/full_forms/full_edit_contact.html", {
             "editContactForm": editContactForm,
             'customer_name': customer.name,
@@ -91,6 +97,7 @@ def full_edit_contact(request, contactId):
         })
 
 
+    # Post the changes to the database
     if request.method == "POST":
         form = forms.NewContactForm(request.POST)
 
@@ -100,7 +107,6 @@ def full_edit_contact(request, contactId):
             return redirect("full_edit_contact", contactId)
 
         try: 
-
             first_name = form.cleaned_data["first_name"]
             last_name = form.cleaned_data["last_name"]
             job_title = form.cleaned_data["job_title"]
@@ -108,10 +114,11 @@ def full_edit_contact(request, contactId):
             notes = form.cleaned_data["notes"]
             updated_by = request.user
             
-
+            # Get the contact being edited
             contactToEdit = Contact.objects.get(id = contactId)
             customerId = contactToEdit.customer.id
 
+            # set all the attributes to what we got from the form
             setattr(contactToEdit, 'first_name',  first_name)
             setattr(contactToEdit, 'last_name',  last_name)
             setattr(contactToEdit, 'job_title',  job_title)
@@ -119,6 +126,7 @@ def full_edit_contact(request, contactId):
             setattr(contactToEdit, 'notes',  notes)
             setattr(contactToEdit, 'updated_by',  updated_by)
 
+            # Save the contact and go back to all the customer's contacts
             contactToEdit.save()
             messages.add_message(request, messages.SUCCESS, "Successfully saved the changes!")
             return redirect("display_contacts", customerId)
@@ -129,13 +137,7 @@ def full_edit_contact(request, contactId):
             return redirect("full_edit_contact", contactId)
 
 
-
-
-
-
-
-
-
+@login_required
 def delete_contact(request, contactId):
 
     if request.method == "POST":
@@ -157,8 +159,6 @@ def delete_contact(request, contactId):
             console.log(error)
             messages.add_message(request, messages.ERROR, error)
             return redirect("display_contacts", customerId)
-
-
 
 
 

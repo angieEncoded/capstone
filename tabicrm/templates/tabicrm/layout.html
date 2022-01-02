@@ -29,14 +29,14 @@
 
 
                     {% if user.is_authenticated %}
-                    <li class="nav-item {% if navadd_customer %}active{% endif %}">
-                        <a class="nav-link" href="{% url 'index' %}">Open tickets</a>
+                    <li class="nav-item">
+                        <a class="nav-link {% if navopen_tickets %}active{% endif %}" href="{% url 'index' %}">Open tickets</a>
                     </li>
-                    <li class="nav-item {% if navadd_customer %}active{% endif %}">
-                        <a class="nav-link" href="{% url 'all_customers' %}">View customers</a>
+                    <li class="nav-item">
+                        <a class="nav-link {% if navall_customers %}active{% endif %}" href="{% url 'all_customers' %}">All customers</a>
                     </li>
-                    <li class="nav-item {% if navadd_customer %}active{% endif %}">
-                        <a class="nav-link" href="{% url 'add_customer' %}">Add Customer</a>
+                    <li class="nav-item">
+                        <a class="nav-link {% if navadd_customer %}active{% endif %}" href="{% url 'add_customer' %}">Add Customer</a>
                     </li>
                     {% endif %}
                 </ul>

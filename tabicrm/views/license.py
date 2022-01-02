@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 import json
 import re
+import os
 
 
 # some refactoring, and some utility things to make my life more comfortable
@@ -124,77 +125,6 @@ def get_license(request, id):
         return JsonResponse({"error": error})
     pass
 
-
-@login_required
-def edit_license(request, id):
-
-    if request.method == "GET":
-        # get the license information
-        license = License.objects.get(id = id)
-        console.log(license.license_file)
-        # Set it to a form
-        form = forms.NewLicenseForm(initial={
-           'product': license.product, 
-           'purchase_date': license.purchase_date, 
-           'expiration_date' : license.expiration_date,
-           'customer' : license.customer, 
-           'license_key' : license.license_key,
-           'license_file' : license.license_file, 
-           'notes' : license.notes, 
-           'end_of_life' : license.end_of_life
-        })
-
-        return render(request, "tabicrm/edit_license.html", {'form': form, 'license_name': license.license_file, 'license_id': id})
-
-
-
-    if request.method == "POST":
-
-        form = forms.NewLicenseForm(request.POST, request.FILES)
-        # Short circuit if the form is bad
-        if not form.is_valid():
-            messages.add_message(request, messages.ERROR, 'Form is not valid')
-            return redirect(f"edit_license/{id}")
-
-        # Assign all the fields
-        product = form.cleaned_data["product"]
-        purchase_date = form.cleaned_data["purchase_date"]
-        expiration_date = form.cleaned_data["expiration_date"]
-        customer = form.cleaned_data["customer"]
-        license_key = form.cleaned_data["license_key"]
-        notes = form.cleaned_data["notes"]
-        end_of_life = form.cleaned_data["end_of_life"]
-
-        # Get the current data from the license field
-        currentLicense = License.objects.get(id = id)
-
-        # if we have a file, None if we dont
-        if request.FILES:
-            license_file=request.FILES['license_file']
-        else:
-            license_file=currentLicense.license_file
-
-
-        try:
-            licenseToEdit = License.objects.get(id = id)
-            setattr(licenseToEdit, 'product', product)
-            setattr(licenseToEdit, 'purchase_date', purchase_date )
-            setattr(licenseToEdit, 'expiration_date', expiration_date)
-            setattr(licenseToEdit, 'customer', customer)
-            setattr(licenseToEdit, 'license_key', license_key)
-            setattr(licenseToEdit, 'notes', notes )
-            setattr(licenseToEdit, 'end_of_life', end_of_life )
-            setattr(licenseToEdit, 'license_file', license_file )
-            licenseToEdit.save()
-            messages.add_message(request, messages.SUCCESS,
-                         "Successfully saved your changes.")
-            return redirect(f"/edit_license/{id}")
-        except Exception as error:
-            console.log(error)
-            messages.add_message(request, messages.ERROR,
-                         error)
-            return redirect(f"/edit_license/{id}")
-
 @login_required
 def delete_license(request, id):
 
@@ -223,9 +153,95 @@ def delete_license(request, id):
                          error)
             return redirect(f"/edit_license/{id}")
 
+@login_required
+def display_licenses(request, customerId):
+    
+    # get all the customer licenses and render the table
+    if request.method == "GET":
+        customer = Customer.objects.get(id = customerId)
+        licenses = License.objects.filter(customer = customer)
+        return render(request, "tabicrm/full_forms/display_licenses.html", {"customer": customer, "licenses": licenses, "cust_licenses": True})
+
+@login_required
+def full_edit_license(request, licenseId):
+
+    # Get the license details and render the edit form
+    if request.method == "GET":
+        license = License.objects.get(id = licenseId)
+        customer = Customer.objects.get(id = license.customer.id)
+        editLicenseForm = forms.NewLicenseForm(initial= {
+            'product':license.product, 
+            'purchase_date':license.purchase_date, 
+            'expiration_date':license.expiration_date, 
+            'customer':license.customer, 
+            'license_key':license.license_key, 
+            'notes':license.notes, 
+            'end_of_life':license.end_of_life, 
+            'license_file':license.license_file, 
+        })
+
+        return render(request, "tabicrm/full_forms/full_edit_license.html", {
+            "editLicenseForm": editLicenseForm,
+            'customer_name': customer.name,
+            'customer_id': customer.id,
+            'customer':customer,
+            'license': license,
+            'cust_licenses': True
+        })
+
+    if request.method == "POST":
+
+        # get the form data
+        form = forms.NewLicenseForm(request.POST, request.FILES)
+        # Short circuit if the form is bad
+        if not form.is_valid():
+            messages.add_message(request, messages.ERROR, 'Form is not valid')
+            return redirect("full_edit_license", licenseId)
+
+        try: 
+            product = form.cleaned_data["product"]
+            purchase_date = form.cleaned_data["purchase_date"]
+            expiration_date = form.cleaned_data["expiration_date"]
+            license_key = form.cleaned_data["license_key"]
+            license_file = form.cleaned_data["license_file"]
+            notes = form.cleaned_data["notes"]
+            end_of_life = form.cleaned_data["end_of_life"]
+            updated_by = request.user
+                    
+            # Get the current data from the license field
+            currentLicense = License.objects.get(id = licenseId)
+
+            # if we have a file unlink the old file, set to None if we don't which will leave the record alone
+            if request.FILES:
+                license_file=request.FILES['license_file']
+                os.unlink(str(currentLicense.license_file))
+            else:
+                license_file=currentLicense.license_file
 
 
+            # Get the contact being edited
+            licenseToEdit = License.objects.get(id = licenseId)
+            customerId = licenseToEdit.customer.id
 
+
+            # set all the attributes to what we got from the form
+            setattr(licenseToEdit, 'product',  product)
+            setattr(licenseToEdit, 'purchase_date',  purchase_date)
+            setattr(licenseToEdit, 'expiration_date',  expiration_date)
+            setattr(licenseToEdit, 'license_key',  license_key)
+            setattr(licenseToEdit, 'license_file',  license_file)
+            setattr(licenseToEdit, 'notes',  notes)
+            setattr(licenseToEdit, 'end_of_life',  end_of_life)
+            setattr(licenseToEdit, 'updated_by',  updated_by)
+
+            # Save the contact and go back to all the customer's contacts
+            licenseToEdit.save()
+            messages.add_message(request, messages.SUCCESS, "Successfully saved the changes!")
+            return redirect("display_licenses", customerId)
+
+        except Exception as error:
+            messages.add_message(request, messages.ERROR, error)
+            return redirect("full_edit_license", licenseId)
 
 
 

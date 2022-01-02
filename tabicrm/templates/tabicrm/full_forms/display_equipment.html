@@ -19,12 +19,10 @@
                     <th scope="col">Type</th>
                     <th scope="col">Vendor</th>
                     <th scope="col">Model</th>
-                    <th scope="col">Operating System</th>
                     <th scope="col">End of Life</th>
-                    <th scope="col">IP Address</th>
+                    <th scope="col">Internal IP Address</th>
+                    <th scope="col">External IP Address</th>
                     <th scope="col">Serial Number</th>
-                    <th scope="col">Product Number</th>
-                    <th scope="col">Notes</th>
                 </tr>
             </thead>
             <tbody>
@@ -33,13 +31,10 @@
                     <td>{{equipment.type}}</td>
                     <td>{{equipment.vendor}}</td>
                     <td>{{equipment.model}}</td>
-                    <td>{{equipment.operating_system}}</td>
                     <td>{{equipment.end_of_life}}</td>
                     <td>{{equipment.internal_ip_address}}</td>
+                    <td>{{equipment.external_ip_address}}</td>
                     <td>{{equipment.serial_number}}</td>
-                    <td>{{equipment.product_number}}</td>
-                    <td>{{equipment.notes}}</td>
-
                 </tr>
                 {% endfor%}
             </tbody>

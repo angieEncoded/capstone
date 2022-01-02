@@ -14,4 +14,5 @@ How to run your application.
 Any other additional information the staff should know about your project.
 Added jquery and datatables plugin for the pagination and search features on the front end
 changed the timezone to America/New_York for timestamps proper
-added this "from django.db.models import Q" in order to do queries on multiple statuses
+<!-- added this "from django.db.models import Q" in order to do queries on multiple statuses --> not needed ended up using except
+added import os to be able to unlink files

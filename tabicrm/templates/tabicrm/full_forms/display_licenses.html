@@ -1,0 +1,46 @@
+{% extends "tabicrm/layout.html" %}
+<!-- Weird that I had to do this here, it doesn't seem to inherit from the layout? -->
+{% load static %}
+{% load humanize %}
+
+{% block body %}
+
+
+
+
+<div class="container-fluid mt-2">
+    {% include 'tabicrm/partials/customer_nav.html' %}
+
+
+    <div class="container-fluid mt-2">
+        <table class="table table-striped table-responsive" id="ticketsTable">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Product</th>
+                    <th scope="col">Purchase Date</th>
+                    <th scope="col">Expiration Date</th>
+                    <th scope="col">License Key</th>
+                    <th scope="col">License File</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for license in licenses %}
+                <tr class="select-customer" onclick="viewSingleLicenseForm('{{license.id}}')">
+                    <td>{{license.product}}</td>
+                    <td>{{license.purchase_date}}</td>
+                    <td>{{license.expiration_date}}</td>
+                    <td>{% if license.license_key %}{{license.license_key}}{% endif %}</td>
+                    <td>{% if license.license_file %}{{license.license_file}}{% endif %}</td>
+                </tr>
+                {% endfor%}
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+</div>
+
+
+{% endblock %}

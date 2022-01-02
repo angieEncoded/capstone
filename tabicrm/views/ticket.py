@@ -24,8 +24,8 @@ console = angie.Console()
 
 
 @login_required
-def display_tickets(request, id):
-    customer = Customer.objects.get(id = id)
+def display_tickets(request, customerId):
+    customer = Customer.objects.get(id = customerId)
     tickets = Ticket.objects.filter(customer = customer)
     return render(request,"tabicrm/full_forms/display_tickets.html", {"tickets": tickets, 'customer': customer, 'cust_tickets': True })
 
@@ -54,8 +54,8 @@ def add_ticket(request, id):
         solution = form.cleaned_data["solution"]
         added_by = user
         updated_by = user
-        owned_by = user
-   
+
+
         try:
             # interestingly, Python does not return an instance of the object unless we use this format https://stackoverflow.com/questions/10936737/why-does-django-orms-save-method-not-return-the-saved-object
             result = Ticket.objects.create(
@@ -87,7 +87,7 @@ def add_ticket(request, id):
 
             messages.add_message(request, messages.SUCCESS,
                          "Successfully saved the ticket.")
-            return redirect("display_tickets", customerId)
+            return redirect("customer_full_form", customerId)
         except Exception as error:
             console.log(error)
             messages.add_message(request, messages.ERROR,
@@ -166,6 +166,7 @@ def add_ticket_comment(request, ticketId):
                          error)
             return redirect("view_single_ticket", ticketId)
 
+@login_required
 def post_new_ticket(request, customerId):
 
     if request.method == "POST":
@@ -242,7 +243,6 @@ def post_new_ticket(request, customerId):
     return JsonResponse({"Success": "Success"})
     
 
-
 @login_required
 def ticket_actions(request, ticketId, action):
     # possible actions:
@@ -305,7 +305,6 @@ def ticket_actions(request, ticketId, action):
                 ticket.save()
                 messages.add_message(request, messages.SUCCESS, "Ticket closed")
             except Exception as error:
-                console.log(error)
                 messages.add_message(request, messages.ERROR, error)
                 return redirect("view_single_ticket", ticketId)   
         
@@ -383,7 +382,6 @@ def full_edit_ticket(request, ticketId):
             return redirect("view_single_ticket", ticketId)
 
         except Exception as error:
-            console.log(error)
             messages.add_message(request, messages.ERROR, error)
             return redirect("view_single_ticket", ticketId)
 

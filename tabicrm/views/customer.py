@@ -16,15 +16,14 @@ from .. import forms
 # my alias to print()
 console = angie.Console()
 
-
-# WORK ON SOME MORE ROBUST CONTENT VALIDATION LATER ON
-
 # Set up some basic validation for the input
 contentValidator = re.compile('^[a-zA-Z0-9.,!\"\'?:;\s@#$%^&*()[\]_+={}\-]{0,255}$')
 
-
+# Checked 1/2/2022
 @login_required
 def add_customer(request):
+
+    # Render the form for adding a new client, send through a variable to tell the front end what link to set 'active'
     if request.method == "GET":
         form = forms.NewCustomerForm()
         return render(request, "tabicrm/add_customer.html", {
@@ -32,6 +31,7 @@ def add_customer(request):
             "navadd_customer": True
         })
 
+    # Add the new customer
     if request.method == "POST":
         form = forms.NewCustomerForm(request.POST)
         # Short circuit if the form is bad
@@ -61,27 +61,27 @@ def add_customer(request):
         added_by = request.user
         updated_by = request.user
 
-        # Create the object
-        customer = Customer(name=name, primary_phone=primary_phone, fax=fax, website=website, notes=notes, secondary_phone=secondary_phone, billing_address_one=billing_address_one,
-                            billing_address_two=billing_address_two, billing_address_city=billing_address_city, billing_address_state=billing_address_state, 
-                            billing_address_zip=billing_address_zip, billing_address_country=billing_address_country, shipping_address_one=shipping_address_one,
-                            shipping_address_two=shipping_address_two, shipping_address_city=shipping_address_city, shipping_address_state=shipping_address_state,
-                            shipping_address_zip=shipping_address_zip, shipping_address_country=shipping_address_country, added_by=added_by, updated_by=updated_by)
+
         try:
-            customer.save()
+        # Create the object with the create method that will return it so we can go to the page
+            result = Customer.objects.create(
+                name=name, primary_phone=primary_phone, fax=fax, website=website, notes=notes, secondary_phone=secondary_phone, billing_address_one=billing_address_one,
+                billing_address_two=billing_address_two, billing_address_city=billing_address_city, billing_address_state=billing_address_state, 
+                billing_address_zip=billing_address_zip, billing_address_country=billing_address_country, shipping_address_one=shipping_address_one,
+                shipping_address_two=shipping_address_two, shipping_address_city=shipping_address_city, shipping_address_state=shipping_address_state,
+                shipping_address_zip=shipping_address_zip, shipping_address_country=shipping_address_country, added_by=added_by, updated_by=updated_by
+            )
+            
             messages.add_message(request, messages.SUCCESS,
                          "Successfully saved the customer.")
-            return redirect("all_customers")
+            return redirect("customer_full_form", result.id)
         except:
             messages.add_message(request, messages.ERROR,
                          "Something unexpected happened while trying to save that record. Please try again. If the problem persists, contact the developer.")
-            return redirect("all_customers")
+            return redirect("add_customer")
 
 
 
-    messages.add_message(request, messages.ERROR,
-                         "I don't recognize that request. Returning to the home page.")
-    return redirect("index")
 
 @login_required
 def all_customers(request):
@@ -91,7 +91,7 @@ def all_customers(request):
     # set up the new ticket form for the modal
     newTicketForm = forms.NewTicketForm()
 
-    return render(request,"tabicrm/all_customers.html", {"customers": customers, 'newTicketForm':newTicketForm})
+    return render(request,"tabicrm/all_customers.html", {"customers": customers, 'newTicketForm':newTicketForm, "navall_customers": True})
 
 @login_required
 def view_customer(request, id):

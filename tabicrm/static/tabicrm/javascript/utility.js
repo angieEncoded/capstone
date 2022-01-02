@@ -54,6 +54,11 @@ const viewSingleTicketForm = (ticketId) => {
     window.location.href = `/view_single_ticket/${ticketId}`
 }
 
+const viewSingleLicenseForm = (licenseId) => {
+    window.location.href = `/full_edit_license/${licenseId}`
+}
+
+
 const openTicketModal = () => {
     let ticketModal = new bootstrap.Modal(document.getElementById('editTicketModal'), {
         keyboard: false,

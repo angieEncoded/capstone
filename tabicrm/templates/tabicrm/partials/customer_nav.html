@@ -8,6 +8,10 @@
     </li>
 
     <li class="nav-item">
+        <a class="nav-link  tabs-link   {% if cust_licenses %}active{% endif %}" href="{% url 'display_licenses' customer.id %}">Licenses</a>
+    </li>
+
+    <li class="nav-item">
         <a class="nav-link tabs-link  {% if cust_equipment %}active{% endif %}" href="{% url 'display_equipment' customer.id %}">Equipment</a>
     </li>
 

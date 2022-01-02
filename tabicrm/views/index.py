@@ -21,9 +21,8 @@ def index(request):
     openTickets = Ticket.objects.exclude(status = "CLOSED").filter(owned_by = None)
     ownedTickets = Ticket.objects.exclude(status = "CLOSED").filter(owned_by = request.user)
     
-    console.log(openTickets)
-    console.log(ownedTickets)
     return render(request, "tabicrm/index.html", {
         "openTickets": openTickets,
-        "ownedTickets": ownedTickets
+        "ownedTickets": ownedTickets,
+        "navopen_tickets": True
     })

@@ -17,11 +17,12 @@ from .. import forms
 console = angie.Console()
 
 @login_required
-def display_equipment(request, id):
-    customer = Customer.objects.get(id = id)
+def display_equipment(request, customerId):
+    customer = Customer.objects.get(id = customerId)
     equipments = Equipment.objects.filter(customer = customer)
     return render(request,"tabicrm/full_forms/display_equipment.html", {"equipments": equipments, 'customer': customer, 'cust_equipment': True })
 
+@login_required
 def full_edit_equipment(request, equipmentId):
 
     if request.method == "GET":
@@ -121,11 +122,7 @@ def full_edit_equipment(request, equipmentId):
 @login_required
 def add_equipment(request, id):
 
-
     if request.method == "POST":
-
-
-
         form = forms.NewEquipmentForm(request.POST)
         customer = Customer.objects.get(id = id)
         user = request.user
@@ -157,8 +154,6 @@ def add_equipment(request, id):
         added_by = user
         updated_by = user
 
-   
-
         equipment = Equipment(
             customer=customer,
             type=type,
@@ -185,7 +180,7 @@ def add_equipment(request, id):
             equipment.save()
             messages.add_message(request, messages.SUCCESS,
                          "Successfully saved the equipment.")
-            return redirect("display_equipment", customerId)
+            return redirect("customer_full_form", customerId)
         except Exception as error:
             console.log(error)
             messages.add_message(request, messages.ERROR,
@@ -215,6 +210,7 @@ def delete_equipment(request, equipmentId):
             messages.add_message(request, messages.ERROR, error)
             return redirect("display_equipment", customerId)
 
+@login_required
 def get_customer_equipment(request, id):
     try:
         # get the customer from the database

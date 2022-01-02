@@ -99,9 +99,9 @@ class License(models.Model):
     MICROSOFT_OFFICE_365 = 'MICROSOFT OFFICE 365'
 
     PRODUCT_CHOICES = [
-        (AVAST_PRO, 'Avast Pro'),
-        (AVAST_ENDPOINT , 'Avast Endpoint Protection'),
-        ( MALWAREBYTES, 'Malwarebytes'),
+        (AVAST_PRO, 'AVAST PRO'),
+        (AVAST_ENDPOINT , 'AVAST ENDPOINT PROTECTION'),
+        ( MALWAREBYTES, 'MALWAREBYTES'),
         ( MICROSOFT_OFFICE_2010,'MICROSOFT OFFICE 2010' ),
         ( MICROSOFT_OFFICE_2013,'MICROSOFT OFFICE 2013' ),
         (MICROSOFT_OFFICE_2016 , 'MICROSOFT OFFICE 2016'),
@@ -124,10 +124,13 @@ class License(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
-
-
     def __str__(this):
         return f"{this.product} {this.customer}"
+
+    def delete(this, *args, **kwargs):
+        this.license_file.delete()
+        super().delete(*args, **kwargs)
+
 
 class Equipment(models.Model):
 
@@ -210,10 +213,10 @@ class Ticket(models.Model):
     ROUTER_SERVICE = 'ROUTER SERVICE'
     CONTRACT_SERVICE = 'CONTRACT SERVICE'
     NON_CONTRACT_SERVICE = 'NON-CONTRACT SERVICE'
-    NETWORK_SUPPORT_TEAM = "NETWORK"
-    SOFTWARE_SUPPORT_TEAM = "SOFTWARE"
-    SERVER_SUPPORT_TEAM = "SERVER"
-    HARDWARE_SUPPORT_TEAM = "HARDWARE"
+    NETWORK_SUPPORT_TEAM = "NETWORK SUPPORT"
+    SOFTWARE_SUPPORT_TEAM = "SOFTWARE SUPPORT"
+    SERVER_SUPPORT_TEAM = "SERVER SUPPORT"
+    HARDWARE_SUPPORT_TEAM = "HARDWARE SUPPORT"
     SALES_TEAM = "SALES"
     DEVELOPMENT_TEAM = "DEVELOPMENT"
 

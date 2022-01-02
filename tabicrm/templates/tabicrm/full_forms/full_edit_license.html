@@ -1,0 +1,115 @@
+{% extends "tabicrm/layout.html" %}
+<!-- Weird that I had to do this here, it doesn't seem to inherit from the layout? -->
+{% load static %}
+{% load humanize %}
+
+{% block body %}
+
+<!-- Modal to verify deletion -->
+<div class="modal fade" tabindex="-1" id="confirmDelete">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'delete_license' license.id %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="delete" value="True">
+                    <div class="modal-body">
+                        <p>
+                            Are you sure you want to delete {{contact.first_name}} {{contact.last_name}}?
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-stop">Confirm</button>
+                        <button type="button" class="btn btn-silver" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid mt-2">
+    {% include 'tabicrm/partials/customer_nav.html' %}
+
+
+    <div class="container mt-5">
+
+        <div class="form-background mb-5">
+            <h5 class="baskerville-font text-center mb-3">Edit: {{license.product}}</h5>
+            <hr>
+            <form action="{% url 'full_edit_license' license.id %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                {% if license.license_file %}
+                <div class="row mb-3">
+                    <div class="col">Download current license file:</div>
+                    <div class="col">
+                        <a href="/download_license/{{license.id}}" class="frontend-link" download>
+                            {{license.license_file}}
+                        </a>
+                    </div>
+                </div>
+                <hr>
+                {% endif %}
+
+                <div class="row">
+                    <div class="col-12 col-lg-6">
+                        <div class="mb-3">
+                            <label for="product" class="form-label">Product</label>
+                            {{editLicenseForm.product}}
+                        </div>
+                        <div class="mb-3">
+                            <label for="purchase_date" class="form-label">Purchase Date</label>
+                            {{editLicenseForm.purchase_date}}
+                        </div>
+                        <div class="mb-3">
+                            <label for="expiration_date" class="form-label">Expiration Date</label>
+                            {{editLicenseForm.expiration_date}}
+                        </div>
+                        <div class="mb-3">
+                            <label for="end_of_life" class="form-label">End of Life</label>
+                            {{editLicenseForm.end_of_life}}
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="mb-3">
+                            <label for="license_key" class="form-label">License Key</label>
+                            {{editLicenseForm.license_key}}
+                        </div>
+                        <div class="mb-3">
+                            <label for="license_file" class="form-label">License File</label>
+                            {{editLicenseForm.license_file}}
+                        </div>
+                        <div class="mb-3">
+                            <label for="notes" class="form-label">Notes</label>
+                            {{editLicenseForm.notes}}
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="mb-3">
+                    <button type="button" class="btn btn-stop" onclick="showConfirmDeleteModal()">Delete
+                        License</button>
+                    <span class="float-end">
+                        <a href="/display_licenses/{{customer.id}}" class="btn btn-silver">Back to all licenses</a>
+                        <button type="submit" class="btn btn-logo">Save Changes</button>
+                    </span>
+                </div>
+
+
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
