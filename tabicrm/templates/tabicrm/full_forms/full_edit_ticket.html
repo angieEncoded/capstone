@@ -131,31 +131,38 @@
                 <div class="col-12 col-lg-4">
                     <p class="text-center mt-2"><strong>Ticket Quick Actions</strong></p>
                     <div class="d-grid gap-2">
+
+                        <!-- IF THE TICKET IS OPEN AND NOT OWNED BY THE USER, ALLOW USER TO YANK THE TICKET -->
                         {% if not ticket.status == 'CLOSED' %}
                         {% if not ticket.owned_by == request.user %}
                         <a href="{% url 'ticket_actions' ticket.id 'accept' %}" class="btn btn-logo ">Accept Ticket</a>
                         {% endif%}
+                        {% endif%}
+
+                        <!-- IF THE USER OWNS THE TICKET ALLOW THEM TO CHANGE THE STATUS QUICKLY -->
+                        {% if ticket.owned_by == request.user %}
 
                         {% if not ticket.status == "WAITING ON CUSTOMER" %}
-                        <a href="{% url 'ticket_actions' ticket.id 'customer' %}" class="btn btn-logo ">Set to "Waiting on
-                            Customer"</a>
-                        {% else %}
+                        <a href="{% url 'ticket_actions' ticket.id 'customer' %}" class="btn btn-logo ">Set to "Waiting on Customer"</a>
+                        {% endif %}
 
+                        {% if ticket.status == "WAITING ON CUSTOMER" %}
                         <a href="{% url 'ticket_actions' ticket.id 'resume' %}" class="btn btn-logo ">Resume Ticket</a>
                         {% endif%}
 
                         <a href="{% url 'ticket_actions' ticket.id 'close' %}" class="btn btn-logo ">Close Ticket</a>
+                        {% endif%}
+
 
                         <button class="btn btn-logo " onclick="openTicketModal()">Open full edit form</button>
                         <button class="btn btn-logo " onclick="openHistoryModal()">View Ticket history</button>
-                        <a href="{% url 'display_tickets' customer.id %}" class="btn btn-logo ">Back to customer tickets</a>
-                        <a href="{% url 'index' %}" class="btn btn-logo ">Back to all open tickets</a>
 
-                        {% else %}
+                        {% if ticket.status == 'CLOSED' %}
                         <a href="{% url 'ticket_actions' ticket.id 'reopen' %}" class="btn btn-logo ">Reopen Ticket</a>
-                        <button class="btn btn-logo " onclick="openHistoryModal()">View Ticket history</button>
-                        <a href="{% url 'index' %}" class="btn btn-logo ">All open tickets</a>
                         {% endif%}
+
+
+
                     </div>
                     {% if not ticket.status == 'CLOSED' %}
                     <div class="mt-4">
