@@ -26,9 +26,9 @@
             <tbody>
                 {% for license in licenses %}
                 <tr class="select-customer" onclick="viewSingleLicenseForm('{{license.id}}')">
-                    <td>{{license.product}}</td>
-                    <td>{{license.purchase_date}}</td>
-                    <td>{{license.expiration_date}}</td>
+                    <td>{% if license.product %}{{license.product}}{% endif %}</td>
+                    <td>{% if license.purchase_date %}{{license.purchase_date}}{% endif %}</td>
+                    <td>{% if license.expiration_date %}{{license.expiration_date}}{% endif %}</td>
                     <td>{% if license.license_key %}{{license.license_key}}{% endif %}</td>
                     <td>{% if license.license_file %}{{license.license_file}}{% endif %}</td>
                 </tr>

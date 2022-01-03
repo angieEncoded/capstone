@@ -28,11 +28,11 @@
                 {% for contact in contacts %}
 
                 <tr class="select-customer" onclick="viewContactEditForm('{{contact.id}}')">
-                    <td>{{contact.first_name}}</td>
-                    <td>{{contact.last_name}}</td>
-                    <td>{{contact.job_title}}</td>
-                    <td>{{contact.extension}}</td>
-                    <td>{{contact.notes}}</td>
+                    <td>{% if contact.first_name %}{{contact.first_name}}{% endif %}</td>
+                    <td>{% if contact.last_name %}{{contact.last_name}}{% endif %}</td>
+                    <td>{% if contact.job_title %}{{contact.job_title}}{% endif %}</td>
+                    <td>{% if contact.extension %}{{contact.extension}}{% endif %}</td>
+                    <td>{% if contact.notes %}{{contact.notes}}{% endif %}</td>
                 </tr>
                 {% endfor%}
             </tbody>

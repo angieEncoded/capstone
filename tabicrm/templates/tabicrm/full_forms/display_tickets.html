@@ -10,8 +10,6 @@
 
 <div class="container-fluid mt-2">
     {% include 'tabicrm/partials/customer_nav.html' %}
-
-
     <div class="container-fluid mt-2">
         <table class="table table-striped table-responsive" id="ticketsTable">
             <thead class="thead-dark">
@@ -21,6 +19,7 @@
                     <th scope="col">Assigned To</th>
                     <th scope="col">Status</th>
                     <th scope="col">Priority</th>
+                    <th scope="col">Owned By</th>
                     <th scope="col">Results</th>
                 </tr>
             </thead>
@@ -32,6 +31,7 @@
                     <td>{{ticket.assigned_to}}</td>
                     <td>{{ticket.status}}</td>
                     <td>{{ticket.priority}}</td>
+                    <td>{% if ticket.owned_by %}{{ticket.owned_by}}{% endif %}</td>
                     <td>{{ticket.results}}</td>
 
 

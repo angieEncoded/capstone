@@ -16,7 +16,7 @@ const editField = async (fieldName, id, fieldType) => {
     if (fieldType === "textarea") {
         editTemplate = `
         <form onsubmit="submitForm(event,'${id}', '${fieldName}')">
-            <textarea class="form-control mb-2 form-control-sm" id="input-${fieldName}">${currentData}</textarea>
+            <textarea class="form-control mb-2 form-control-sm" id="input-${fieldName}">${currentData === 'null' ? "" : currentData.trim()}</textarea>
             <div class="float-end">
             <button class="btn btn-sm btn-logo" type="submit">Save</button>
             <button class="btn btn-sm btn-silver" type="button" onclick="cancelEdit('${fieldName}', '${currentData}' )">Cancel</button>
@@ -26,7 +26,7 @@ const editField = async (fieldName, id, fieldType) => {
     } else {
         editTemplate = `
         <form onsubmit="submitForm(event,'${id}', '${fieldName}')">
-            <input type="text" class="form-control mb-2 form-control-sm" value='${currentData}' id="input-${fieldName}" maxlength=255 />
+            <input type="text" class="form-control mb-2 form-control-sm" value='${currentData === 'null' ? "" : currentData.trim()}' id="input-${fieldName}" maxlength=255 />
             <div class="float-end">
             <button class="btn btn-sm btn-logo" type="submit">Save</button>
             <button class="btn btn-sm btn-silver" type="button" onclick="cancelEdit('${fieldName}', '${currentData}' )">Cancel</button>

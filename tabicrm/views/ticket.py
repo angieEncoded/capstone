@@ -143,7 +143,7 @@ def add_ticket_comment(request, ticketId):
         # Add an entry into the ticket history
 
 
-        action = "Comment Added"
+        action = f"Comment Added: {ticketComment}"
         ticket = ticket
         taken_by = user
 
@@ -356,7 +356,7 @@ def full_edit_ticket(request, ticketId):
             return redirect("view_single_ticket", ticketId)
 
         try: 
-
+            
             assigned_to = form.cleaned_data["assigned_to"]
             title = form.cleaned_data["title"]
             status = form.cleaned_data["status"]
@@ -366,6 +366,15 @@ def full_edit_ticket(request, ticketId):
             solution = form.cleaned_data["solution"]
             updated_by = request.user
             
+            # add to the ticket history
+            ticket = Ticket.objects.get(id = ticketId)
+            user = request.user
+            ticketAction = TicketHistory(
+                action = f"Full form used to change: assigned to: {assigned_to} title: {title} status: {status} priority: {priority} results: {results} description: {description} solution: {solution}",
+                ticket=ticket,
+                taken_by=user
+            )
+            ticketAction.save()
 
             ticketToEdit = Ticket.objects.get(id = ticketId)
             setattr(ticketToEdit, 'assigned_to',  assigned_to)

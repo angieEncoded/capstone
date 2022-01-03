@@ -142,19 +142,24 @@
                         <!-- IF THE USER OWNS THE TICKET ALLOW THEM TO CHANGE THE STATUS QUICKLY -->
                         {% if ticket.owned_by == request.user %}
 
+                        {% if not ticket.status == 'CLOSED' %}
                         {% if not ticket.status == "WAITING ON CUSTOMER" %}
-                        <a href="{% url 'ticket_actions' ticket.id 'customer' %}" class="btn btn-logo ">Set to "Waiting on Customer"</a>
+                        <a href="{% url 'ticket_actions' ticket.id 'customer' %}" class="btn btn-logo ">Set to "Waiting
+                            on Customer"</a>
+                        {% endif %}
                         {% endif %}
 
                         {% if ticket.status == "WAITING ON CUSTOMER" %}
                         <a href="{% url 'ticket_actions' ticket.id 'resume' %}" class="btn btn-logo ">Resume Ticket</a>
                         {% endif%}
-
+                        {% if not ticket.status == 'CLOSED' %}
                         <a href="{% url 'ticket_actions' ticket.id 'close' %}" class="btn btn-logo ">Close Ticket</a>
                         {% endif%}
+                        {% endif%}
 
-
+                        {% if not ticket.status == 'CLOSED' %}
                         <button class="btn btn-logo " onclick="openTicketModal()">Open full edit form</button>
+                        {% endif%}
                         <button class="btn btn-logo " onclick="openHistoryModal()">View Ticket history</button>
 
                         {% if ticket.status == 'CLOSED' %}
@@ -187,7 +192,8 @@
                         {% for comment in ticketComments %}
                         <div class="card" style="width: 18rem;">
                             <div class="card-body">
-                                <h6 class="card-subtitle mb-2 text-muted">{{comment.added_by}} on {{ticket.updated_on}}</h6>
+                                <h6 class="card-subtitle mb-2 text-muted">{{comment.added_by}} on {{ticket.updated_on}}
+                                </h6>
                                 <p class="card-text">
                                     {{comment.comment}}
 
@@ -198,8 +204,13 @@
                         {% endif%}
                     </div>
 
-                </div>
+                    <!-- LEFT OFF HERE -->
 
+                </div>
+                <div class="position-relative">
+                    <div class="position-absolute bottom-0 end-0"><a href="/display_tickets/${id}"
+                            class="btn-sm btn-silver ms-2">Back to tickets</a></div>
+                </div>
             </div>
 
 

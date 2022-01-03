@@ -28,13 +28,13 @@
             <tbody>
                 {% for equipment in equipments %}
                 <tr class="select-customer" onclick="viewEquipmentEditForm('{{equipment.id}}')">
-                    <td>{{equipment.type}}</td>
-                    <td>{{equipment.vendor}}</td>
-                    <td>{{equipment.model}}</td>
-                    <td>{{equipment.end_of_life}}</td>
-                    <td>{{equipment.internal_ip_address}}</td>
-                    <td>{{equipment.external_ip_address}}</td>
-                    <td>{{equipment.serial_number}}</td>
+                    <td>{% if equipment.type %}{{equipment.type}}{% endif %}</td>
+                    <td>{% if equipment.vendor %}{{equipment.vendor}}{% endif %}</td>
+                    <td>{% if equipment.model %}{{equipment.model}}{% endif %}</td>
+                    <td>{% if equipment.end_of_life %}{{equipment.end_of_life}}{% endif %}</td>
+                    <td>{% if equipment.internal_ip_address %}{{equipment.internal_ip_address}}{% endif %}</td>
+                    <td>{% if equipment.external_ip_address %}{{equipment.external_ip_address}}{% endif %}</td>
+                    <td>{% if equipment.serial_number %}{{equipment.serial_number}}{% endif %}</td>
                 </tr>
                 {% endfor%}
             </tbody>

@@ -327,6 +327,7 @@ const viewCustomer = async (id) => {
             <a href="/customer_full_form/${id}" class="btn-sm btn-silver ms-5">Full Details</a>
             <button id="openTicketButton" class="btn-sm btn-silver ms-2" onclick="quickOpenTicket('${id}')" style="display: inline;">Open Ticket</button>
             <a id="closeTicketButton" href="#" class="btn-sm btn-silver ms-2" onclick="closeTicketButton('${id}');return false;" style="display: none;">Back to customer</a>
+            <a href="/display_tickets/${id}" class="btn-sm btn-silver ms-2">All customer tickets</a>
         `
         const clientDetails = document.querySelector(`#clientDetailsRoot`)
         clientDetails.innerHTML = customerDetailsForm

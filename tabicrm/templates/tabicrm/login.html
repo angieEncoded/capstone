@@ -13,11 +13,12 @@
 
 
     {% endif %}
+    <h2 class="text-center baskerville-font">Welcome to TabiCRM!</h2>
+    <h5 class="text-muted text-center baskerville-font">Please log in below</h5>
     <div class="form-background form-small">
-        <h2 class="text-center mb-4">Login</h2>
         <form action="{% url 'login' %}" method="post">
             {% csrf_token %}
-            <div class="mb-3">
+            <div class="mb-3 mt-2">
                 <input autofocus class="form-control" type="text" name="username" placeholder="Username">
             </div>
             <div class="mb-3">

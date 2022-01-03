@@ -95,7 +95,7 @@ const editContactField = async (fieldName, id, fieldType) => {
     if (fieldType === "textarea") {
         editTemplate = `
         <form onsubmit="submitEditContactForm(event,'${id}', '${fieldName}')">
-            <textarea class="form-control mb-2 form-control-sm" id="contact-input-${fieldName}">${currentData === 'null' ? "" : currentData}</textarea>
+            <textarea class="form-control mb-2 form-control-sm" id="contact-input-${fieldName}">${currentData === 'null' ? "" : currentData.trim()}</textarea>
             <div class="float-end">
             <button class="btn btn-sm btn-logo" type="submit">Save</button>
             <button class="btn btn-sm btn-silver" type="button" onclick="cancelContactEdit('${fieldName}', '${currentData}' )">Cancel</button>
@@ -105,7 +105,7 @@ const editContactField = async (fieldName, id, fieldType) => {
     } else {
         editTemplate = `
         <form onsubmit="submitEditContactForm(event,'${id}', '${fieldName}')">
-            <input type="text" class="form-control mb-2 form-control-sm" value='${currentData === 'null' ? "" : currentData}' id="contact-input-${fieldName}" maxlength=255 />
+            <input type="text" class="form-control mb-2 form-control-sm" value='${currentData === 'null' ? "" : currentData.trim()}' id="contact-input-${fieldName}" maxlength=255 />
             <div class="float-end">
             <button class="btn btn-sm btn-logo" type="submit">Save</button>
             <button class="btn btn-sm btn-silver" type="button" onclick="cancelContactEdit('${fieldName}', '${currentData}' )">Cancel</button>
