@@ -25,19 +25,19 @@ contentValidator = re.compile('^[a-zA-Z0-9.,!\"\'?:;\s@#$%^&*()[\]_+={}\-]{0,255
 
 
 @login_required
-def add_license(request, id):
+def add_license(request, customerId):
 
 
     if request.method == "POST":
 
         form = forms.NewLicenseForm(request.POST, request.FILES)
-        customer = Customer.objects.get(id = id)
+        customer = Customer.objects.get(id = customerId)
         user = request.user
 
         # Short circuit if the form is bad
         if not form.is_valid():
             messages.add_message(request, messages.ERROR, 'Form is not valid')
-            return redirect("customer_full_form", id)
+            return redirect("customer_full_form", customerId)
 
 
         # Assign all the fields
@@ -73,20 +73,20 @@ def add_license(request, id):
             license.save()
             messages.add_message(request, messages.SUCCESS,
                          "Successfully saved the license.")
-            return redirect("customer_full_form", id)
+            return redirect("customer_full_form", customerId)
         except Exception as error:
             console.log(error)
             messages.add_message(request, messages.ERROR,
                          error)
-            return redirect("customer_full_form", id)
+            return redirect("customer_full_form", customerId)
 
 @login_required
-def get_customer_licenses(request, id):
+def get_customer_licenses(request, customerId):
 
     try:
 
         # get the customer from the database
-        customer = Customer.objects.get(id = id)
+        customer = Customer.objects.get(id = customerId)
 
         #get the licenses assigned to that customer
         licenses = License.objects.filter(customer = customer)
@@ -104,17 +104,17 @@ def get_customer_licenses(request, id):
     pass
 
 @login_required
-def download_license(request, id):
+def download_license(request, licenseId):
     
-    license = License.objects.get(id = id)
+    license = License.objects.get(id = licenseId)
     response = FileResponse(open(license.license_file.name, 'rb'))
     return response
 
 @login_required
-def get_license(request, id):
+def get_license(request, licenseId):
     try:
         #get the contacts assigned to that customer
-        license = License.objects.get(id = id)
+        license = License.objects.get(id = licenseId)
 
         # send them back in a json
         jsonLicense = serializers.serialize("json", [license])
@@ -126,7 +126,7 @@ def get_license(request, id):
     pass
 
 @login_required
-def delete_license(request, id):
+def delete_license(request, licenseId):
 
     if request.method == "POST":
         
@@ -135,23 +135,25 @@ def delete_license(request, id):
         if not form['delete'] == 'True': # and remember, it isn't json, we have to use this other way because Python is the language of less unnecessary syntax.
             messages.add_message(request, messages.ERROR,
                          "I don't recognize that request. Please use the form to make your request.")
-            return redirect(f"/edit_license/{id}")
+            return redirect("/edit_license", licenseId)
 
+        # find the record
+        license = License.objects.get(id = licenseId)
+        customer = license.customer
 
         try:
-            # find the record
-            license = License.objects.get(id = id)
+
             license.delete()
             messages.add_message(request, messages.SUCCESS,
                          "Successfully deleted the record.")
-            return redirect("/all_customers")
+            return redirect("display_licenses", customer.id)
 
 
         except Exception as error:
-            console.log(error)
+            # console.log(error)
             messages.add_message(request, messages.ERROR,
                          error)
-            return redirect(f"/edit_license/{id}")
+            return redirect("edit_license", licenseId)
 
 @login_required
 def display_licenses(request, customerId):
@@ -214,7 +216,8 @@ def full_edit_license(request, licenseId):
             # if we have a file unlink the old file, set to None if we don't which will leave the record alone
             if request.FILES:
                 license_file=request.FILES['license_file']
-                os.unlink(str(currentLicense.license_file))
+                if currentLicense.license_file:
+                    os.unlink(str(currentLicense.license_file))
             else:
                 license_file=currentLicense.license_file
 

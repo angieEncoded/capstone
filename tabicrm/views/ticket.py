@@ -1,18 +1,9 @@
-from os import stat
-from django.contrib.auth import login
-from django.http.response import HttpResponse, JsonResponse
-from django.core import serializers
+from django.http.response import JsonResponse
 from django.shortcuts import render, redirect
 from ..models import Customer, Ticket, TicketHistory, TicketComment, User
 # looks like this is the express equivelent to flash
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-
-from django.utils.http import urlencode
-
-
-import json
-import re
 
 
 # some refactoring, and some utility things to make my life more comfortable
@@ -31,12 +22,11 @@ def display_tickets(request, customerId):
 
 
 @login_required
-def add_ticket(request, id):
+def add_ticket(request, customerId):
     if request.method == "POST":
         form = forms.NewTicketForm(request.POST)
-        customer = Customer.objects.get(id = id)
+        customer = Customer.objects.get(id = customerId)
         user = request.user
-        customerId = customer.id
 
         # Short circuit if the form is bad
         if not form.is_valid():
@@ -279,7 +269,7 @@ def ticket_actions(request, ticketId, action):
             try: 
 
                 ticketAction = TicketHistory(
-                    action = "Set status to waiting on customer",
+                    action = "Set status to WAITING ON CUSTOMER",
                     ticket=ticket,
                     taken_by=user
                 )
@@ -393,36 +383,3 @@ def full_edit_ticket(request, ticketId):
         except Exception as error:
             messages.add_message(request, messages.ERROR, error)
             return redirect("view_single_ticket", ticketId)
-
-
-    pass
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

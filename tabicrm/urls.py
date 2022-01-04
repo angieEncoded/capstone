@@ -11,33 +11,35 @@ urlpatterns = [
 
     path("add_customer", views.add_customer, name="add_customer"),
     path("all_customers", views.all_customers, name="all_customers"),
-    path("view_customer/<int:id>", views.view_customer, name="view_customer"),
-    path("edit_customer/<int:id>/<str:fieldName>", views.edit_customer, name="edit_customer"),
+    path("view_customer/<int:customerId>", views.view_customer, name="view_customer"),
+    path("edit_customer/<int:customerId>/<str:fieldName>", views.edit_customer, name="edit_customer"),
 
     # customer contacts
-    path("add_contact/<int:id>", views.add_contact, name="add_contact"),
-    path("get_customer_contacts/<int:id>", views.get_customer_contacts, name="get_customer_contacts"),
-    path("get_contact/<int:id>", views.get_contact, name="get_contact"),
-    path("edit_contact/<int:id>/<str:fieldName>", views.edit_contact, name="edit_contact"),
+    path("add_contact/<int:customerId>", views.add_contact, name="add_contact"),
+    path("get_customer_contacts/<int:customerId>", views.get_customer_contacts, name="get_customer_contacts"),
+    path("get_contact/<int:contactId>", views.get_contact, name="get_contact"),
+    path("edit_contact/<int:contactId>/<str:fieldName>", views.edit_contact, name="edit_contact"),
 
     # customer equipment
-    path("get_customer_equipment/<int:id>", views.get_customer_equipment, name="get_customer_equipment"),
+    path("get_customer_equipment/<int:customerId>", views.get_customer_equipment, name="get_customer_equipment"),
 
     # customer tickets
     path("post_new_ticket/<int:customerId>", views.post_new_ticket, name="post_new_ticket"),
 
     # customer licenses
-    path("add_license/<int:id>", views.add_license, name="add_license"),
-    path("get_customer_licenses/<int:id>", views.get_customer_licenses, name="get_customer_licenses"),
-    path("download_license/<int:id>", views.download_license, name="download_license"),
-    path("get_license/<int:id>", views.get_license, name="get_license"),
-    path("delete_license/<int:id>", views.delete_license, name="delete_license"),
+    path("add_license/<int:customerId>", views.add_license, name="add_license"),
+    path("get_customer_licenses/<int:customerId>", views.get_customer_licenses, name="get_customer_licenses"),
+
+
+    path("download_license/<int:licenseId>", views.download_license, name="download_license"),
+    path("get_license/<int:licenseId>", views.get_license, name="get_license"),
+    path("delete_license/<int:licenseId>", views.delete_license, name="delete_license"),
 
     # Full form management section
-    path("customer_full_form/<int:id>", views.customer_full_form, name="customer_full_form"),
-    path("delete_customer/<int:id>", views.delete_customer, name="delete_customer"),
-    path("add_equipment/<int:id>", views.add_equipment, name="add_equipment"),
-    path("add_ticket/<int:id>", views.add_ticket, name="add_ticket"),
+    path("customer_full_form/<int:customerId>", views.customer_full_form, name="customer_full_form"),
+    path("delete_customer/<int:customerId>", views.delete_customer, name="delete_customer"),
+    path("add_equipment/<int:customerId>", views.add_equipment, name="add_equipment"),
+    path("add_ticket/<int:customerId>", views.add_ticket, name="add_ticket"),
 
     # Display paths here
     path("display_contacts/<int:customerId>", views.display_contacts, name="display_contacts"),

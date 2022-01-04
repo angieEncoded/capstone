@@ -17,7 +17,7 @@ function getCookie(name) {
 
 // Set up a simple regex to check the contents of the post
 const textCheck = (value) => {
-    const re = /^[a-zA-Z0-9.,!"'?:;\s@#$%^&*()[\]_+={}\-]{2,75}$/
+    const re = /^[a-zA-Z0-9.,!"'?:;\s@#$%^&*()\/[\]_+={}\-\\\\]{2,255}$/
     return re.test(value.trim())
 }
 
@@ -56,31 +56,4 @@ const viewSingleTicketForm = (ticketId) => {
 
 const viewSingleLicenseForm = (licenseId) => {
     window.location.href = `/full_edit_license/${licenseId}`
-}
-
-
-const openTicketModal = () => {
-    let ticketModal = new bootstrap.Modal(document.getElementById('editTicketModal'), {
-        keyboard: false,
-        backdrop: 'static'
-    })
-    ticketModal.show()
-}
-
-const openHistoryModal = () => {
-    let ticketHistoryModal = new bootstrap.Modal(document.getElementById('ticketHistoryModal'), {
-        keyboard: false,
-        backdrop: 'static'
-    })
-    ticketHistoryModal.show()
-}
-
-const openFullEditForm = () => {
-    document.querySelector("#customer-simple-view").style.display = "none"
-    document.querySelector("#customer-full-edit-form").style.display = "block"
-}
-
-const closeFullEditForm = () => {
-    document.querySelector("#customer-simple-view").style.display = "block"
-    document.querySelector("#customer-full-edit-form").style.display = "none"
 }

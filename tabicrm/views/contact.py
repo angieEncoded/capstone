@@ -20,22 +20,22 @@ console = angie.Console()
 # WORK ON SOME MORE ROBUST CONTENT VALIDATION LATER ON
 
 # Set up some basic validation for the input
-contentValidator = re.compile('^[a-zA-Z0-9.,!\"\'?:;\s@#$%^&*()[\]_+={}\-]{0,255}$')
+contentValidator = re.compile('^[a-zA-Z0-9.,!\"\'?:;\s@#$%^&*()[\]_+={}\/\-\\\]{0,255}$')
 
 
 
 # BACK END TEMPLATE LOGIC HERE
 @login_required
-def add_contact(request, id):
+def add_contact(request, customerId):
 
     if request.method == "POST":
         form = forms.NewContactForm(request.POST)
-        customer = Customer.objects.get(id = id)
+        customer = Customer.objects.get(id = customerId)
 
         # Short circuit if the form is bad
         if not form.is_valid():
             messages.add_message(request, messages.ERROR, 'You are trying to submit an invalid form.')
-            return redirect("customer_full_form", id)
+            return redirect("customer_full_form", customerId)
 
         # Assign all the fields
         first_name = form.cleaned_data["first_name"]
@@ -52,12 +52,12 @@ def add_contact(request, id):
             contact.save()
             messages.add_message(request, messages.SUCCESS,
                          "Successfully saved the contact.")
-            return redirect("customer_full_form", id)
+            return redirect("customer_full_form", customerId)
         except Exception as error:
             console.log(error)
             messages.add_message(request, messages.ERROR,
                          error)
-            return redirect("customer_full_form", id)
+            return redirect("customer_full_form", customerId)
 
 @login_required
 def display_contacts(request, customerId):
@@ -132,7 +132,7 @@ def full_edit_contact(request, contactId):
             return redirect("display_contacts", customerId)
 
         except Exception as error:
-            console.log(error)
+            # console.log(error)
             messages.add_message(request, messages.ERROR, error)
             return redirect("full_edit_contact", contactId)
 
@@ -146,7 +146,7 @@ def delete_contact(request, contactId):
             form = request.POST.dict() # This will turn it into a 'dictionary'
             if not form['delete'] == 'True': # and remember, it isn't json
                 messages.add_message(request, messages.ERROR,"I don't recognize that request. Please use the form to make your request.")
-                return redirect(f"/full_edit_contact/{contactId}")
+                return redirect("full_edit_contact", contactId)
                 
             contact = Contact.objects.get(id = contactId)
             customerId = contact.customer.id
@@ -165,11 +165,11 @@ def delete_contact(request, contactId):
 # FRONT END ITEMS BELOW HERE - ALL JSON RESPONSES
 
 @login_required
-def get_customer_contacts(request, id):
+def get_customer_contacts(request, customerId):
 
     try:
         # get the customer from the database
-        customer = Customer.objects.get(id = id)
+        customer = Customer.objects.get(id = customerId)
 
         #get the contacts assigned to that customer
         contacts = Contact.objects.filter(customer = customer)
@@ -183,10 +183,10 @@ def get_customer_contacts(request, id):
 
 
 @login_required
-def get_contact(request, id):
+def get_contact(request, contactId):
     try:
         #get the contacts assigned to that customer
-        contact = Contact.objects.get(id = id)
+        contact = Contact.objects.get(id = contactId)
 
         # send them back in a json
         jsonContact = serializers.serialize("json", [contact])
@@ -199,7 +199,7 @@ def get_contact(request, id):
 
 
 @login_required
-def edit_contact(request, id, fieldName):
+def edit_contact(request, contactId, fieldName):
         
     # Get the content from the json object
     data = json.loads(request.body)
@@ -207,11 +207,11 @@ def edit_contact(request, id, fieldName):
 
     # # validate it and send back if it fails
     if not contentValidator.match(replacement):
-        return JsonResponse({"error": "There is something wrong with that input. Please check that you are using 2-255 alphanumeric characters. (server response)"})
+        return JsonResponse({"error": "Please use 2-255 alphanumeric characters. (server response)"})
 
     # save the item to the database if we got here and send data back to the front end
     try:
-        contactToEdit = Contact.objects.get(id = id)
+        contactToEdit = Contact.objects.get(id = contactId)
         setattr(contactToEdit, fieldName, replacement)
         contactToEdit.save()
         return JsonResponse({"success" :"Successfully saved your changes!", "content": replacement})

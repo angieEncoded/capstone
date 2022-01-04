@@ -38,3 +38,29 @@ const showNewTicketFormModal = () => {
     })
     newTicketModal.show()
 }
+
+const openTicketModal = () => {
+    let ticketModal = new bootstrap.Modal(document.getElementById('editTicketModal'), {
+        keyboard: false,
+        backdrop: 'static'
+    })
+    ticketModal.show()
+}
+
+const openHistoryModal = () => {
+    let ticketHistoryModal = new bootstrap.Modal(document.getElementById('ticketHistoryModal'), {
+        keyboard: false,
+        backdrop: 'static'
+    })
+    ticketHistoryModal.show()
+}
+
+const openFullEditForm = () => {
+    document.querySelector("#customer-simple-view").style.display = "none"
+    document.querySelector("#customer-full-edit-form").style.display = "block"
+}
+
+const closeFullEditForm = () => {
+    document.querySelector("#customer-simple-view").style.display = "block"
+    document.querySelector("#customer-full-edit-form").style.display = "none"
+}

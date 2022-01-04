@@ -17,7 +17,7 @@ from .. import forms
 console = angie.Console()
 
 # Set up some basic validation for the input
-contentValidator = re.compile('^[a-zA-Z0-9.,!\"\'?:;\s@#$%^&*()[\]_+={}\-]{0,255}$')
+contentValidator = re.compile('^[a-zA-Z0-9.,!\"\'?:;\s@#$%^&*()[\]_+={}\/\-\\\]{0,255}$')
 
 # Checked 1/2/2022
 @login_required
@@ -94,26 +94,27 @@ def all_customers(request):
     return render(request,"tabicrm/all_customers.html", {"customers": customers, 'newTicketForm':newTicketForm, "navall_customers": True})
 
 @login_required
-def view_customer(request, id):
-    customer = Customer.objects.get(id = id)
+def view_customer(request, customerId):
+    customer = Customer.objects.get(id = customerId)
     jsonCustomer = serializers.serialize("json", [customer])
     return JsonResponse({"success": "Successfully retrieved data", "data": jsonCustomer})
 
 @login_required
-def edit_customer(request, id, fieldName):
+def edit_customer(request, customerId, fieldName):
     
     # Get the content from the json object
     data = json.loads(request.body)
     replacement = data[fieldName]
 
+    # console.log(data)
     # # validate it and send back if it fails
     if not contentValidator.match(replacement):
-        return JsonResponse({"error": "There is something wrong with that input. Please check that you are using 2-255 alphanumeric characters. (server response)"})
+        return JsonResponse({"error": "Please use 2-255 alphanumeric characters. (server response)"})
 
     # save the item to the database if we got here and send data back to the front end
     try:
-        customerToEdit = Customer.objects.get(id = id)
-        console.log(customerToEdit)
+        customerToEdit = Customer.objects.get(id = customerId)
+        # console.log(customerToEdit)
         setattr(customerToEdit, fieldName, replacement)
         customerToEdit.save()
         return JsonResponse({"success" :"Successfully saved your changes!", "content": replacement})
@@ -121,11 +122,11 @@ def edit_customer(request, id, fieldName):
         return JsonResponse({"error" :"Something went wrong."})
 
 
-def customer_full_form(request, id):
+def customer_full_form(request, customerId):
 
     if request.method == "GET":
 
-        customer = Customer.objects.get(id = id)
+        customer = Customer.objects.get(id = customerId)
         
         newContactForm = forms.NewContactForm()
         newLicenseForm = forms.NewLicenseForm()
@@ -175,7 +176,7 @@ def customer_full_form(request, id):
         # Short circuit if the form is bad
         if not form.is_valid():
             messages.add_message(request, messages.ERROR, 'Form is not valid')
-            return redirect("customer_full_form", id)
+            return redirect("customer_full_form", customerId)
 
         try: 
 
@@ -200,7 +201,7 @@ def customer_full_form(request, id):
 
 
 
-            customerToEdit = Customer.objects.get(id = id)
+            customerToEdit = Customer.objects.get(id = customerId)
             setattr(customerToEdit, 'name',  name)
             setattr(customerToEdit, 'primary_phone', primary_phone)
             setattr(customerToEdit, 'fax',  fax)
@@ -221,18 +222,18 @@ def customer_full_form(request, id):
             setattr(customerToEdit, 'shipping_address_country',  shipping_address_country)
             customerToEdit.save()
             messages.add_message(request, messages.SUCCESS, "Successfully saved the changes!")
-            return redirect("customer_full_form", id)
+            return redirect("customer_full_form", customerId)
 
         except Exception as error:
-            console.log(error)
+            # console.log(error)
             messages.add_message(request, messages.ERROR, error)
-            return redirect("customer_full_form", id)
+            return redirect("customer_full_form", customerId)
 
 
 
 
 
-def delete_customer(request, id):
+def delete_customer(request, customerId):
     
     if request.method == "POST":
         try: 
@@ -240,16 +241,16 @@ def delete_customer(request, id):
             form = request.POST.dict() # This will turn it into a 'dictionary'
             if not form['delete'] == 'True': # and remember, it isn't json, we have to use this other way because Python is the language of less unnecessary syntax.
                 messages.add_message(request, messages.ERROR,"I don't recognize that request. Please use the form to make your request.")
-                return redirect(f"/customer_full_form/{id}")
+                return redirect("customer_full_form", customerId)
              
-            customer = Customer.objects.get(id = id)
+            customer = Customer.objects.get(id = customerId)
             customer.delete()
 
             messages.add_message(request, messages.SUCCESS,"Successfully deleted the customer.")
             return redirect("all_customers")
 
         except Exception as error:
-            console.log(error)
+            # console.log(error)
             messages.add_message(request, messages.ERROR, error)
             return redirect("all_customers")
 

@@ -52,4 +52,3 @@ admin.site.register(Equipment, EquipmentAdmin)
 admin.site.register(Ticket, TicketAdmin)
 admin.site.register(TicketComment, TicketCommentAdmin)
 admin.site.register(TicketHistory, TicketHistoryAdmin)
-

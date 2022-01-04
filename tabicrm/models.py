@@ -1,9 +1,6 @@
-from datetime import timedelta
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models.deletion import CASCADE, SET_NULL
-from django.db.models.fields import related
-from django.db.utils import NotSupportedError
 from django.utils import timezone # https://stackoverflow.com/questions/65157917/django-core-exceptions-fielderror-date-cannot-be-specified-for-forum-model-fo
 # REMEMBER - IF YOU DECIDE TO RENAME THE APP AGAIN AND MESS WITH THE MIGRATIONS YOU HAVE TO DO THIS
 # https://stackoverflow.com/questions/36153748/django-makemigrations-no-changes-detected

@@ -1,10 +1,7 @@
 from django import forms
-from django.db.models.base import Model
-from django.db.models.fields import DateField
-from django.forms import Form, ModelForm, TextInput, Textarea, Select
-from django.forms.fields import FileField
-from django.forms.widgets import DateInput, FileInput, Widget
-from .models import Customer, Contact, License, Equipment, Ticket, TicketComment
+from django.forms import ModelForm, TextInput, Textarea, Select
+from django.forms.widgets import DateInput, FileInput
+from .models import Contact, License, Equipment, Ticket, TicketComment
 
 
 class NewCustomerForm(forms.Form):

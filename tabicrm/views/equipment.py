@@ -120,18 +120,18 @@ def full_edit_equipment(request, equipmentId):
             return redirect("full_edit_equipment", equipmentId)
 
 @login_required
-def add_equipment(request, id):
+def add_equipment(request, customerId):
 
     if request.method == "POST":
         form = forms.NewEquipmentForm(request.POST)
-        customer = Customer.objects.get(id = id)
+        customer = Customer.objects.get(id = customerId)
         user = request.user
         customerId = customer.id
 
         # Short circuit if the form is bad
         if not form.is_valid():
             messages.add_message(request, messages.ERROR, 'Form is not valid')
-            return redirect("customer_full_form", id)
+            return redirect("customer_full_form", customerId)
 
 
         # Assign all the fields
@@ -211,10 +211,10 @@ def delete_equipment(request, equipmentId):
             return redirect("display_equipment", customerId)
 
 @login_required
-def get_customer_equipment(request, id):
+def get_customer_equipment(request, customerId):
     try:
         # get the customer from the database
-        customer = Customer.objects.get(id = id)
+        customer = Customer.objects.get(id = customerId)
 
         #get the contacts assigned to that customer
         equipment = Equipment.objects.filter(customer = customer)
