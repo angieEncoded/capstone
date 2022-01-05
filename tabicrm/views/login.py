@@ -1,15 +1,12 @@
 from django.contrib.auth import authenticate, login, logout
 from django.http import  HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.urls import reverse
-# looks like this is the express equivelent to flash
-from django.contrib.auth.decorators import login_required
 import re
 
 
 # some refactoring, and some utility things to make my life more comfortable
 from ..util import angie
-from .. import forms
 
 # my alias to print()
 console = angie.Console()

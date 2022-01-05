@@ -5,8 +5,6 @@ from ..models import Customer, Equipment
 # looks like this is the express equivelent to flash
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-import json
-import re
 
 
 # some refactoring, and some utility things to make my life more comfortable

@@ -1,6 +1,6 @@
 from django.http.response import JsonResponse
 from django.shortcuts import render, redirect
-from ..models import Customer, Ticket, TicketHistory, TicketComment, User
+from ..models import Customer, Ticket, TicketHistory, TicketComment
 # looks like this is the express equivelent to flash
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
