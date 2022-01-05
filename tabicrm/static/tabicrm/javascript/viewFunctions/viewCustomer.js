@@ -323,12 +323,26 @@ const viewCustomer = async (id) => {
         // Populate the modal's data
         const modalTitle = document.querySelector(`#clientDetailsTitle`)
         modalTitle.innerHTML = `
-            ${finalData.name}
-            <a href="/customer_full_form/${id}" class="btn-sm btn-silver ms-5">Full Details</a>
-            <button id="openTicketButton" class="btn-sm btn-silver ms-2" onclick="quickOpenTicket('${id}')" style="display: inline;">Open Ticket</button>
-            <a id="closeTicketButton" href="#" class="btn-sm btn-silver ms-2" onclick="closeTicketButton('${id}');return false;" style="display: none;">Back to customer</a>
-            <a href="/display_tickets/${id}" class="btn-sm btn-silver ms-2">All customer tickets</a>
+        ${finalData.name}
+  
         `
+
+        // Populate the row that handles the buttons
+        const modalButtons = document.querySelector(`#modalButtonsContent`)
+        modalButtons.innerHTML = `
+        <div class="d-grid gap-2 d-md-block text-center d-md-flex justify-content-md-start">
+             <a href="/customer_full_form/${id}" class="btn-sm btn-silver">Full Details</a>
+             <button id="openTicketButton" class="btn-sm btn-silver" onclick="quickOpenTicket('${id}')" style="display: inline;">Open Ticket</button>
+             <a id="closeTicketButton" href="#" class="btn-sm btn-silver" onclick="closeTicketButton('${id}');return false;" style="display: none;">Back to customer</a>
+             <a href="/display_tickets/${id}" class="btn-sm btn-silver">All tickets</a>
+        </div>
+        </div>
+
+        <hr>
+        `
+
+
+
         const clientDetails = document.querySelector(`#clientDetailsRoot`)
         clientDetails.innerHTML = customerDetailsForm
 
