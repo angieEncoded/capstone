@@ -133,7 +133,7 @@ def add_ticket_comment(request, ticketId):
         # Add an entry into the ticket history
 
 
-        action = f"Comment Added: {ticketComment}"
+        action = f"Comment Added: {ticketComment.comment}"
         ticket = ticket
         taken_by = user
 
