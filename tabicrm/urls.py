@@ -61,7 +61,7 @@ urlpatterns = [
     # 
     path("view_single_ticket/<int:ticketId>", views.view_single_ticket, name="view_single_ticket"),
     path("add_ticket_comment/<int:ticketId>", views.add_ticket_comment, name="add_ticket_comment"),
-    path("ticket_actions/<int:ticketId>/<str:action>", views.ticket_actions, name="ticket_actions"),
+    path("ticket_actions/<int:ticketId>", views.ticket_actions, name="ticket_actions"),
 
 
 ]

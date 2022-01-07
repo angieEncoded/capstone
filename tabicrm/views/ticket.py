@@ -234,14 +234,17 @@ def post_new_ticket(request, customerId):
     
 
 @login_required
-def ticket_actions(request, ticketId, action):
+def ticket_actions(request, ticketId):
     # possible actions:
     # accept
     # customer
     # close
 
-    if request.method == "GET":
 
+    if request.method == "POST":
+
+        action = request.POST['action']
+        # console.log(action)
         user = request.user
         ticket = Ticket.objects.get(id = ticketId)
 
@@ -332,6 +335,11 @@ def ticket_actions(request, ticketId, action):
                 return redirect("view_single_ticket", ticketId)  
         
         return redirect("view_single_ticket", ticketId)   
+
+
+
+
+
 
 @login_required
 def full_edit_ticket(request, ticketId):

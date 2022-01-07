@@ -135,36 +135,98 @@
                         <!-- IF THE TICKET IS OPEN AND NOT OWNED BY THE USER, ALLOW USER TO YANK THE TICKET -->
                         {% if not ticket.status == 'CLOSED' %}
                         {% if not ticket.owned_by == request.user %}
-                        <a href="{% url 'ticket_actions' ticket.id 'accept' %}" class="btn btn-logo ">Accept Ticket</a>
+
+
+                        <form action="{% url 'ticket_actions' ticket.id %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="accept">
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-logo">Accept Ticket</button>
+                            </div>
+                        </form>
+
+
+
+
                         {% endif%}
                         {% endif%}
+
+
+
 
                         <!-- IF THE USER OWNS THE TICKET ALLOW THEM TO CHANGE THE STATUS QUICKLY -->
                         {% if ticket.owned_by == request.user %}
 
                         {% if not ticket.status == 'CLOSED' %}
                         {% if not ticket.status == "WAITING ON CUSTOMER" %}
-                        <a href="{% url 'ticket_actions' ticket.id 'customer' %}" class="btn btn-logo ">Set to "Waiting
-                            on Customer"</a>
+
+                        <form action="{% url 'ticket_actions' ticket.id %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="customer">
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-logo">Set to "Waiting on Customer"</button>
+                            </div>
+                        </form>
+
+                           
                         {% endif %}
                         {% endif %}
 
+
+
+
+
                         {% if ticket.status == "WAITING ON CUSTOMER" %}
-                        <a href="{% url 'ticket_actions' ticket.id 'resume' %}" class="btn btn-logo ">Resume Ticket</a>
+
+
+                        <form action="{% url 'ticket_actions' ticket.id %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="resume">
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-logo">Resume Ticket</button>
+                            </div>
+                        </form>
                         {% endif%}
+
+
+
+
                         {% if not ticket.status == 'CLOSED' %}
-                        <a href="{% url 'ticket_actions' ticket.id 'close' %}" class="btn btn-logo ">Close Ticket</a>
+                        <form action="{% url 'ticket_actions' ticket.id %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="close">
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-logo">Close Ticket</button>
+                            </div>
+                        </form>
                         {% endif%}
                         {% endif%}
+
+
+
 
                         {% if not ticket.status == 'CLOSED' %}
                         <button class="btn btn-logo " onclick="openTicketModal()">Open full edit form</button>
                         {% endif%}
                         <button class="btn btn-logo " onclick="openHistoryModal()">View Ticket history</button>
 
+
+
+
                         {% if ticket.status == 'CLOSED' %}
-                        <a href="{% url 'ticket_actions' ticket.id 'reopen' %}" class="btn btn-logo ">Reopen Ticket</a>
+
+                        <form action="{% url 'ticket_actions' ticket.id %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="reopen">
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-logo">Reopen Ticket</button>
+                            </div>
+                        </form>
+
                         {% endif%}
+
+
+
 
 
 
